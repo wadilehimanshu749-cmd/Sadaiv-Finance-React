@@ -1,0 +1,141 @@
+.tabBar {
+  position: fixed;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  height: 68px;
+
+  background: #ffffff;
+
+  border-radius: 22px 22px 0 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+  padding: 6px 10px 8px;
+
+  box-shadow: 0 -3px 15px rgba(0, 0, 0, 0.08);
+
+  z-index: 1000;
+}
+
+.tabItem {
+  width: 20%;
+
+  height: 58px;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
+
+  text-decoration: none;
+
+  color: #8a9188;
+}
+
+.iconContainer {
+  width: 34px;
+  height: 34px;
+
+  border-radius: 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 21px;
+
+  transition: 0.2s ease;
+}
+
+.tabItem.active {
+  color: #04433b;
+}
+
+.tabItem.active .iconContainer {
+  background: #eaf1e7;
+}
+
+.label {
+  font-size: 10px;
+
+  font-family: "NunitoBold", sans-serif;
+
+  margin-top: 2px;
+
+  color: #020303;
+
+  white-space: nowrap;
+}
+
+.tabItem.active .label {
+  color: #04433b;
+}
+
+
+.scanItem {
+  width: 20%;
+
+  height: 58px;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: flex-start;
+
+  text-decoration: none;
+
+  position: relative;
+}
+
+.scanButton {
+  width: 58px;
+  height: 58px;
+
+  border-radius: 50%;
+
+  background: #04433b;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #ffffff;
+
+  font-size: 27px;
+
+  margin-top: -35px;
+
+  border: 5px solid #f5f7f3;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+}
+
+.scanItem .label {
+  margin-top: 5px;
+}
+
+@media (min-width: 769px){
+
+  .tabBar{
+    display: none;
+  }
+}
+
+@media (max-width: 500px) {
+  .tabBar {
+    height: 65px;
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+
+  .label {
+    font-size: 9px;
+  }
+}

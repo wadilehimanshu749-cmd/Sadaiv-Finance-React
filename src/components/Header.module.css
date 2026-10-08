@@ -1,0 +1,344 @@
+.fixedContainer {
+  position: fixed;
+
+  top: 0;
+  left: 0;
+  right: 0;
+
+  height: 82px;
+
+  z-index: 999;
+
+  background: transparent;
+
+  transition:
+    background-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.whiteBg {
+  position: absolute;
+
+  inset: 0;
+
+  background: #ffffff;
+
+  opacity: 0;
+
+  transition: opacity 0.3s ease;
+}
+
+.scrolled {
+  background: rgba(255, 255, 255, 0.97);
+
+  box-shadow:
+    0 4px 14px rgba(0, 0, 0, 0.07);
+}
+
+.scrolled .whiteBg {
+  opacity: 1;
+}
+
+.header {
+  position: relative;
+
+  height: 100%;
+
+  width: min(1180px, calc(100% - 44px));
+
+  margin: 0 auto;
+
+  display: flex;
+
+  align-items: center;
+
+  z-index: 2;
+}
+
+.brand {
+  display: flex;
+
+  align-items: center;
+
+  text-decoration: none;
+}
+
+.logoBox {
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logoImage {
+  width: 70px;
+  height: 70px;
+
+  object-fit: contain;
+
+  filter:
+    brightness(0) saturate(100%) invert(94%) sepia(8%) saturate(350%) hue-rotate(65deg) brightness(103%);
+
+  transition: filter 0.3s ease;
+}
+
+.scrolled .logoImage {
+  filter: none;
+}
+
+.logo {
+  margin-left: 8px;
+
+  color: #ffffff;
+
+  font-size: 19px;
+
+  font-family: "SoraBold", sans-serif;
+
+  transition: color 0.3s ease;
+}
+
+.scrolled .logo {
+  color: #18251e;
+}
+
+.subLogo {
+  margin-left: 6px;
+  margin-top: 4px;
+
+  color: #d0dce5;
+
+  font-size: 9px;
+
+  font-family: "SoraRegular", sans-serif;
+
+  transition: color 0.3s ease;
+}
+
+.scrolled .subLogo {
+  color: #7c847b;
+}
+
+
+.desktopNav {
+  display: flex;
+
+  align-items: center;
+
+  gap: 30px;
+
+  margin-left: auto;
+  margin-right: 35px;
+}
+
+.navItem {
+  position: relative;
+
+  padding: 8px 2px;
+
+  color: #d7e6dd;
+
+  text-decoration: none;
+
+  font-size: 13px;
+
+  font-family: "DMSanSemibold", sans-serif;
+
+  transition: color 0.25s ease;
+}
+
+.scrolled .navItem {
+  color: #56635a;
+}
+
+.activeNavItem {
+  color: #ffffff !important;
+}
+
+.scrolled .activeNavItem {
+  color: #04433b !important;
+}
+
+.activeNavItem::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  right: 0;
+
+  bottom: 0;
+
+  height: 2px;
+
+  border-radius: 5px;
+
+  background: currentColor;
+}
+
+
+.publicActions {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+}
+
+.loginButton,
+.signupButton {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-height: 38px;
+
+  padding: 0 17px;
+
+  border-radius: 10px;
+
+  text-decoration: none;
+
+  font-size: 12px;
+
+  font-family: "DMSanSemibold", sans-serif;
+}
+
+.loginButton {
+  color: #ffffff;
+
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.scrolled .loginButton {
+  color: #205648;
+
+  border-color: #cbd9ce;
+}
+
+.signupButton {
+  background: #ffffff;
+
+  color: #205648;
+}
+
+.scrolled .signupButton {
+  background: #205648;
+
+  color: #ffffff;
+}
+
+.rightSection {
+
+  gap: 5;
+  display: flex;
+  align-items: center;
+}
+
+.iconBtn {
+  width: 36px;
+  height: 36px;
+
+  border: none;
+
+  background: transparent;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  color: #ffffff;
+
+  font-size: 18px;
+}
+
+.scrolled .iconBtn {
+  color: #202820;
+}
+
+.mobileMenu {
+  display: none;
+
+  width: 36px;
+  height: 36px;
+
+  border: none;
+
+  background: transparent;
+
+  color: #ffffff;
+
+  font-size: 18px;
+}
+
+.scrolled .mobileMenu {
+  color: #202820;
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+
+  .fixedContainer {
+    height: 72px;
+  }
+
+  .header {
+    width: calc(100% - 28px);
+  }
+
+  .logoBox {
+    width: 42px;
+    height: 42px;
+  }
+
+  .logoImage {
+    width: 42px;
+    height: 42px;
+  }
+
+  .logo {
+    font-size: 16px;
+  }
+
+  .subLogo {
+    font-size: 8px;
+  }
+
+  .desktopNav {
+    display: none;
+  }
+
+  .publicActions {
+    margin-left: auto;
+  }
+
+  .rightSection{
+    margin-left: auto;
+  }
+
+  .loginButton {
+    display: none;
+  }
+
+  .signupButton {
+    min-height: 34px;
+
+
+    padding: 0 13px;
+
+    font-size: 11px;
+
+
+  }
+
+  .mobileMenu {
+    display: block;
+  }
+
+}

@@ -1,0 +1,763 @@
+.container {
+  min-height: 100vh;
+  background: #f4f9f5;
+  overflow-x: hidden;
+}
+
+
+.topSectionWrapper {
+  position: relative;
+  margin-bottom: 29px;
+}
+
+.headerBackground {
+  position: relative;
+
+  height: 300px;
+
+  overflow: hidden;
+
+  border-bottom-left-radius: 36px;
+  border-bottom-right-radius: 36px;
+}
+
+.headerBackgroundImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  z-index: 0;
+
+  transition: transform 0.08s linear;
+}
+
+.headerOverlay {
+  position: absolute;
+
+  inset: 0;
+
+  background: linear-gradient(
+    180deg,
+    rgba(4, 45, 37, 0.12),
+    rgba(4, 45, 37, 0.32)
+  );
+
+  z-index: 1;
+}
+
+.headerSpace {
+  height: 125px;
+}
+
+.greetingSection {
+  position: relative;
+
+  z-index: 2;
+
+  padding: 0px 25px 6px;
+}
+
+.smallGreeting {
+  margin: 0 0 4px;
+
+  font-size: 13px;
+
+  color: #d0dce5;
+
+  font-family: "SoraRegular", sans-serif;
+}
+
+.userName {
+  margin: 0;
+
+  font-size: 28px;
+
+  color: #ffffff;
+
+  letter-spacing: -0.2px;
+
+  font-family: "SoraBold", sans-serif;
+}
+
+.searchContainer {
+  position: absolute;
+
+  left: 20px;
+  right: 20px;
+  bottom: -25px;
+
+  height: 52px;
+
+  background: #ffffff;
+
+  border-radius: 30px;
+
+  display: flex;
+  align-items: center;
+
+  padding: 0 16px;
+
+  border: 1px solid #e8ece6;
+
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.08);
+
+  z-index: 10;
+}
+
+.searchIcon {
+  font-size: 24px;
+
+  color: #7c847b;
+
+  line-height: 1;
+}
+
+.searchInput {
+  flex: 1;
+
+  margin-left: 10px;
+
+  height: 100%;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+
+  font-size: 14px;
+
+  color: #222222;
+
+  font-family: "DMSanRegular", sans-serif;
+}
+
+.searchInput::placeholder {
+  color: #9a9f99;
+}
+
+.scanIcon {
+  width: 34px;
+  height: 34px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  background: #f0f5ed;
+
+  color: #304b2f;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 20px;
+
+  cursor: pointer;
+}
+
+
+.sectionHeader {
+  margin: 50px 26px 13px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+}
+
+.sectionTitle {
+  margin: 0;
+
+  font-size: 17px;
+
+  color: #070808;
+
+  font-family: "SoraSemibold", sans-serif;
+}
+
+.sectionSubtitle {
+  margin: 3px 0 0;
+
+  font-size: 11px;
+
+  color: #6b726a;
+
+  font-family: "DMSanRegular", sans-serif;
+}
+
+.viewAll {
+  border: none;
+
+  background: transparent;
+
+  padding: 5px;
+
+  font-size: 12px;
+
+  color: #4a7046;
+
+  font-family: "SoraRegular", sans-serif;
+
+  cursor: pointer;
+}
+
+
+.accountsScroll {
+  display: flex;
+
+  gap: 17px;
+
+  overflow-x: auto;
+
+  padding: 9px 20px;
+
+  scrollbar-width: none;
+}
+
+.accountsScroll::-webkit-scrollbar {
+  display: none;
+}
+
+.accountCard {
+  position: relative;
+
+  flex: 0 0 min(88vw, 380px);
+
+  height: 230px;
+
+  border-radius: 22px;
+
+  overflow: hidden;
+
+  border: 1px solid #d3e2d3;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 5px 12px rgba(0, 0, 0, 0.07);
+}
+
+.accountCardImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  opacity: 0.5;
+
+  filter: sepia(0.1) saturate(0.8);
+}
+
+.cardContent {
+  position: relative;
+
+  z-index: 2;
+
+  height: 100%;
+
+  padding: 23px;
+}
+
+.accountHeader {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+}
+
+.bankIdentity {
+  flex: 1;
+
+  display: flex;
+
+  align-items: center;
+}
+
+.bankLogo {
+  width: 46px;
+  height: 46px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+}
+
+.bankLogo img {
+  object-fit: contain;
+}
+
+.bankInfo {
+  flex: 1;
+
+  margin-left: 12px;
+
+  padding-right: 8px;
+
+  min-width: 0;
+}
+
+.bankName {
+  margin: 0;
+
+  font-size: 16px;
+
+  color: #202820;
+
+  font-family: "DMSanSemibold", sans-serif;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+.accountNumber {
+  margin: 4px 0 0;
+
+  font-size: 11px;
+
+  color: #7b8479;
+
+  font-family: "DMSanRegular", sans-serif;
+}
+
+.cardMenu {
+  width: 34px;
+  height: 34px;
+
+  border: none;
+
+  border-radius: 11px;
+
+  background: #f5f7f3;
+
+  color: #5d675a;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  font-size: 15px;
+
+  cursor: pointer;
+}
+
+.balanceSection {
+  margin-top: 20px;
+
+  margin-left: 7px;
+}
+
+.balanceLabel {
+  margin: 0 0 4px;
+
+  font-size: 11px;
+
+  color: #7a8478;
+
+  font-family: "DMSanRegular", sans-serif;
+}
+
+.balance {
+  margin: 0;
+
+  font-size: 26px;
+
+  color: #315c3a;
+
+  letter-spacing: -0.5px;
+
+  font-family: "ManropeExtraBold", "SoraBold", sans-serif;
+}
+
+.cardFooter {
+  display: flex;
+
+  align-items: flex-end;
+
+  justify-content: space-between;
+
+  margin-left: 10px;
+
+  margin-top: 13px;
+
+  padding-top: 11px;
+
+  border-top: 1px solid #edf1eb;
+}
+
+.footerLabel {
+  margin: 0;
+
+  font-size: 9px;
+
+  color: #050505;
+
+  font-family: "DMSanRegular", sans-serif;
+}
+
+.footerValue {
+  margin: 2px 0 0;
+
+  font-size: 10px;
+
+  color: #4e574c;
+
+  font-family: "DMSanSemibold", sans-serif;
+}
+
+.activeBadge {
+  display: flex;
+
+  align-items: center;
+
+  padding: 5px 9px;
+
+  border-radius: 20px;
+
+  background: #eef6ec;
+}
+
+.activeDot {
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+
+  background: #4d8a52;
+
+  margin-right: 5px;
+}
+
+.activeText {
+  font-size: 9px;
+
+  color: #4d754c;
+
+  font-family: "DMSanRegular", sans-serif;
+}
+
+
+.scanPay {
+  width: calc(100% - 40px);
+
+  margin: 20px 20px 0;
+
+  min-height: 82px;
+
+  background: #205648;
+
+  border-radius: 19px;
+
+  padding: 15px;
+
+  display: flex;
+
+  align-items: center;
+
+  border: 1px solid #d0dfca;
+
+  box-shadow:
+    0 3px 8px rgba(0, 0, 0, 0.12);
+
+  cursor: pointer;
+
+  text-align: left;
+}
+
+.qrContainer {
+  width: 50px;
+  height: 50px;
+
+  border-radius: 15px;
+
+  background: #ffffff;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  color: #31512f;
+
+  font-size: 27px;
+
+  flex-shrink: 0;
+}
+
+.scanContent {
+  flex: 1;
+
+  margin-left: 14px;
+}
+
+.scanTitle {
+  margin: 0;
+
+  font-size: 16px;
+
+  color: #eef2ec;
+
+  font-family: "SoraBold", sans-serif;
+}
+
+.scanSubtitle {
+  margin: 4px 0 0;
+
+  font-size: 11px;
+
+  line-height: 16px;
+
+  color: #daead3;
+
+  font-family: "DMSanRegular", sans-serif;
+}
+
+.arrowButton {
+  width: 38px;
+  height: 38px;
+
+  border-radius: 50%;
+
+  background: #3d7663;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  color: #ffffff;
+
+  font-size: 19px;
+
+  flex-shrink: 0;
+}
+
+
+.quickActions {
+  margin: 0 20px;
+
+  background: #ffffff;
+
+  border-radius: 20px;
+
+  padding: 8px 0;
+
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  border: 1px solid #edf0eb;
+
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.04);
+}
+
+.quickAction {
+  min-height: 95px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  text-decoration: none;
+
+  cursor: pointer;
+}
+
+.iconContainer,
+.plainImageContainer {
+  width: 48px;
+  height: 48px;
+
+  border-radius: 16px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+}
+
+.iconContainer {
+  background: #f0f5ed;
+}
+
+.plainImageContainer {
+  background: transparent;
+}
+
+.actionImage {
+  object-fit: contain;
+}
+
+.simpleIcon {
+  font-size: 23px;
+
+  color: #466a42;
+
+  line-height: 1;
+}
+
+.quickActionText {
+  margin-top: 8px;
+
+  padding: 0 2px;
+
+  text-align: center;
+
+  font-size: 9px;
+
+  color: #0c0e0b;
+
+  font-family: "DMSanRegular", sans-serif;
+}
+
+.services {
+  margin: 0 20px;
+
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 10px;
+}
+
+.service {
+  min-height: 125px;
+
+  background: #ffffff;
+
+  border-radius: 17px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 5px;
+
+  border: 1px solid #edf0eb;
+
+  text-decoration: none;
+}
+
+.serviceIconContainer {
+  width: 43px;
+  height: 43px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+}
+
+.serviceIcon {
+  object-fit: contain;
+}
+
+.serviceText {
+  margin-top: 9px;
+
+  font-size: 10px;
+
+  color: #30362e;
+
+  font-family: "DMSanSemibold", sans-serif;
+
+  text-align: center;
+}
+
+.serviceSub {
+  margin-top: 4px;
+
+  font-size: 9px;
+
+  color: #929890;
+
+  font-family: "DMSanRegular", sans-serif;
+
+  text-align: center;
+}
+
+.bottomSpace {
+  height: 100px;
+}
+
+@media (max-width: 700px) {
+
+  .services {
+    gap: 7px;
+  }
+
+  .balance {
+    font-size: 23px;
+  }
+
+}
+
+
+@media (max-width: 500px) {
+
+  .headerBackground {
+    height: 240px;
+  }
+
+  .userName {
+    font-size: 26px;
+  }
+
+  .accountCard {
+    flex-basis: 88vw;
+  }
+
+  .balance {
+    font-size: 22px;
+  }
+
+  .bankName {
+    font-size: 14px;
+  }
+
+  .quickActionText {
+    font-size: 8.5px;
+  }
+
+}
+
+
+@media (max-width: 380px) {
+
+  .services {
+    gap: 5px;
+  }
+
+  .serviceText {
+    font-size: 9px;
+  }
+
+  .serviceSub {
+    font-size: 8px;
+  }
+
+}

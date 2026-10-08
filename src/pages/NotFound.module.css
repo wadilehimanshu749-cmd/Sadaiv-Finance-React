@@ -1,0 +1,32 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 110px 22px 40px;
+  text-align: center;
+}
+
+.title {
+  margin: 0;
+  font-family: "SoraBold", sans-serif;
+  font-size: 32px;
+  color: #04433b;
+}
+
+.text {
+  margin: 0;
+  color: #5d6b61;
+}
+
+.button {
+  margin-top: 8px;
+  padding: 12px 24px;
+  border-radius: 999px;
+  background: #04433b;
+  color: #ffffff;
+  text-decoration: none;
+  font-family: "DMSanSemibold", sans-serif;
+}

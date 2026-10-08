@@ -405,8 +405,6 @@ export default function HomeScreen() {
 
       </div>
 
-
-      {/* Bottom space for fixed tab bar */}
       <div className={styles.bottomSpace} />
 
     </main>

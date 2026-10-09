@@ -1,19 +1,18 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-
 import styles from "./Header.module.css";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faBell } from "@fortawesome/free-regular-svg-icons";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 
-export default function Header() {
+export default function Header({ variant = "public" }: { variant?: "public" | "app" }) {
 
   const [scrolled, setScrolled] = useState(false);
 
   const { pathname } = useLocation();
 
-  const isDashboard = pathname.startsWith("/dashboard");
+  const isDashboard = variant === "app";
+  const hasDarkHero = pathname === "/" || pathname.startsWith("/dashboard");
 
   useEffect(() => {
 
@@ -35,14 +34,14 @@ export default function Header() {
 
   return (
 
-    <header className={`${styles.fixedContainer} ${scrolled ? styles.scrolled : ""}`}>
+    <header className={`${styles.fixedContainer} ${scrolled || !hasDarkHero ? styles.scrolled : ""}`}>
 
       <div className={styles.whiteBg} />
 
       <div className={styles.header}>
 
 
-        <Link to={isDashboard ? "/dashboard" : "/"} className={styles.brand}>
+        <Link to={isDashboard ? "/dashboard" : "/"} className={styles.brand} >
 
           <div className={styles.logoBox}>
 
@@ -51,7 +50,8 @@ export default function Header() {
               alt="SADAIV"
               width={70}
               height={70}
-              className={styles.logoImage}/>
+              className={styles.logoImage}
+            />
 
           </div>
 
@@ -69,19 +69,29 @@ export default function Header() {
 
           <nav className={styles.desktopNav}>
 
-            <Link to="/" className={`${styles.navItem} ${pathname === "/" ? styles.activeNavItem : ""}`}>
+            <Link
+              to="/"
+              className={`${styles.navItem} ${pathname === "/" ? styles.activeNavItem : ""
+                }`}
+            >
               Home
             </Link>
 
-            <Link to="/loan" className={styles.navItem}>
+            <Link to="/features" className={styles.navItem}>
               Features
             </Link>
 
-            <Link to="/investment" className={styles.navItem}>
+            <Link
+              to="/investment"
+              className={styles.navItem}
+            >
               About
             </Link>
 
-            <Link to="/insurance" className={styles.navItem}>
+            <Link
+              to="/insurance"
+              className={styles.navItem}
+            >
               Security
             </Link>
 
@@ -91,19 +101,36 @@ export default function Header() {
 
           <nav className={styles.desktopNav}>
 
-            <Link to="/dashboard" className={`${styles.navItem} ${pathname === "/dashboard"? styles.activeNavItem : ""}`}>
+            <Link
+              to="/dashboard"
+              className={`${styles.navItem} ${pathname === "/dashboard"
+                ? styles.activeNavItem
+                : ""
+                }`}
+            >
               Home
             </Link>
 
-            <Link to="/loan" className={styles.navItem}>
+            <Link
+              to="/loan"
+              className={`${styles.navItem} ${pathname.startsWith("/loan") ? styles.activeNavItem : ""
+                }`}
+            >
               Loan
             </Link>
 
-            <Link to="/investment" className={styles.navItem}>
+            <Link
+              to="/investment"
+              className={`${styles.navItem} ${pathname.startsWith("/investment") ? styles.activeNavItem : ""
+                }`}
+            >
               Investment
             </Link>
 
-            <Link to="/history" className={styles.navItem}>
+            <Link
+              to="/history"
+              className={styles.navItem}
+            >
               History
             </Link>
 
@@ -115,11 +142,17 @@ export default function Header() {
 
           <div className={styles.publicActions}>
 
-            <Link to="/login" className={styles.loginButton}>
+            <Link
+              to="/login"
+              className={styles.loginButton}
+            >
               Login
             </Link>
 
-            <Link to="/signup" className={styles.signupButton}>
+            <Link
+              to="/signup"
+              className={styles.signupButton}
+            >
               Sign up
             </Link>
 

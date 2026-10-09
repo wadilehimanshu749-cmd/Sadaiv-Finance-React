@@ -1,0 +1,352 @@
+.page {
+  min-height: 100vh;
+  background-color: #f5faf7;
+  background-image: url("/images/signup-bg.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.container {
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  padding: 45px 25px 25px;
+}
+
+.logoContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 24px;
+  text-decoration: none;
+}
+
+.logoCircle {
+  width: 80px;
+  height: 60px;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.logoIcon {
+  flex-shrink: 0;
+  width: 90px;
+  height: 90px;
+}
+
+.logoText {
+  margin: 0;
+  font-size: 23px;
+  color: #263129;
+  font-family: "SoraBold";
+}
+
+.logoGreen {
+  color: #3e6b4a;
+  font-family: "SoraRegular";
+}
+
+.layout,
+.intro,
+.formColumn {
+  display: block;
+}
+
+.headingContainer {
+  padding: 0 10px;
+}
+
+.title {
+  margin: 0;
+  font-size: 25px;
+  font-weight: normal;
+  color: #17221b;
+  font-family: "SoraBold";
+}
+
+.subtitle {
+  margin: 5px 0 0;
+  font-size: 12px;
+  color: #7a837d;
+  font-family: "DMSanRegular";
+}
+
+.logincard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loginicon {
+  width: 300px;
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+}
+
+.card {
+  border-radius: 20px;
+  padding: 20px;
+  background-color: #ebf6ef;
+  border: 1px solid #e4f4e4;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.07);
+}
+
+.inputContainer {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 0 12px;
+  border: 1px solid #e2f1e9;
+  border-radius: 12px;
+  background-color: #fcfdfc;
+}
+
+.inputContainer:focus-within {
+  border-color: #78aa8e;
+  box-shadow: 0 0 0 3px rgba(120, 170, 142, 0.2);
+}
+
+.inputIcon {
+  width: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #78aa8e;
+}
+
+.verticalLine {
+  flex-shrink: 0;
+  width: 1px;
+  height: 21px;
+  margin: 0 9px 0 10px;
+  background-color: #d8ded9;
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  font-size: 12px;
+  color: #17221b;
+  font-family: "DMSanRegular";
+}
+
+.input::placeholder {
+  color: #9aa29d;
+}
+
+.eyeButton {
+  padding: 6px 0 6px 8px;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font-size: 15px;
+  color: #78aa8e;
+}
+
+.forgot {
+  display: block;
+  margin-top: -10px;
+  text-align: right;
+  font-size: 10px;
+  color: #000000;
+  text-decoration: none;
+  font-family: "SoraRegular";
+}
+
+.forgot:hover {
+  text-decoration: underline;
+}
+
+.error {
+  margin: 14px 0 0;
+  font-size: 11px;
+  color: #b3261e;
+  font-family: "DMSanMedium";
+}
+
+.signinButton {
+  width: 100%;
+  height: 50px;
+  margin-top: 19px;
+  border: 0;
+  border-radius: 20px;
+  background-color: #3e6b4a;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 17px;
+  font-family: "SoraBold";
+  transition: opacity 0.15s ease;
+}
+
+.signinButton:hover {
+  opacity: 0.92;
+}
+
+.signinButton:active {
+  opacity: 0.8;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 15px 0;
+}
+
+.horizontalline {
+  flex: 1;
+  height: 1px;
+  background-color: #377052;
+}
+
+.dividerText {
+  margin: 0 10px;
+  font-size: 12px;
+  color: #000000;
+  font-family: "DMSanRegular";
+}
+
+.continuewith {
+  display: grid;
+  justify-content: center;
+  gap: 15px;
+}
+
+.card2 {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  padding: 0 40px;
+  border: 1px solid #e2f1e9;
+  border-radius: 12px;
+  background-color: #fcfdfc;
+  cursor: pointer;
+  transition:
+    box-shadow 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.card2:hover {
+  border-color: #b7d9c5;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+}
+
+.card2:focus-visible {
+  outline: none;
+  border-color: #78aa8e;
+  box-shadow: 0 0 0 3px rgba(120, 170, 142, 0.25);
+}
+
+.card2Text {
+  margin-left: 10px;
+  font-size: 13px;
+  color: #263129;
+  white-space: nowrap;
+  font-family: "DMSanMedium";
+}
+
+.account {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.accountText {
+  font-size: 12px;
+  color: #000000;
+  font-family: "DMSanRegular";
+}
+
+.signupLink {
+  margin: 0 10px;
+  font-size: 11px;
+  color: #3e6b4a;
+  text-decoration: none;
+  font-family: "SoraBold";
+}
+
+.signupLink:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 360px) {
+  .container {
+    padding: 32px 16px 20px;
+  }
+
+  .card2 {
+    padding: 0 22px;
+  }
+
+  .loginicon {
+    width: 240px;
+  }
+}
+
+@media (min-width: 700px) {
+  .container {
+    padding-top: 56px;
+  }
+}
+
+@media (min-width: 960px) {
+  .page {
+    display: flex;
+    align-items: center;
+  }
+
+  .container {
+    max-width: 1100px;
+    padding: 40px 40px;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 440px;
+    align-items: center;
+    column-gap: 72px;
+  }
+
+  .intro {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .headingContainer {
+    padding: 0;
+  }
+
+  .title {
+    font-size: 40px;
+  }
+
+  .subtitle {
+    margin-top: 10px;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .logincard {
+    width: 100%;
+    margin-top: 12px;
+  }
+
+  .loginicon {
+    width: 100%;
+    max-width: 420px;
+  }
+}

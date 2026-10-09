@@ -31,10 +31,7 @@ export default function HomePage() {
 
           <div className={styles.heroButtons}>
 
-            <Link
-              to="/signup"
-              className={styles.primaryButton}
-            >
+            <Link to="/signup" className={styles.primaryButton}>
               Get Started
               <FontAwesomeIcon icon={faArrowRight} />
             </Link>

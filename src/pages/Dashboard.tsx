@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import { IoScan,IoPersonOutline,IoArrowForwardOutline, IoQrCodeOutline, IoWalletOutline, IoPhonePortraitOutline, IoNewspaperOutline, IoCardOutline } from "react-icons/io5";
+import { IoScan, IoPersonOutline, IoArrowForwardOutline, IoQrCodeOutline, IoWalletOutline, IoPhonePortraitOutline, IoNewspaperOutline, IoCardOutline } from "react-icons/io5";
 import styles from "./Dashboard.module.css";
 
 export default function HomeScreen() {
@@ -96,83 +96,170 @@ export default function HomeScreen() {
 
       </section>
 
-      <div className={styles.accountsScroll}>
+      <div className={styles.accountsAndScan}>
 
-        <div className={styles.accountCard}>
+        <div className={styles.accountsScroll}>
 
-          <img
-            src="/images/card3.png"
-            alt=""
-            className={styles.accountCardImage}
-          />
+          <div className={styles.accountCard}>
 
-          <div className={styles.cardContent}>
+            <img
+              src="/images/card3.png"
+              alt=""
+              className={styles.accountCardImage}
+            />
 
-            <div className={styles.accountHeader}>
+            <div className={styles.cardContent}>
 
-              <div className={styles.bankIdentity}>
+              <div className={styles.accountHeader}>
 
-                <div className={styles.bankLogo}>
-                  <img
-                    src="/images/hdfc.png"
-                    alt="HDFC Bank"
-                    width={45}
-                    height={45}
-                  />
+                <div className={styles.bankIdentity}>
+
+                  <div className={styles.bankLogo}>
+                    <img
+                      src="/images/hdfc.png"
+                      alt="HDFC Bank"
+                      width={45}
+                      height={45}
+                    />
+                  </div>
+
+                  <div className={styles.bankInfo}>
+
+                    <p className={styles.bankName}>
+                      HDFC Bank
+                    </p>
+
+                    <p className={styles.accountNumber}>
+                      Savings •••• 1234
+                    </p>
+
+                  </div>
+
                 </div>
 
-                <div className={styles.bankInfo}>
+                <button className={styles.cardMenu}>
+                  •••
+                </button>
 
-                  <p className={styles.bankName}>
-                    HDFC Bank
+              </div>
+
+
+              <div className={styles.balanceSection}>
+
+                <p className={styles.balanceLabel}>
+                  Available Balance
+                </p>
+
+                <p className={styles.balance}>
+                  ₹2,24,560.50
+                </p>
+
+              </div>
+
+
+              <div className={styles.cardFooter}>
+
+                <div>
+                  <p className={styles.footerLabel}>
+                    Account Type
                   </p>
 
-                  <p className={styles.accountNumber}>
-                    Savings •••• 1234
+                  <p className={styles.footerValue}>
+                    Primary Account
                   </p>
+                </div>
 
+                <div className={styles.activeBadge}>
+                  <span className={styles.activeDot} />
+
+                  <span className={styles.activeText}>
+                    Active
+                  </span>
                 </div>
 
               </div>
 
-              <button className={styles.cardMenu}>
-                •••
-              </button>
-
             </div>
 
+          </div>
 
-            <div className={styles.balanceSection}>
+          <div className={styles.accountCard}>
 
-              <p className={styles.balanceLabel}>
-                Available Balance
-              </p>
+            <img
+              src="/images/card3.png"
+              alt=""
+              className={styles.accountCardImage}
+            />
 
-              <p className={styles.balance}>
-                ₹2,24,560.50
-              </p>
+            <div className={styles.cardContent}>
 
-            </div>
+              <div className={styles.accountHeader}>
 
+                <div className={styles.bankIdentity}>
 
-            <div className={styles.cardFooter}>
+                  <div className={styles.bankLogo}>
+                    <img
+                      src="/images/sboi.png"
+                      alt="State Bank of India"
+                      width={45}
+                      height={45}
+                    />
+                  </div>
 
-              <div>
-                <p className={styles.footerLabel}>
-                  Account Type
-                </p>
+                  <div className={styles.bankInfo}>
 
-                <p className={styles.footerValue}>
-                  Primary Account
-                </p>
+                    <p className={styles.bankName}>
+                      State Bank of India
+                    </p>
+
+                    <p className={styles.accountNumber}>
+                      Savings •••• 5678
+                    </p>
+
+                  </div>
+
+                </div>
+
+                <button className={styles.cardMenu}>
+                  •••
+                </button>
+
               </div>
 
-              <div className={styles.activeBadge}>
-                <span className={styles.activeDot} />
 
-                <span className={styles.activeText}>
-                  Active
-                </span>
+              <div className={styles.balanceSection}>
+
+                <p className={styles.balanceLabel}>
+                  Available Balance
+                </p>
+
+                <p className={styles.balance}>
+                  ₹56,780.20
+                </p>
+
+              </div>
+
+
+              <div className={styles.cardFooter}>
+
+                <div>
+                  <p className={styles.footerLabel}>
+                    Account Type
+                  </p>
+
+                  <p className={styles.footerValue}>
+                    Savings Account
+                  </p>
+                </div>
+
+                <div className={styles.activeBadge}>
+                  <span className={styles.activeDot} />
+
+                  <span className={styles.activeText}>
+                    Active
+                  </span>
+                </div>
+
               </div>
 
             </div>
@@ -181,114 +268,31 @@ export default function HomeScreen() {
 
         </div>
 
-        <div className={styles.accountCard}>
+        <button className={styles.scanPay}>
 
-          <img
-            src="/images/card3.png"
-            alt=""
-            className={styles.accountCardImage}
-          />
+          <div className={styles.qrContainer}>
+            <IoQrCodeOutline size={30} />
+          </div>
 
-          <div className={styles.cardContent}>
+          <div className={styles.scanContent}>
 
-            <div className={styles.accountHeader}>
+            <p className={styles.scanTitle}>
+              Scan & Pay
+            </p>
 
-              <div className={styles.bankIdentity}>
-
-                <div className={styles.bankLogo}>
-                  <img
-                    src="/images/sboi.png"
-                    alt="State Bank of India"
-                    width={45}
-                    height={45}
-                  />
-                </div>
-
-                <div className={styles.bankInfo}>
-
-                  <p className={styles.bankName}>
-                    State Bank of India
-                  </p>
-
-                  <p className={styles.accountNumber}>
-                    Savings •••• 5678
-                  </p>
-
-                </div>
-
-              </div>
-
-              <button className={styles.cardMenu}>
-                •••
-              </button>
-
-            </div>
-
-
-            <div className={styles.balanceSection}>
-
-              <p className={styles.balanceLabel}>
-                Available Balance
-              </p>
-
-              <p className={styles.balance}>
-                ₹56,780.20
-              </p>
-
-            </div>
-
-
-            <div className={styles.cardFooter}>
-
-              <div>
-                <p className={styles.footerLabel}>
-                  Account Type
-                </p>
-
-                <p className={styles.footerValue}>
-                  Savings Account
-                </p>
-              </div>
-
-              <div className={styles.activeBadge}>
-                <span className={styles.activeDot} />
-
-                <span className={styles.activeText}>
-                  Active
-                </span>
-              </div>
-
-            </div>
+            <p className={styles.scanSubtitle}>
+              Scan any QR code and make instant payments
+            </p>
 
           </div>
 
-        </div>
+          <div className={styles.arrowButton}>
+            <IoArrowForwardOutline size={20} />
+          </div>
+
+        </button>
 
       </div>
-
-      <button className={styles.scanPay}>
-
-        <div className={styles.qrContainer}>
-          <IoQrCodeOutline size={30} />
-        </div>
-
-        <div className={styles.scanContent}>
-
-          <p className={styles.scanTitle}>
-            Scan & Pay
-          </p>
-
-          <p className={styles.scanSubtitle}>
-            Scan any QR code and make instant payments
-          </p>
-
-        </div>
-
-        <div className={styles.arrowButton}>
-          <IoArrowForwardOutline size={20} />
-        </div>
-
-      </button>
 
       <section className={styles.sectionHeader}>
 
@@ -310,7 +314,7 @@ export default function HomeScreen() {
       <div className={styles.quickActions}>
 
         <QuickAction
-          icon=  {<IoWalletOutline size={25} />}
+          icon={<IoWalletOutline size={25} />}
           text="Send Money"
           href="/send_money"
         />
@@ -329,7 +333,7 @@ export default function HomeScreen() {
         />
 
         <QuickAction
-          icon= {<IoPersonOutline size={25} />}
+          icon={<IoPersonOutline size={25} />}
           text="Self Transfer"
           href="/self_transfer"
         />
@@ -341,13 +345,13 @@ export default function HomeScreen() {
         />
 
         <QuickAction
-          icon= {<IoNewspaperOutline size={25} />}
+          icon={<IoNewspaperOutline size={25} />}
           text="Utility Bills"
           href="/utility_bills"
         />
 
         <QuickAction
-          icon= {<IoCardOutline size={25} />}
+          icon={<IoCardOutline size={25} />}
           text="Credit Card"
           href="/credit_card_bill"
         />
@@ -404,6 +408,7 @@ export default function HomeScreen() {
         />
 
       </div>
+
 
       <div className={styles.bottomSpace} />
 

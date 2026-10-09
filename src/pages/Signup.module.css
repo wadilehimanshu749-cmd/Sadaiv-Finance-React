@@ -1,0 +1,329 @@
+.page {
+  min-height: 100vh;
+  background-color: #f5faf7;
+  background-image: url("/images/signup-bg.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.container {
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  padding: 18px 22px 25px;
+}
+
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 12px;
+  text-decoration: none;
+}
+
+.backText {
+  font-size: 29px;
+  line-height: 30px;
+  color: #344139;
+  font-family: "DMSanMedium";
+}
+
+.backLabel {
+  margin-left: 4px;
+  font-size: 12px;
+  color: #667069;
+  font-family: "DMSanMedium";
+}
+
+.logoContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.logoCircle {
+  width: 75px;
+  height: 48px;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.logoIcon {
+  flex-shrink: 0;
+  width: 90px;
+  height: 90px;
+}
+
+.logoText {
+  margin: 0;
+  font-size: 23px;
+  color: #263129;
+  font-family: "SoraBold";
+}
+
+.logoGreen {
+  color: #3e6b4a;
+  font-family: "SoraRegular";
+}
+
+.headingContainer {
+  margin-bottom: 18px;
+  margin-left: 5px;
+}
+
+.title {
+  margin: 0;
+  font-size: 25px;
+  font-weight: normal;
+  color: #17221b;
+  font-family: "SoraBold";
+}
+
+.subtitle {
+  margin: 5px 0 0;
+  font-size: 12px;
+  color: #7a837d;
+  font-family: "DMSanRegular";
+}
+
+.card {
+  border-radius: 20px;
+  padding: 20px;
+  background-color: #ecf8f1;
+  opacity: 0.9;
+  overflow: hidden;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.07);
+}
+
+.label {
+  display: block;
+  margin: 12px 0 7px;
+  font-size: 11px;
+  color: #344139;
+  font-family: "DMSanMedium";
+}
+
+.inputContainer {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  border: 1px solid #e2f1e9;
+  border-radius: 12px;
+  background-color: #fcfdfc;
+}
+
+.inputContainer:focus-within {
+  border-color: #78aa8e;
+  box-shadow: 0 0 0 3px rgba(120, 170, 142, 0.2);
+}
+
+.inputIcon {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 10px;
+  font-size: 20px;
+  color: #78aa8e;
+}
+
+.countryCode {
+  font-size: 12px;
+  color: #39433d;
+  font-family: "DMSanSemibold";
+}
+
+.verticalLine {
+  width: 1px;
+  height: 21px;
+  margin: 0 9px;
+  background-color: #d8ded9;
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  font-size: 12px;
+  color: #17221b;
+  font-family: "DMSanRegular";
+}
+
+.input::placeholder {
+  color: #9aa29d;
+}
+
+.showText {
+  padding: 4px 0 4px 8px;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font-size: 10px;
+  color: #3e6b4a;
+  font-family: "SoraRegular";
+}
+
+.termsContainer {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  margin-top: 17px;
+  cursor: pointer;
+}
+
+.checkboxInput {
+  position: absolute;
+  opacity: 0;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+}
+
+.checkbox {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #3e6b4a;
+  border: 1px solid #3e6b4a;
+}
+
+.check {
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.checkboxInput:not(:checked) + .checkbox {
+  background-color: #fcfdfc;
+  border-color: #b9c9be;
+}
+
+.checkboxInput:not(:checked) + .checkbox .check {
+  visibility: hidden;
+}
+
+.checkboxInput:focus-visible + .checkbox {
+  box-shadow: 0 0 0 3px rgba(120, 170, 142, 0.35);
+}
+
+.termsText {
+  flex: 1;
+  font-size: 9px;
+  line-height: 15px;
+  color: #737d76;
+  font-family: "DMSanRegular";
+}
+
+.termsGreen {
+  color: #3e6b4a;
+  font-family: "DMSanRegular";
+}
+
+.error {
+  margin: 14px 0 0;
+  font-size: 11px;
+  color: #b3261e;
+  font-family: "DMSanMedium";
+}
+
+.signupButton {
+  width: 100%;
+  height: 50px;
+  margin-top: 19px;
+  border: 0;
+  border-radius: 14px;
+  background-color: #3e6b4a;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 15px;
+  font-family: "DMSanSemibold";
+  transition: opacity 0.15s ease;
+}
+
+.signupButton:hover {
+  opacity: 0.92;
+}
+
+.signupButton:active {
+  opacity: 0.8;
+}
+
+.loginContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 22px;
+}
+
+.accountText {
+  font-size: 10px;
+  color: #060606;
+  font-family: "DMSanRegular";
+}
+
+.loginText {
+  margin-left: 5px;
+  font-size: 11px;
+  color: #3e6b4a;
+  text-decoration: none;
+  font-family: "DMSanSemibold";
+}
+
+.securityContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 19px;
+}
+
+.securityIcon {
+  width: 18px;
+  height: 18px;
+  margin-right: 6px;
+  border-radius: 9px;
+  background-color: #ddebdf;
+  color: #3e6b4a;
+  text-align: center;
+  line-height: 18px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.securityText {
+  font-size: 9px;
+  color: #070807;
+  font-family: "DMSanRegular";
+}
+
+@media (min-width: 700px) {
+  .backButton {
+    position: absolute;
+    top: 28px;
+    left: 40px;
+    margin-bottom: 0;
+  }
+
+  .backText {
+    font-size: 32px;
+  }
+
+  .backLabel {
+    font-size: 14px;
+  }
+
+  .container {
+    padding-top: 60px;
+  }
+}

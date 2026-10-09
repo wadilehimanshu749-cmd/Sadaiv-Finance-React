@@ -1,9 +1,11 @@
 import { useEffect } from "react";
-import { Route, Routes, useLocation, Navigate } from "react-router-dom";
-import Header from "./components/Header";
-import TabBar from "./components/TabBar";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { AppLayout, AuthLayout, PublicLayout } from "./layouts";
 import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
+import Loan from "./pages/components/Loan";
 import NotFound from "./pages/NotFound";
 
 function ScrollToTop() {
@@ -23,18 +25,33 @@ export default function App() {
     return <Navigate to={pathname.toLowerCase() + search + hash} replace />;
   }
 
-  const isDashboard = pathname.startsWith("/dashboard");
-
   return (
     <>
       <ScrollToTop />
-      <Header />
+
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="*" element={<NotFound />} />
+        {/* Public site public header */}
+
+        <Route element={<PublicLayout />}>
+          <Route path="/" element={<Home />} />
+
+          <Route path="*" element={<NotFound />} />
+        </Route>
+
+        {/* Login / Sign up no site header */}
+        
+        <Route element={<AuthLayout />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+        </Route>
+
+        {/* Logged-in app app header + tab bar. */}
+        
+        <Route element={<AppLayout />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/loan" element={<Loan />} />
+        </Route>
       </Routes>
-      {isDashboard && <TabBar />}
     </>
   );
 }

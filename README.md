@@ -1,7 +1,5 @@
 # SADAIV Finance (React + Vite)
 
-Pure React (Vite + React Router) port of the original Next.js `sadaiv-finance` project.
-
 ```bash
 npm install
 npm run dev       # http://localhost:5173

@@ -77,10 +77,10 @@ min-width: 0;
 position: relative;
 overflow: hidden;
 padding: 26px 22px;
-border: 1px solid #d7e7dc;
+border: 1px solid #e4ebe5;
 border-radius: 22px;
-background: linear-gradient(135deg, #eaf4ed 0%, #dcece1 100%);
-box-shadow: 0 5px 18px rgba(26, 66, 43, 0.055);
+background: #ffffff;
+box-shadow: 0 5px 20px rgba(25, 61, 40, 0.045);
 }
 
 .cardTop {

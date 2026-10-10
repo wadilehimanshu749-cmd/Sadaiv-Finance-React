@@ -203,7 +203,7 @@ export default function Loan() {
               </div>
             </div>
 
-            <Link to="/loan/kyc" className={styles.primaryButton}>
+            <Link to="/loankyc" className={styles.primaryButton}>
               Proceed to Personal Details
             </Link>
           </aside>

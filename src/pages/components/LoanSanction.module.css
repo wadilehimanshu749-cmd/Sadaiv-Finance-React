@@ -1,0 +1,485 @@
+.page {
+  min-height: 100vh;
+  background: #f7f9f7;
+  padding: 88px 0 110px;
+}
+
+.container {
+  width: calc(100% - 40px);
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: 8px 0 16px;
+}
+
+.headerIconBtn {
+  padding: 4px;
+  margin-left: -4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #172017;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.headerIconBtn:hover {
+  background: #e3ece6;
+}
+
+.headerTextWrapper {
+  flex: 1;
+  min-width: 0;
+  margin-left: 12px;
+}
+
+.headerTitle {
+  margin: 0;
+  font-size: 19px;
+  font-weight: normal;
+  letter-spacing: -0.3px;
+  color: #153123;
+  font-family: "SoraSemibold";
+}
+
+.layout,
+.side {
+  display: block;
+}
+
+.layout {
+  padding-top: 10px;
+}
+
+.card {
+  margin-bottom: 20px;
+  padding: 24px;
+  overflow: hidden;
+  border-radius: 15px;
+  background-color: #0f4a38;
+  background-image: url("/images/congrate.png");
+  background-size: cover;
+  background-position: right top;
+  background-repeat: no-repeat;
+}
+
+.cardheader {
+  min-height: 84px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 0;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: #1a6951;
+}
+
+.badgetext {
+  font-size: 14px;
+  color: #b5e9d6;
+  font-family: "DMSanSemibold";
+}
+
+.loancontainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.companyLogo {
+  flex-shrink: 0;
+  width: 50px;
+  height: 50px;
+  margin-right: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background: #ffffff;
+}
+
+.companyInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.loanlabel {
+  margin: 0 0 3px;
+  font-size: 11px;
+  color: #fbffff;
+  font-family: "DMSanRegular";
+}
+
+.companyNameRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.loancompany {
+  margin: 0;
+  font-size: 18px;
+  color: #fbffff;
+  font-family: "SoraSemibold";
+}
+
+.verified {
+  flex-shrink: 0;
+}
+
+.companySubtext {
+  margin: 3px 0 0;
+  font-size: 11px;
+  color: #fbffff;
+  font-family: "DMSanRegular";
+}
+
+.cardlabel {
+  margin-bottom: 10px;
+}
+
+.label {
+  margin: 0;
+  color: #b5e9d6;
+  font-family: "DMSanRegular";
+}
+
+.labelamount {
+  margin: 0;
+  font-size: 30px;
+  color: #b5e9d6;
+  font-family: "SoraBold";
+}
+
+.containerrow {
+  display: flex;
+  margin: 0 0 10px;
+  padding: 15px;
+  border-radius: 15px;
+  background: #0a3d2e;
+}
+
+.columns {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.columnslabel {
+  margin: 0 0 6px;
+  font-size: 11px;
+  color: #8db2a8;
+  font-family: "DMSanRegular";
+}
+
+.columnslableamount {
+  margin: 0;
+  font-size: 13px;
+  color: #ffffff;
+  font-family: "DMSanSemibold";
+}
+
+.verticalDivider {
+  flex-shrink: 0;
+  width: 1px;
+  background: #316656;
+}
+
+.card2 {
+  margin-bottom: 20px;
+  padding: 24px;
+  overflow: hidden;
+  border-radius: 15px;
+  background: #196950;
+}
+
+.breakdown {
+  margin: 0;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.rowtext {
+  margin: 0;
+  font-size: 15px;
+  color: #f8fefc;
+  font-family: "DMSanRegular";
+}
+
+.rowvaluetext {
+  margin: 0;
+  text-align: right;
+  font-size: 16px;
+  color: #f8fefc;
+  font-family: "DMSanSemibold";
+}
+
+.santionedamound {
+  margin: 0;
+  text-align: right;
+  font-size: 16px;
+  color: #bff386;
+  font-family: "DMSanSemibold";
+}
+
+.horizontalDivider {
+  height: 1px;
+  margin: 16px 0;
+  background: #1e5849;
+}
+
+.banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 20px;
+  border-radius: 15px;
+  background: #e2f2e8;
+}
+
+.bannerIcon {
+  flex-shrink: 0;
+  color: #008000;
+}
+
+.bannertext {
+  margin: 0;
+  font-size: 14px;
+  line-height: 20px;
+  color: #1a4737;
+  font-family: "DMSanRegular", sans-serif;
+}
+
+.button {
+  width: 100%;
+  margin: 13px 0 16px;
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 30px;
+  background: #0d4738;
+  color: #ffffff;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 16px;
+  font-family: "SoraSemibold";
+  transition:
+    background-color 0.15s ease,
+    transform 0.1s ease;
+}
+
+.button:hover:not(:disabled) {
+  background: #093629;
+}
+
+.button:active:not(:disabled) {
+  transform: scale(0.99);
+}
+
+.button:disabled {
+  opacity: 0.7;
+  cursor: progress;
+}
+
+.button:focus-visible {
+  outline: 3px solid rgba(48, 122, 86, 0.5);
+  outline-offset: 3px;
+}
+
+.footerText {
+  margin: 0;
+  text-align: center;
+  font-size: 13px;
+  color: #66706b;
+  font-family: "DMSanRegular", sans-serif;
+}
+
+.success {
+  margin-top: 13px;
+  padding: 24px 20px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border: 1px solid #cfe6d8;
+  border-radius: 20px;
+  background: #ffffff;
+  animation: pop 0.3s ease;
+}
+
+.successTitle {
+  margin: 10px 0 0;
+  font-size: 18px;
+  font-weight: normal;
+  color: #153123;
+  font-family: "SoraSemibold";
+}
+
+.successText {
+  margin: 6px 0 0;
+  font-size: 14px;
+  line-height: 20px;
+  color: #556e60;
+  font-family: "DMSanRegular";
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 380px) {
+  .card,
+  .card2 {
+    padding: 20px 16px;
+  }
+
+  .containerrow {
+    padding: 12px 6px;
+  }
+
+  .columnslableamount {
+    font-size: 12px;
+  }
+
+  .labelamount {
+    font-size: 27px;
+  }
+
+  .loancompany {
+    font-size: 16px;
+  }
+
+  .rowtext {
+    font-size: 14px;
+  }
+
+  .rowvaluetext,
+  .santionedamound {
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 700px) {
+  .container {
+    width: min(640px, calc(100% - 48px));
+  }
+
+  .headerTitle {
+    font-size: 24px;
+  }
+
+  .card,
+  .card2 {
+    padding: 32px;
+    border-radius: 20px;
+  }
+
+  .cardheader {
+    min-height: 96px;
+  }
+
+  .banner {
+    border-radius: 20px;
+  }
+}
+
+@media (min-width: 769px) {
+  .page {
+    padding: 108px 0 72px;
+  }
+}
+
+@media (min-width: 960px) {
+  .container {
+    width: min(1180px, calc(100% - 44px));
+  }
+
+  .header {
+    padding-bottom: 24px;
+  }
+
+  .headerTitle {
+    font-size: 30px;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    column-gap: 28px;
+    align-items: start;
+    padding-top: 0;
+  }
+
+  .card {
+    margin-bottom: 0;
+    padding: 36px;
+  }
+
+  .cardheader {
+    min-height: 110px;
+  }
+
+  .labelamount {
+    font-size: 44px;
+  }
+
+  .label {
+    font-size: 15px;
+  }
+
+  .columnslabel {
+    font-size: 12px;
+  }
+
+  .columnslableamount {
+    font-size: 15px;
+  }
+
+  .containerrow {
+    margin-top: 18px;
+    padding: 18px 10px;
+  }
+
+  .card2 {
+    padding: 32px;
+  }
+
+  .banner {
+    padding: 22px 26px;
+  }
+
+  .bannertext {
+    font-size: 15px;
+  }
+
+  .button {
+    margin-top: 20px;
+  }
+}

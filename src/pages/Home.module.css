@@ -65,7 +65,7 @@
   font-size: 11px;
   letter-spacing: 2px;
 
-  font-family: "SoraSemibold", sans-serif;
+  font-family: "SoraSemibold";
 }
 
 .eyebrow {
@@ -226,8 +226,7 @@
 .serviceCard:hover {
   transform: translateY(-5px);
 
-  box-shadow:
-    0 15px 30px rgba(27, 54, 40, 0.09);
+  box-shadow: 0 15px 30px rgba(27, 54, 40, 0.09);
 }
 
 .serviceIcon {

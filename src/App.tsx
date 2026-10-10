@@ -6,6 +6,8 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import Loan from "./pages/components/Loan";
+import LoanKYC from "./pages/components/LoanKyc";
+import LoanSanction from "./pages/components/LoanSanction";
 import NotFound from "./pages/NotFound";
 
 function ScrollToTop() {
@@ -50,6 +52,8 @@ export default function App() {
         <Route element={<AppLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/loan" element={<Loan />} />
+          <Route path="/loankyc" element={<LoanKYC/>}/>
+          <Route path="/loansanction" element={<LoanSanction/>}/>
         </Route>
       </Routes>
     </>

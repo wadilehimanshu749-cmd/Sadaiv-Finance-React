@@ -3,12 +3,12 @@ import { Link, useLocation } from "react-router-dom";
 import styles from "./Header.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faBell } from "@fortawesome/free-regular-svg-icons";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
 
 export default function Header({ variant = "public" }: { variant?: "public" | "app" }) {
 
   const [scrolled, setScrolled] = useState(false);
-
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { pathname } = useLocation();
 
   const isDashboard = variant === "app";
@@ -156,8 +156,14 @@ export default function Header({ variant = "public" }: { variant?: "public" | "a
               Sign up
             </Link>
 
-            <button className={styles.mobileMenu}>
-              <FontAwesomeIcon icon={faBars} />
+            <button
+              type="button"
+              className={styles.mobileMenu}
+              onClick={() => setMobileMenuOpen((prev) => !prev)}
+              aria-label={mobileMenuOpen ? "Close navigation" : "Open navigation"}
+              aria-expanded={mobileMenuOpen}
+            >
+              <FontAwesomeIcon icon={mobileMenuOpen ? faXmark : faBars} />
             </button>
 
           </div>
@@ -166,7 +172,7 @@ export default function Header({ variant = "public" }: { variant?: "public" | "a
 
           <div className={styles.rightSection}>
 
-             <button className={styles.iconBtn}>
+            <button className={styles.iconBtn}>
               <FontAwesomeIcon icon={faBell} />
             </button>
 
@@ -176,6 +182,48 @@ export default function Header({ variant = "public" }: { variant?: "public" | "a
 
           </div>
 
+        )}
+
+        {mobileMenuOpen && (
+          <nav className={styles.mobileNav}>
+            {!isDashboard ? (
+              <>
+                <Link to="/" onClick={() => setMobileMenuOpen(false)}>
+                  Home
+                </Link>
+                <Link to="/features" onClick={() => setMobileMenuOpen(false)}>
+                  Features
+                </Link>
+                <Link to="/investment" onClick={() => setMobileMenuOpen(false)}>
+                  About
+                </Link>
+                <Link to="/insurance" onClick={() => setMobileMenuOpen(false)}>
+                  Security
+                </Link>
+                <Link to="/login" onClick={() => setMobileMenuOpen(false)}>
+                  Login
+                </Link>
+                <Link to="/signup" onClick={() => setMobileMenuOpen(false)}>
+                  Sign up
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link to="/dashboard" onClick={() => setMobileMenuOpen(false)}>
+                  Home
+                </Link>
+                <Link to="/loan" onClick={() => setMobileMenuOpen(false)}>
+                  Loan
+                </Link>
+                <Link to="/investment" onClick={() => setMobileMenuOpen(false)}>
+                  Investment
+                </Link>
+                <Link to="/history" onClick={() => setMobileMenuOpen(false)}>
+                  History
+                </Link>
+              </>
+            )}
+          </nav>
         )}
 
       </div>

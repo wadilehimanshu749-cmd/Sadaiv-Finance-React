@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { faTwitter, faLinkedinIn, faInstagram, faFacebookF } from "@fortawesome/free-brands-svg-icons";
 import { IoScan, IoPersonOutline, IoArrowForwardOutline, IoQrCodeOutline, IoWalletOutline, IoPhonePortraitOutline, IoNewspaperOutline, IoCardOutline } from "react-icons/io5";
 import styles from "./Dashboard.module.css";
 
@@ -409,8 +410,58 @@ export default function HomeScreen() {
 
       </div>
 
+      <footer className={styles.footer}>
+      <div className={styles.footerContainer}>
 
-      <div className={styles.bottomSpace} />
+        <div className={styles.footerCol}>
+          <h3 className={styles.footerBrandTitle}>SADAIV Finance</h3>
+          <p className={styles.footerText}>
+            Your trusted partner for loans, investments, insurance, and everyday payments.
+          </p>
+          <div className={styles.socialIcons}>
+            <a href="https://twitter.com" target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faTwitter} /></a>
+            <a href="https://linkedin.com" target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faLinkedinIn} /></a>
+            <a href="https://instagram.com" target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faInstagram} /></a>
+            <a href="https://facebook.com" target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faFacebookF} /></a>
+          </div>
+        </div>
+
+        <div className={styles.footerCol}>
+          <h4>Products</h4>
+          <ul>
+            <li><Link to="/loan">Digital Gold & Loans</Link></li>
+            <li><Link to="/investment">SIP Investment</Link></li>
+            <li><Link to="/insurance">Insurance</Link></li>
+            <li><Link to="/login">Secure Payments</Link></li>
+          </ul>
+        </div>
+
+        <div className={styles.footerCol}>
+          <h4>Support</h4>
+          <ul>
+            <li><Link to="/help">Help Center</Link></li>
+            <li><Link to="/contact">Contact Us</Link></li>
+            <li><Link to="/privacy">Privacy Policy</Link></li>
+            <li><Link to="/terms">Terms of Service</Link></li>
+          </ul>
+        </div>
+
+        <div className={styles.footerCol}>
+          <h4>Regulatory Notice</h4>
+          <p className={styles.footerDisclaimer}>
+            Mutual fund investments are subject to market risks. Please read all scheme-related documents carefully before investing. SADAIV Finance acts as a technology platform connecting users with regulated financial partners.
+          </p>
+        </div>
+
+      </div>
+
+      <div className={styles.footerBottom}>
+        <p>© 2026 SADAIV Finance. All rights reserved.</p>
+      </div>
+    </footer>
+
+
+      {/* <div className={styles.bottomSpace} /> */}
 
     </main>
   );

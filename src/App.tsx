@@ -8,6 +8,8 @@ import Dashboard from "./pages/Dashboard";
 import Loan from "./pages/components/Loan";
 import LoanKYC from "./pages/components/LoanKyc";
 import LoanSanction from "./pages/components/LoanSanction";
+import Investment from "./pages/components/Investment";
+import MobileRecharge from "./pages/quick_actions/MobileRecharge";
 import NotFound from "./pages/NotFound";
 
 function ScrollToTop() {
@@ -41,19 +43,23 @@ export default function App() {
         </Route>
 
         {/* Login / Sign up no site header */}
-        
+
         <Route element={<AuthLayout />}>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+
         </Route>
 
         {/* Logged-in app app header + tab bar. */}
-        
+
         <Route element={<AppLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/loan" element={<Loan />} />
-          <Route path="/loankyc" element={<LoanKYC/>}/>
-          <Route path="/loansanction" element={<LoanSanction/>}/>
+          <Route path="/loankyc" element={<LoanKYC />} />
+          <Route path="/loansanction" element={<LoanSanction />} />
+          <Route path="/investment" element={<Investment />} />
+          <Route path="/mobilerecharge" element={<MobileRecharge />} />
+
         </Route>
       </Routes>
     </>

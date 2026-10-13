@@ -10,7 +10,7 @@ export default function TabBar() {
   return (
     <nav className={styles.tabBar}>
 
-      <Link to="/" className={`${styles.tabItem} ${pathname === "/" ? styles.active : ""}`}>
+      <Link to="/Dashboard" className={`${styles.tabItem} ${pathname === "/" ? styles.active : ""}`}>
         <div className={styles.iconContainer}>
           <FontAwesomeIcon icon={faHouse} style={{ fontSize: '20px' }} />
         </div>

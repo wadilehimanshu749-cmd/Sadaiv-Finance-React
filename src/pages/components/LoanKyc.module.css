@@ -268,11 +268,11 @@
   gap: 10px;
   padding: 0 22px;
   border: 0;
-  border-radius: 28px;
+  border-radius: 40px;
   background: #245d45;
   color: #ffffff;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 12px;
   font-family: "SoraSemibold";
   box-shadow: 0 4px 8px rgba(23, 54, 39, 0.12);
   transition:

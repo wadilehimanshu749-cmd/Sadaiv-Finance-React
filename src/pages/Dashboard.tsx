@@ -323,7 +323,7 @@ export default function HomeScreen() {
         <QuickAction
           icon={<IoPhonePortraitOutline size={25} />}
           text="To Mobile"
-          href="/to_mobile"
+          href="/"
         />
 
         <QuickAction
@@ -342,7 +342,7 @@ export default function HomeScreen() {
         <QuickAction
           icon={<IoPhonePortraitOutline size={25} />}
           text="Recharge"
-          href="/mobile_recharge"
+          href="/MobileRecharge"
         />
 
         <QuickAction

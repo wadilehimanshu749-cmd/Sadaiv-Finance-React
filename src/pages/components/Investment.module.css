@@ -1,0 +1,212 @@
+.page {
+  min-height: 100vh;
+  background: #f5faf7;
+  padding: 88px 0 110px;
+}
+
+.container {
+  width: calc(100% - 40px);
+  margin: 0 auto;
+}
+
+.pageHeader {
+  display: flex;
+  align-items: center;
+  padding: 10px 0 16px;
+}
+
+.backButton {
+  width: 42px;
+  height: 42px;
+  margin-left: -8px;
+  margin-right: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #103d43;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.backButton:hover {
+  background: #e4f0e9;
+}
+
+.backButton:focus-visible {
+  outline: 3px solid rgba(40, 116, 84, 0.35);
+  outline-offset: 2px;
+}
+
+.headerTitleContainer {
+  flex: 1;
+  min-width: 0;
+}
+
+.headerTitle {
+  margin: 0;
+  font-size: 22px;
+  font-weight: normal;
+  color: #103d43;
+  font-family: "SoraBold", sans-serif;
+}
+
+.headerSubtitle {
+  margin: 2px 0 0;
+  font-size: 12px;
+  color: #0f1514;
+  font-family: "DMSanRegular", sans-serif;
+}
+
+.heroCard {
+  position: relative;
+  min-height: 210px;
+  display: flex;
+  align-items: center;
+  border-radius: 24px;
+  overflow: hidden;
+  background-color: #e6f3ec;
+  background-image:
+    url("/images/heroimage.png"),
+    linear-gradient(135deg, #f1faf5 0%, #cfe8da 100%);
+  background-size: cover;
+  background-position: right bottom;
+  background-repeat: no-repeat;
+  box-shadow: 0 4px 15px rgba(16, 61, 67, 0.28);
+}
+
+.heroContent {
+  width: 80%;
+  padding: 24px 15px;
+}
+
+.heroTitle {
+  margin: 0;
+  font-size: 20px;
+  font-weight: normal;
+  line-height: 27px;
+  color: #111311;
+  font-family: "SoraBold", sans-serif;
+}
+
+.heroDescription {
+  margin: 8px 0 0;
+  font-size: 12px;
+  line-height: 18px;
+  color: #070807;
+  font-family: "DMSanRegular", sans-serif;
+}
+
+.heroButton {
+  margin-top: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 14px;
+  border: 0;
+  border-radius: 20px;
+  background: #367051;
+  color: #eaf5f0;
+  cursor: pointer;
+  font-size: 12px;
+  font-family: "DMSanSemibold", sans-serif;
+  transition: background-color 0.15s ease;
+}
+
+.heroButton:hover {
+  background: #2c5d43;
+}
+
+.heroButton:focus-visible {
+  outline: 3px solid rgba(40, 116, 84, 0.4);
+  outline-offset: 2px;
+}
+
+@media (max-width: 380px) {
+  .heroTitle {
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+  .heroContent {
+    width: 86%;
+  }
+}
+
+@media (min-width: 700px) {
+  .heroCard {
+    min-height: 240px;
+  }
+
+  .heroContent {
+    width: 62%;
+    padding: 28px 32px;
+  }
+
+  .heroTitle {
+    font-size: 26px;
+    line-height: 34px;
+  }
+
+  .heroDescription {
+    font-size: 14px;
+    line-height: 21px;
+  }
+
+  .heroButton {
+    margin-top: 18px;
+    padding: 11px 18px;
+    font-size: 13px;
+  }
+}
+
+@media (min-width: 769px) {
+  .page {
+    padding: 104px 0 64px;
+  }
+
+  .container {
+    width: min(1180px, calc(100% - 44px));
+  }
+
+  .pageHeader {
+    padding: 10px 0 20px;
+  }
+
+  .headerTitle {
+    font-size: 30px;
+  }
+
+  .headerSubtitle {
+    margin-top: 4px;
+    font-size: 14px;
+  }
+
+  .heroCard {
+    min-height: 280px;
+    border-radius: 28px;
+    background-position: right 80%;
+  }
+
+  .heroContent {
+    width: 56%;
+    padding: 36px 48px;
+  }
+
+  .heroTitle {
+    font-size: 34px;
+    line-height: 44px;
+  }
+
+  .heroDescription {
+    margin-top: 12px;
+    font-size: 15px;
+    line-height: 23px;
+  }
+
+  .heroButton {
+    margin-top: 22px;
+    padding: 12px 22px;
+    font-size: 14px;
+  }
+}

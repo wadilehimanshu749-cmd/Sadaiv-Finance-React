@@ -182,8 +182,8 @@
   height: 50px;
   margin-top: 19px;
   border: 0;
-  border-radius: 20px;
-  background-color: #3e6b4a;
+  border-radius: 30px;
+  background-color: #245d45;
   color: #ffffff;
   cursor: pointer;
   font-size: 17px;
@@ -192,11 +192,7 @@
 }
 
 .signinButton:hover {
-  opacity: 0.92;
-}
-
-.signinButton:active {
-  opacity: 0.8;
+  background: #093f32;
 }
 
 .divider {

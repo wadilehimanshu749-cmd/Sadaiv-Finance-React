@@ -1,106 +1,124 @@
 .page {
   min-height: 100vh;
-  background: #f5f8f5;
+  background:
+    radial-gradient(ellipse at 12% 0%, rgba(208, 233, 218, 0.38), transparent 38%),
+    #f5f8f5;
   padding: 88px 0 110px;
+  color: #173f32;
+  font-family: "DMSanRegular", sans-serif;
 }
 
 .container {
   width: calc(100% - 40px);
+  max-width: 1180px;
   margin: 0 auto;
 }
 
 .header {
   display: flex;
   align-items: center;
-  padding: 8px 0 16px;
+  gap: 15px;
+  padding: 8px 0 20px;
+  margin-bottom: 25px;
+  border-bottom: 1px solid #e2ebe4;
 }
 
 .headerIconBtn {
-  padding: 4px;
-  margin-left: -4px;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
-  color: #172017;
+  border-radius: 14px;
+  color: #245640;
+  background: #ffffff;
+  border: 1px solid #e4ebe5;
   text-decoration: none;
-  transition: background-color 0.15s ease;
+  transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
 .headerIconBtn:hover {
-  background: #e3ece6;
+  background: #e9f4ec;
+  transform: translateX(-2px);
 }
 
 .headerTextWrapper {
   flex: 1;
   min-width: 0;
-  margin-left: 12px;
 }
 
 .headerTitle {
   margin: 0;
-  font-size: 19px;
+  font-size: 22px;
   font-weight: normal;
-  letter-spacing: -0.3px;
+  letter-spacing: -0.6px;
+  line-height: 1.4;
   color: #153123;
-  font-family: "SoraSemibold";
+  font-family: "SoraSemibold", sans-serif;
 }
 
 .headerSubtitle {
-  margin: 2px 0 0;
-  font-size: 13px;
+  margin: 3px 0 0;
+  font-size: 13.5px;
+  line-height: 1.6;
   color: #678071;
-  font-family: "DMSanRegular";
+  font-family: "DMSanRegular", sans-serif;
 }
 
 .cards {
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 24px;
 }
 
 .card {
   min-width: 0;
   overflow: hidden;
   border: 1px solid #e2ebe6;
-  border-radius: 22px;
+  border-radius: 20px;
   background: #ffffff;
-  box-shadow: 0 4px 10px rgba(23, 54, 39, 0.07);
+  box-shadow: 0 4px 14px rgba(23, 54, 39, 0.05);
 }
 
 .greenCard {
-  min-height: 72px;
+  min-height: 68px;
   display: flex;
   align-items: center;
-  gap: 5px;
-  padding: 17px 12px;
-  background: #245d45;
+  gap: 12px;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #17634e 0%, #0d5445 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .iconCircle {
   flex-shrink: 0;
-  width: 42px;
-  height: 42px;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   color: #ffffff;
 }
 
 .greenCardTitle {
   margin: 0;
-  font-size: 20px;
+  font-size: 17px;
   font-weight: normal;
+  line-height: 1.4;
   color: #ffffff;
-  font-family: "SoraSemibold";
+  font-family: "SoraSemibold", sans-serif;
 }
 
 .formContainer {
-  padding: 20px 17px;
+  padding: 22px 20px;
 }
 
 .field {
-  margin-bottom: 17px;
+  margin-bottom: 18px;
 }
 
 .field:last-child {
@@ -111,8 +129,9 @@
   display: block;
   margin-bottom: 8px;
   font-size: 13.5px;
+  line-height: 1.5;
   color: #1d4537;
-  font-family: "DMSanSemibold";
+  font-family: "DMSanMedium", sans-serif;
 }
 
 .inputContainer {
@@ -120,18 +139,20 @@
   height: 52px;
   display: flex;
   align-items: center;
-  padding: 0 13px;
+  padding: 0 14px;
   border: 1px solid #d5e2dd;
   border-radius: 14px;
   background: #f8fbf9;
   transition:
-    border-color 0.15s ease,
-    box-shadow 0.15s ease;
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
 }
 
 .inputContainer:focus-within {
-  border-color: #356a53;
-  box-shadow: 0 0 0 3px rgba(53, 106, 83, 0.18);
+  background: #ffffff;
+  border-color: #245d45;
+  box-shadow: 0 0 0 3px rgba(36, 93, 69, 0.16);
 }
 
 .inputError,
@@ -140,13 +161,13 @@
 }
 
 .inputError:focus-within {
-  box-shadow: 0 0 0 3px rgba(179, 38, 30, 0.15);
+  box-shadow: 0 0 0 3px rgba(179, 38, 30, 0.14);
 }
 
 .fieldIcon {
   flex-shrink: 0;
   display: inline-flex;
-  color: #356a53;
+  color: #267354;
 }
 
 .input,
@@ -159,13 +180,14 @@
   border: 0;
   outline: none;
   background: transparent;
-  font-size: 14.5px;
+  font-size: 14px;
   color: #173f32;
-  font-family: "DMSanRegular";
+  font-family: "DMSanRegular", sans-serif;
 }
 
 .input::placeholder {
   color: #82958d;
+  font-family: "DMSanRegular", sans-serif;
 }
 
 .input:-webkit-autofill,
@@ -184,6 +206,7 @@
   -webkit-appearance: none;
   appearance: none;
   text-overflow: ellipsis;
+  font-family: "DMSanRegular", sans-serif;
 }
 
 .selectPlaceholder {
@@ -192,23 +215,25 @@
 
 .select option {
   color: #173f32;
+  font-family: "DMSanRegular", sans-serif;
 }
 
 .chevron {
   position: absolute;
-  right: 13px;
+  right: 14px;
   top: 50%;
   display: inline-flex;
-  color: #356a53;
+  color: #267354;
   transform: translateY(-50%);
   pointer-events: none;
 }
 
 .errorText {
-  margin: 6px 0 0 2px;
+  margin: 6px 0 0 3px;
   font-size: 12px;
+  line-height: 1.4;
   color: #b3261e;
-  font-family: "DMSanMedium";
+  font-family: "DMSanMedium", sans-serif;
 }
 
 .footerRow {
@@ -216,72 +241,76 @@
 }
 
 .infoContainer {
-  margin-top: 18px;
+  margin-top: 22px;
   display: flex;
   align-items: center;
-  padding: 14px 15px;
+  gap: 12px;
+  padding: 15px 16px;
   border: 1px solid #d6ebdd;
   border-radius: 16px;
-  background: #eaf6ef;
+  background: linear-gradient(105deg, #edf8f0, #f5faf6);
 }
 
 .infoIcon {
   flex-shrink: 0;
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background: #d6edDF;
-  color: #2c7657;
+  background: #d6eddf;
+  color: #176e4e;
 }
 
 .infoTextContainer {
   flex: 1;
   min-width: 0;
-  margin-left: 11px;
 }
 
 .infoTitle {
   margin: 0;
   font-size: 12.5px;
-  color: #285943;
-  font-family: "DMSanSemibold";
+  line-height: 1.4;
+  color: #1e7655;
+  font-family: "DMSanSemibold", sans-serif;
 }
 
 .infoSubtitle {
-  margin: 2px 0 0;
-  font-size: 11px;
-  line-height: 16px;
+  margin: 3px 0 0;
+  font-size: 11.5px;
+  line-height: 1.6;
   color: #60796e;
-  font-family: "DMSanRegular";
+  font-family: "DMSanRegular", sans-serif;
 }
 
 .proceedButton {
   width: 100%;
-  height: 55px;
+  min-height: 54px;
   margin-top: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  padding: 0 22px;
-  border: 0;
-  border-radius: 40px;
-  background: #245d45;
+  gap: 9px;
+  padding: 0 24px;
+  border: 1px solid #145640;
+  border-radius: 35px;
+  background: linear-gradient(110deg, #17634d, #0b503f);
   color: #ffffff;
   cursor: pointer;
-  font-size: 12px;
-  font-family: "SoraSemibold";
-  box-shadow: 0 4px 8px rgba(23, 54, 39, 0.12);
+  font-size: 13px;
+  font-family: "SoraSemibold", sans-serif;
+  box-shadow: 0 5px 12px rgba(18, 87, 60, 0.12);
   transition:
-    background-color 0.15s ease,
-    transform 0.1s ease;
+    background-color 0.2s ease,
+    transform 0.15s ease,
+    box-shadow 0.2s ease;
 }
 
 .proceedButton:hover {
-  background: #1c4a37;
+  background: #093f32;
+  box-shadow: 0 7px 17px rgba(18, 87, 60, 0.18);
+  transform: translateY(-1px);
 }
 
 .proceedButton:active {
@@ -289,7 +318,7 @@
 }
 
 .proceedButton:focus-visible {
-  outline: 3px solid rgba(48, 122, 86, 0.5);
+  outline: 3px solid #76cfa3;
   outline-offset: 3px;
 }
 
@@ -297,7 +326,7 @@
   position: fixed;
   left: 0;
   right: 0;
-  bottom: 100px;
+  bottom: 85px;
   display: flex;
   justify-content: center;
   pointer-events: none;
@@ -311,25 +340,27 @@
 }
 
 .scrollArrowCircle {
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   display: flex;
   align-items: center;
   justify-content: center;
   border: 1px solid #e2ebe6;
   border-radius: 50%;
   background: #ffffff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
   animation: bounce 1.3s ease-in-out infinite;
 }
 
 @keyframes bounce {
+
   0%,
   100% {
     transform: translateY(0);
   }
+
   50% {
-    transform: translateY(7px);
+    transform: translateY(6px);
   }
 }
 
@@ -337,26 +368,74 @@
   .scrollArrowCircle {
     animation: none;
   }
+
+  .headerIconBtn,
+  .proceedButton {
+    transition: none;
+  }
 }
 
 @media (max-width: 768px) {
+
   .input,
   .select {
-    font-size: 16px;
+    font-size: 15px;
   }
 }
 
-@media (max-width: 360px) {
+@media (max-width: 560px) {
+  .page {
+    padding: 85px 0 90px;
+  }
+
+  .container {
+    width: calc(100% - 28px);
+  }
+
+  .header {
+    gap: 12px;
+    padding-bottom: 18px;
+    margin-bottom: 20px;
+  }
+
+  .headerIconBtn {
+    width: 39px;
+    height: 39px;
+    border-radius: 12px;
+  }
+
   .headerTitle {
-    font-size: 17px;
+    font-size: 19px;
+    letter-spacing: -0.5px;
+  }
+
+  .headerSubtitle {
+    font-size: 12px;
+  }
+
+  .greenCard {
+    padding: 14px 16px;
   }
 
   .greenCardTitle {
-    font-size: 18px;
+    font-size: 15px;
   }
 
   .formContainer {
-    padding: 18px 14px;
+    padding: 18px 16px;
+  }
+
+  .fieldLabel {
+    font-size: 12.5px;
+  }
+
+  .infoContainer {
+    padding: 12px 14px;
+  }
+
+  .proceedButton {
+    min-height: 50px;
+    font-size: 12px;
   }
 }
 
@@ -376,15 +455,11 @@
   .formContainer {
     padding: 26px 24px;
   }
-
-  .greenCard {
-    padding-left: 18px;
-  }
 }
 
 @media (min-width: 769px) {
   .page {
-    padding: 108px 0 72px;
+    padding: 95px 0 72px;
   }
 
   .scrollIndicator {
@@ -402,7 +477,8 @@
   }
 
   .headerTitle {
-    font-size: 30px;
+    font-size: 26px;
+    letter-spacing: -0.8px;
   }
 
   .cards {
@@ -413,7 +489,7 @@
   }
 
   .card {
-    border-radius: 24px;
+    border-radius: 20px;
   }
 
   .formContainer {
@@ -441,20 +517,10 @@
     padding: 18px 22px;
   }
 
-  .infoTitle {
-    font-size: 14px;
-  }
-
-  .infoSubtitle {
-    font-size: 12.5px;
-  }
-
   .proceedButton {
     flex: 0 0 380px;
     width: auto;
-    height: auto;
-    min-height: 62px;
     margin-top: 0;
-    font-size: 15px;
+    font-size: 13px;
   }
 }

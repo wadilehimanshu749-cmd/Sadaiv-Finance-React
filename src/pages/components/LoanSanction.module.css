@@ -277,11 +277,11 @@
   justify-content: center;
   border: 0;
   border-radius: 30px;
-  background: #0d4738;
+  background: linear-gradient(110deg, #17634d, #0b503f);
   color: #ffffff;
   cursor: pointer;
   text-decoration: none;
-  font-size: 16px;
+  font-size: 12px;
   font-family: "SoraSemibold";
   transition:
     background-color 0.15s ease,
@@ -289,7 +289,7 @@
 }
 
 .button:hover:not(:disabled) {
-  background: #093629;
+  background: #093f32;
 }
 
 .button:active:not(:disabled) {
@@ -481,5 +481,6 @@
 
   .button {
     margin-top: 20px;
+    height: 57px;
   }
 }

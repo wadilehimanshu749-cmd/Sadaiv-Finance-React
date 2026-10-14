@@ -4,13 +4,13 @@
   background:
     radial-gradient(ellipse at 12% 0%, rgba(208, 233, 218, 0.38), transparent 38%),
     #f6f9f6;
-  color: #174637;
-  font-family: "DMSanRegular", sans-serif;
+  color: #173f32;
+  font-family: "DMSanRegular";
 }
 
 .container {
-  width: calc(100% - 64px);
-  max-width: 1440px;
+  width: 100%;
+  max-width: 1180px;
   margin: 0 auto;
 }
 
@@ -48,18 +48,26 @@
 }
 
 .headerTitle {
-  margin: 0;
-  color: #173f32;
-  font-family: "SoraSemibold", sans-serif;
-  font-size: clamp(23px, 2vw, 30px);
+  margin: 0 0 8px;
+  color: #153123;
+  font-family: "SoraSemibold";
+  font-size: 26px;
   letter-spacing: -0.8px;
   line-height: 1.4;
 }
 
 .headerSubtitle {
-  margin: 5px 0 0;
-  color: #74877b;
+  margin: 0;
+  color: #718078;
+  font-family: "DMSanRegular";
   font-size: 14px;
+  line-height: 1.7;
+}
+.mainGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(280px, 0.9fr);
+  align-items: start;
+  gap: 24px;
 }
 
 .layout {
@@ -135,7 +143,7 @@
 .cardHeaderLabel {
   display: block;
   color: #d0e9dc;
-  font-family: "DMSanMedium", sans-serif;
+  font-family: "DMSanMedium";
   font-size: 14px;
 }
 
@@ -650,7 +658,7 @@
 .disclaimer {
   margin: 13px 0 0;
   color: #8a9a90;
-  font-size: 10px;
+  font-size: 12.5px;
   line-height: 1.6;
   text-align: center;
 }

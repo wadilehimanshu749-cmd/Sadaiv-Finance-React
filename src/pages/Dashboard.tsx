@@ -336,7 +336,7 @@ export default function HomeScreen() {
         <QuickAction
           icon={<IoPersonOutline size={25} />}
           text="Self Transfer"
-          href="/self_transfer"
+          href="/selftransfer"
         />
 
         <QuickAction

@@ -10,6 +10,7 @@ import LoanKYC from "./pages/components/LoanKyc";
 import LoanSanction from "./pages/components/LoanSanction";
 import Investment from "./pages/components/Investment";
 import MobileRecharge from "./pages/quick_actions/MobileRecharge";
+import FastTag from "./pages/quick_actions/Fasttag";
 import SelfTransfer from "./pages/quick_actions/Selftransfer";
 import NotFound from "./pages/NotFound";
 
@@ -61,6 +62,7 @@ export default function App() {
           <Route path="/investment" element={<Investment />} />
           <Route path="/mobilerecharge" element={<MobileRecharge />} />
           <Route path="/selftransfer" element={<SelfTransfer/>}/>
+          <Route path="/fasttag" element={<FastTag/>}/>
 
         </Route>
       </Routes>

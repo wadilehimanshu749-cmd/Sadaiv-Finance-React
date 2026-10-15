@@ -360,7 +360,7 @@ export default function HomeScreen() {
         <QuickAction
           image="/images/fastag.png"
           text="FASTag"
-          href="/fasttag"
+          href="/Fasttag"
           plain
         />
 

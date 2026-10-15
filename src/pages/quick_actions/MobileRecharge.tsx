@@ -552,9 +552,7 @@ export default function MobileRecharge() {
               </li>
             ))}
           </ul>
-          <p className={styles.sheetNote}>
-            Sample plans for demonstration. Connect your recharge-plans API to show live offers.
-          </p>
+          
         </Sheet>
       )}
 

@@ -323,13 +323,13 @@ export default function HomeScreen() {
         <QuickAction
           icon={<IoPhonePortraitOutline size={25} />}
           text="To Mobile"
-          href="/"
+          href="/Sendmoneytomobile"
         />
 
         <QuickAction
           image="/images/upi-icon.png"
           text="To UPI ID"
-          href="/upi"
+          href="/Upitransfer"
           plain
         />
 
@@ -354,7 +354,7 @@ export default function HomeScreen() {
         <QuickAction
           icon={<IoCardOutline size={25} />}
           text="Credit Card"
-          href="/credit_card_bill"
+          href="/Creditcardbill"
         />
 
         <QuickAction

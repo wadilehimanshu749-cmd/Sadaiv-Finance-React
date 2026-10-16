@@ -8,8 +8,11 @@ import Dashboard from "./pages/Dashboard";
 import Loan from "./pages/components/Loan";
 import LoanKYC from "./pages/components/LoanKyc";
 import LoanSanction from "./pages/components/LoanSanction";
+import Sendmoneytomobile from "./pages/quick_actions/Sendmoneytomobile";
+import UpiTransfer from "./pages/quick_actions/Upitransfer";
 import Investment from "./pages/components/Investment";
 import MobileRecharge from "./pages/quick_actions/MobileRecharge";
+import CreditCardBill from "./pages/quick_actions/Creditcardbill";
 import FastTag from "./pages/quick_actions/Fasttag";
 import SelfTransfer from "./pages/quick_actions/Selftransfer";
 import NotFound from "./pages/NotFound";
@@ -61,9 +64,11 @@ export default function App() {
           <Route path="/loansanction" element={<LoanSanction />} />
           <Route path="/investment" element={<Investment />} />
           <Route path="/mobilerecharge" element={<MobileRecharge />} />
-          <Route path="/selftransfer" element={<SelfTransfer/>}/>
-          <Route path="/fasttag" element={<FastTag/>}/>
-
+          <Route path="/selftransfer" element={<SelfTransfer />} />
+          <Route path="/fasttag" element={<FastTag />} />
+          <Route path="sendmoneytomobile" element={<Sendmoneytomobile />} />
+          <Route path="upitransfer" element={<UpiTransfer/>}/>
+          <Route path="creditcardbill" element={<CreditCardBill/>}/>
         </Route>
       </Routes>
     </>

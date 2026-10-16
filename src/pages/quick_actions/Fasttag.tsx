@@ -41,8 +41,8 @@ function ProviderLogo({ provider, className }: { provider: Provider; className: 
           src={provider.icon}
           alt=""
           className={styles.logoImg}
-          onError={() => setFailed(true)}
-        />
+          onError={() => setFailed(true)}/>
+          
       )}
     </span>
   );

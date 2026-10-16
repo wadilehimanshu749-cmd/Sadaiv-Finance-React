@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMobileScreenButton, faArrowRight, faArrowLeft, faShieldHalved, faChartLine, faIndianRupeeSign, faUmbrella, faGauge, faBolt,faLock, faHeadset, faCalendarDays, faCircleQuestion, faSignal, faWifi, faBatteryFull, faCircleCheck,} from "@fortawesome/free-solid-svg-icons";
+import { faMobileScreenButton, faArrowRight, faShieldHalved, faChartLine, faIndianRupeeSign, faUmbrella, faGauge, faBolt, faLock, faHeadset, faCalendarDays,} from "@fortawesome/free-solid-svg-icons";
 import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
-import { faTwitter, faLinkedinIn, faInstagram, faFacebookF,faApple, faGooglePlay,} from "@fortawesome/free-brands-svg-icons";
+import { faTwitter, faLinkedinIn, faInstagram, faFacebookF, faApple, faGooglePlay,} from "@fortawesome/free-brands-svg-icons";
 
 import styles from "./Home.module.css";
 
@@ -167,6 +167,7 @@ const whySlides: WhySlide[] = [
 ];
 
 const AUTO_SWIPE_MS = 3600;
+const DRAG_THRESHOLD = 55;
 
 export default function HomePage() {
   const [activeWhySlide, setActiveWhySlide] = useState(0);
@@ -203,17 +204,15 @@ export default function HomePage() {
 
   const handleDragMove = (clientX: number) => {
     if (dragStartXRef.current === null) return;
-    const delta = clientX - dragStartXRef.current;
-    setDragOffset(delta);
+    setDragOffset(clientX - dragStartXRef.current);
   };
 
   const handleDragEnd = () => {
     if (dragStartXRef.current === null) return;
 
-    const threshold = 55;
-    if (dragOffset <= -threshold) {
+    if (dragOffset <= -DRAG_THRESHOLD) {
       goToNextSlide();
-    } else if (dragOffset >= threshold) {
+    } else if (dragOffset >= DRAG_THRESHOLD) {
       goToPrevSlide();
     }
 
@@ -292,7 +291,11 @@ export default function HomePage() {
       >
         <div className={styles.whyWrapper}>
           <div className={styles.whyTopBar}>
-            <div className={styles.whyTabs} role="tablist" aria-label="Why SADAIV highlights">
+            <div
+              className={styles.whyTabs}
+              role="tablist"
+              aria-label="Why SADAIV highlights">
+
               {whySlides.map((slide, index) => {
                 const isActive = index === activeWhySlide;
                 return (
@@ -312,26 +315,6 @@ export default function HomePage() {
                 );
               })}
             </div>
-
-            {/* <div className={styles.whyControls}>
-              <span className={styles.whySwipeHint}>Swipe or use arrows</span>
-              <button
-                type="button"
-                className={styles.whyNavBtn}
-                onClick={goToPrevSlide}
-                aria-label="Previous highlight"
-              >
-                <FontAwesomeIcon icon={faArrowLeft} />
-              </button>
-              <button
-                type="button"
-                className={styles.whyNavBtn}
-                onClick={goToNextSlide}
-                aria-label="Next highlight"
-              >
-                <FontAwesomeIcon icon={faArrowRight} />
-              </button>
-            </div> */}
           </div>
 
           <div
@@ -347,16 +330,14 @@ export default function HomePage() {
             onTouchEnd={() => {
               handleDragEnd();
               setIsWhyPaused(false);
-            }}
-          >
+            }}>
+
             <div
-              className={`${styles.whyCarouselTrack} ${
-                isDragging ? styles.whyTrackDragging : ""
-              }`}
+              className={`${styles.whyCarouselTrack} ${isDragging ? styles.whyTrackDragging : ""}`}
               style={{
                 transform: `translate3d(calc(-${activeWhySlide * 100}% + ${dragOffset}px), 0, 0)`,
-              }}
-            >
+              }}>
+
               {whySlides.map((slide) => (
                 <div key={slide.id} className={styles.whySlide}>
                   <div className={styles.whyContent}>
@@ -404,9 +385,7 @@ export default function HomePage() {
                 key={slide.id}
                 type="button"
                 aria-label={`Go to slide ${index + 1}`}
-                className={`${styles.whyDot} ${
-                  index === activeWhySlide ? styles.whyDotActive : ""
-                }`}
+                className={`${styles.whyDot} ${index === activeWhySlide ? styles.whyDotActive : ""}`}
                 onClick={() => setActiveWhySlide(index)}
               />
             ))}
@@ -434,19 +413,15 @@ export default function HomePage() {
         <div className={styles.appPromoInner}>
           <div className={styles.appPromoLeft}>
             <h2 className={styles.appPromoTitle}>
-              Download the
-              <br />
-              SADAIV app to
-              <br />
-              get started
+              Download the SADAIV app to get more features 
             </h2>
 
             <div className={styles.storeButtonsRow}>
               <a
                 href="#appstore"
                 className={styles.storeBadgeBtn}
-                aria-label="Download on the App Store"
-              >
+                aria-label="Download on the App Store">
+
                 <FontAwesomeIcon icon={faApple} className={styles.storeBadgeIcon} />
                 <div className={styles.storeBadgeText}>
                   <span>Download on the</span>
@@ -457,12 +432,12 @@ export default function HomePage() {
               <a
                 href="#googleplay"
                 className={styles.storeBadgeBtn}
-                aria-label="Get it on Google Play"
-              >
+                aria-label="Get it on Google Play">
+
                 <FontAwesomeIcon
                   icon={faGooglePlay}
-                  className={styles.storeBadgeIconPlay}
-                />
+                  className={styles.storeBadgeIconPlay}/>
+
                 <div className={styles.storeBadgeText}>
                   <span>GET IT ON</span>
                   <strong>Google Play</strong>
@@ -483,107 +458,12 @@ export default function HomePage() {
                 }
                 placeholder="Enter mobile number"
                 className={styles.phoneInputField}
-                aria-label="Enter mobile number"
-              />
+                aria-label="Enter mobile number"/>
+
               <button type="submit" className={styles.getAppSubmitBtn}>
                 {linkSent ? "Link Sent!" : "Get app"}
               </button>
             </form>
-          </div>
-
-          <div className={styles.appPromoRight}>
-            <div className={styles.tiltedPhoneFrame}>
-              <img
-                src="abc.png"
-                alt="SADAIV Mobile App"
-                className={styles.customPhonePng}
-                onError={(e) => {
-                  e.currentTarget.style.display = "none";
-                }}/>
-
-              <div className={styles.iphoneScreen}>
-                <div className={styles.iphoneStatusBar}>
-                  <span className={styles.iphoneTime}>9:41</span>
-                  <div className={styles.dynamicIsland} />
-                  <div className={styles.iphoneStatusIcons}>
-                    <FontAwesomeIcon icon={faSignal} />
-                    <FontAwesomeIcon icon={faWifi} />
-                    <FontAwesomeIcon icon={faBatteryFull} />
-                  </div>
-                </div>
-
-                <div className={styles.iphoneAppBar}>
-                  {/* <div className={styles.iphoneBrand}>
-                    <span className={styles.iphoneBrandLogo}>S</span>
-                    <strong>SADAIV</strong>
-                  </div> */}
-                  <span className={styles.iphoneHelpPill}>
-                    <FontAwesomeIcon icon={faCircleQuestion} /> Help
-                  </span>
-                </div>
-
-               
-                <div className={styles.iphoneMiniGrid}>
-                  <div className={`${styles.iphoneMiniCard} ${styles.miniPurple}`}>
-                    <strong>Personal Loans</strong>
-                    <span>Flexible loans for your needs.</span>
-                    <div className={styles.miniCardBadge}>
-                      <FontAwesomeIcon icon={faCalendarDays} />
-                    </div>
-                  </div>
-
-                  <div className={`${styles.iphoneMiniCard} ${styles.miniMint}`}>
-                    <strong>SIP Investments</strong>
-                    <span>Build wealth, one month at a time.</span>
-                    <div className={styles.miniCardBadge}>
-                      <FontAwesomeIcon icon={faIndianRupeeSign} />
-                    </div>
-                  </div>
-
-                  <div className={`${styles.iphoneMiniCard} ${styles.miniLavender}`}>
-                    <strong>Digital Gold</strong>
-                    <span>Start investing in 24K gold.</span>
-                    <div className={styles.miniCardBadge}>
-                      <FontAwesomeIcon icon={faBolt} />
-                    </div>
-                  </div>
-                </div>
-
-                <div className={styles.iphoneDarkCard}>
-                  <div className={styles.darkCardTag}>
-                   
-                    <span>SADAIV</span>
-                  </div>
-
-                  <h4 className={styles.darkCardHeading}>
-                   YOUR FINANCIAL FUTURE
-                    
-                  </h4>
-
-
-                  <p className={styles.darkCardSub}>
-                    Smarter choices. Stronger financial growth.{" "}
-                    <FontAwesomeIcon
-                      icon={faCircleCheck}
-                      className={styles.verifiedCheck}
-                    />
-                  </p>
-
-                 
-                </div>
-
-                <div className={styles.iphoneSliderDots}>
-                  <span className={styles.iphoneDotActive} />
-                  <span className={styles.iphoneDot} />
-                  <span className={styles.iphoneDot} />
-                </div>
-
-                <div className={styles.iphonePartnersCard}>
-                  <span>EXCLUSIVE</span>
-                  <strong>PARTNERS</strong>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -602,32 +482,32 @@ export default function HomePage() {
                 href="https://twitter.com"
                 target="_blank"
                 rel="noreferrer"
-                aria-label="Twitter"
-              >
+                aria-label="Twitter">
+
                 <FontAwesomeIcon icon={faTwitter} />
               </a>
               <a
                 href="https://linkedin.com"
                 target="_blank"
                 rel="noreferrer"
-                aria-label="LinkedIn"
-              >
+                aria-label="LinkedIn">
+
                 <FontAwesomeIcon icon={faLinkedinIn} />
               </a>
               <a
                 href="https://instagram.com"
                 target="_blank"
                 rel="noreferrer"
-                aria-label="Instagram"
-              >
+                aria-label="Instagram">
+
                 <FontAwesomeIcon icon={faInstagram} />
               </a>
               <a
                 href="https://facebook.com"
                 target="_blank"
                 rel="noreferrer"
-                aria-label="Facebook"
-              >
+                aria-label="Facebook">
+                  
                 <FontAwesomeIcon icon={faFacebookF} />
               </a>
             </div>

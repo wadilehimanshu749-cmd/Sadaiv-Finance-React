@@ -300,8 +300,8 @@ export default function MobileRecharge() {
                     className={styles.contactButton}
                     onClick={pickContact}
                     aria-label="Choose from contacts"
-                    title="Choose from contacts"
-                  >
+                    title="Choose from contacts">
+
                     <IoPersonCircleOutline size={26} />
                   </button>
                 )}
@@ -309,8 +309,8 @@ export default function MobileRecharge() {
               <p
                 id="mobile-help"
                 className={errors.mobile ? styles.errorText : styles.helpText}
-                role={errors.mobile ? "alert" : undefined}
-              >
+                role={errors.mobile ? "alert" : undefined}>
+
                 {errors.mobile ?? "Ensure this is a valid mobile number"}
               </p>
 
@@ -401,8 +401,8 @@ export default function MobileRecharge() {
                     onClick={() => {
                       setAmount(String(value));
                       setErrors((p) => ({ ...p, amount: undefined }));
-                    }}
-                  >
+                    }}>
+
                     ₹{value}
                   </button>
                 ))}
@@ -475,8 +475,8 @@ export default function MobileRecharge() {
           ref={desktopOperatorRef}
           tabIndex={-1}
           className={styles.desktopOperatorCard}
-          aria-labelledby="desktop-operator-heading"
-        >
+          aria-labelledby="desktop-operator-heading">
+
           <h3 id="desktop-operator-heading" className={styles.desktopOperatorTitle}>
             Select an Operator
           </h3>
@@ -595,8 +595,8 @@ export default function MobileRecharge() {
                 type="button"
                 className={styles.button}
                 disabled={payStatus === "paying"}
-                onClick={() => setPayStatus("paying")}
-              >
+                onClick={() => setPayStatus("paying")}>
+                  
                 {payStatus === "paying" ? "Processing…" : `Confirm & pay ${formatCurrency(amountNumber)}`}
               </button>
             </>

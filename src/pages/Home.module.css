@@ -25,6 +25,7 @@
   box-sizing: border-box;
 }
 
+
 .hero {
   position: relative;
   min-height: 680px;
@@ -105,6 +106,7 @@
   margin-top: 35px;
 }
 
+
 .primaryButton,
 .secondaryButton,
 .ctaButton {
@@ -139,6 +141,7 @@
 .primaryButton:hover {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.14);
 }
+
 
 .servicesSection,
 .whyWrapper,
@@ -326,6 +329,7 @@
   background: linear-gradient(180deg, var(--gold), var(--gold-soft));
 }
 
+
 .whySection {
   margin-top: 96px;
   padding: 84px 0;
@@ -393,44 +397,13 @@
 }
 
 @keyframes tabTimer {
-  from { width: 0%; }
-  to { width: 100%; }
-}
+  from {
+    width: 0%;
+  }
 
-.whyControls {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.whySwipeHint {
-  margin-right: 4px;
-  color: var(--muted);
-  font-size: 12.5px;
-  font-family: "DMSanRegular", sans-serif;
-}
-
-.whyNavBtn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background: var(--g50);
-  color: var(--g900);
-  font-size: 14px;
-  cursor: pointer;
-  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease,
-    border-color 0.2s ease;
-}
-
-.whyNavBtn:hover {
-  background: var(--g800);
-  border-color: var(--g800);
-  color: #fff;
-  transform: translateY(-2px);
+  to {
+    width: 100%;
+  }
 }
 
 .whyCarouselViewport {
@@ -560,7 +533,7 @@
   width: 52px;
   height: 52px;
   border-radius: 16px;
-  background:#dcefe4;
+  background: #dcefe4;
   color: #245d45;
   font-size: 19px;
 }
@@ -626,6 +599,7 @@
   background: var(--g800);
 }
 
+
 .ctaSection {
   position: relative;
   display: flex;
@@ -680,14 +654,24 @@
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
 }
 
+
 .appPromoSection {
   position: relative;
   width: 100%;
   margin-top: 30px;
-  padding: 72px 0 0;
+  padding: 72px 0;
   background:
-    radial-gradient(circle at 52% 55%, rgba(169, 224, 194, 0.65), transparent 48%),
-    linear-gradient(115deg, #d7efe2 0%, #e7f6ee 52%, #d2ecde 100%);
+    radial-gradient(
+      circle at 50% 50%,
+      rgba(169, 224, 194, 0.65),
+      transparent 55%
+    ),
+    linear-gradient(
+      115deg,
+      #d7efe2 0%,
+      #e7f6ee 52%,
+      #d2ecde 100%
+    );
   border-top: 1px solid #c2dfd0;
   overflow: hidden;
 }
@@ -695,22 +679,21 @@
 .appPromoInner {
   width: min(1180px, calc(100% - 60px));
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
-  align-items: center;
-  gap: 48px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
 }
 
 .appPromoLeft {
-  padding-bottom: 72px;
-  max-width: 520px;
+  min-width: 0;
+  max-width: 640px;
 }
 
 .appPromoTitle {
   margin: 0;
   color: var(--g950);
-  font-size: clamp(36px, 4.4vw, 54px);
-  line-height: 1.14;
+  font-size: clamp(34px, 4.2vw, 50px);
+  line-height: 1.15;
   letter-spacing: -1.2px;
   font-family: "SoraBold", sans-serif;
 }
@@ -718,14 +701,16 @@
 .storeButtonsRow {
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-wrap: wrap;
   gap: 16px;
-  margin-top: 36px;
+  margin-top: 32px;
 }
 
 .storeBadgeBtn {
   display: inline-flex;
   align-items: center;
+  justify-content: flex-start;
   gap: 12px;
   min-width: 196px;
   height: 58px;
@@ -736,7 +721,10 @@
   color: #fff;
   text-decoration: none;
   box-shadow: 0 10px 24px rgba(5, 42, 34, 0.16);
-  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .storeBadgeBtn:hover {
@@ -763,21 +751,21 @@
 }
 
 .storeBadgeText span {
+  color: #cfe3d8;
   font-size: 10px;
   letter-spacing: 0.04em;
-  color: #cfe3d8;
   font-family: "DMSanRegular", sans-serif;
 }
 
 .storeBadgeText strong {
+  color: #fff;
   font-size: 18px;
   font-weight: 700;
-  color: #fff;
   font-family: "SoraSemibold", sans-serif;
 }
 
 .getLinkLabel {
-  margin: 34px 0 14px;
+  margin: 30px 0 14px;
   color: var(--g900);
   font-size: 15px;
   font-family: "DMSanSemibold", sans-serif;
@@ -789,14 +777,16 @@
   width: 100%;
   max-width: 440px;
   height: 60px;
+  margin: 0 auto;
   padding: 6px 6px 6px 20px;
+  border: 1px solid #bfdace;
   border-radius: 14px;
   background: #fff;
-  border: 1px solid #bfdace;
   box-shadow: 0 12px 28px rgba(6, 53, 43, 0.08);
 }
 
 .countryCode {
+  flex-shrink: 0;
   margin-right: 12px;
   color: var(--g950);
   font-size: 15px;
@@ -830,332 +820,15 @@
   font-size: 14px;
   font-family: "DMSanSemibold", sans-serif;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .getAppSubmitBtn:hover {
   background: var(--g900);
 }
 
-.appPromoRight {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  padding-top: 10px;
-}
-
-.tiltedPhoneFrame {
-  position: relative;
-  width: 350px;
-  padding: 13px;
-  border-radius: 52px 52px 0 0;
-  background: linear-gradient(145deg, #2c3230, #121514);
-  box-shadow:
-    -18px 20px 55px rgba(5, 42, 34, 0.28),
-    inset 0 0 0 2px #4c5552;
-  transform: rotate(4.5deg) translateY(18px);
-  transform-origin: bottom center;
-}
-
-.customPhonePng {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 40px 40px 0 0;
-  z-index: 5;
-}
-
-.iphoneScreen {
-  position: relative;
-  z-index: 1;
-  background: #fff;
-  border-radius: 40px 40px 0 0;
-  padding: 14px 16px 24px;
-  overflow: hidden;
-}
-
-.iphoneStatusBar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 2px 6px 12px;
-}
-
-.iphoneTime {
-  font-size: 13px;
-  font-weight: 700;
-  color: #111;
-  font-family: "DMSanSemibold", sans-serif;
-}
-
-.dynamicIsland {
-  width: 84px;
-  height: 24px;
-  border-radius: 999px;
-  background: #000;
-}
-
-.iphoneStatusIcons {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 11px;
-  color: #111;
-}
-
-.iphoneAppBar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 4px;
-  margin-bottom: 14px;
-}
-
-.iphoneBrand {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-}
-
-.iphoneBrandLogo {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  border-radius: 7px;
-  background: linear-gradient(135deg, var(--g600), var(--g900));
-  color: var(--gold);
-  font-size: 13px;
-  font-family: "SoraBold", sans-serif;
-}
-
-.iphoneBrand strong {
-  font-size: 15px;
-  letter-spacing: 0.04em;
-  color: #111;
-  font-family: "SoraBold", sans-serif;
-}
-
-.iphoneHelpPill {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 4px 10px;
-  border: 1px solid #e1e8e4;
-  border-radius: 999px;
-  color: #333;
-  font-size: 11px;
-  font-family: "DMSanSemibold", sans-serif;
-}
-
-.iphoneMiniGrid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
-  margin-bottom: 14px;
-}
-
-.iphoneMiniCard {
-  position: relative;
-  min-height: 112px;
-  padding: 10px 8px;
-  border-radius: 14px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  overflow: hidden;
-}
-
-.iphoneMiniCard strong {
-  font-size: 11px;
-  margin-bottom: 3px;
-  font-family: "SoraBold", sans-serif;
-}
-
-.iphoneMiniCard span {
-  font-size: 9.5px;
-  line-height: 1.3;
-  color: #555;
-  font-family: "DMSanRegular", sans-serif;
-}
-
-.miniPurple {
-  background: #f3ecff;
-}
-
-.miniPurple strong {
-  color: #5b21b6;
-}
-
-.miniMint {
-  background: #e6f9f0;
-}
-
-.miniMint strong {
-  color: #116b49;
-}
-
-.miniLavender {
-  background: #f5eeff;
-}
-
-.miniLavender strong {
-  color: #6d28d9;
-}
-
-.miniCardBadge {
-  margin-top: auto;
-  align-self: flex-end;
-  width: 28px;
-  height: 28px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.85);
-  color: var(--g800);
-  font-size: 13px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
-}
-
-.iphoneDarkCard {
-  padding: 18px 14px;
-  border-radius: 22px;
-  background:
-    radial-gradient(circle at 50% 55%, rgba(44, 197, 114, 0.25), transparent 65%),
-    linear-gradient(180deg, #0b1913 0%, #06100c 100%);
-  color: #fff;
-  text-align: center;
-  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.22);
-}
-
-.darkCardTag {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 8px;
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  color: #b7e4c7;
-  font-family: "SoraBold", sans-serif;
-}
-
-.darkCardTagIcon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 16px;
-  height: 16px;
-  border-radius: 4px;
-  background: #2bd46d;
-  color: #041e13;
-  font-size: 10px;
-  font-weight: 800;
-}
-
-.darkCardHeading {
-  margin: 0 0 12px;
-  font-size: 17px;
-  line-height: 1.25;
-  color: #fff;
-  font-family: "SoraBold", sans-serif;
-}
-
-.glowAmountBox {
-  margin: 0 auto 10px;
-  padding: 10px 16px;
-  border-radius: 14px;
-  border: 1px solid rgba(74, 222, 128, 0.45);
-  background: radial-gradient(
-    circle,
-    rgba(34, 197, 94, 0.28) 0%,
-    rgba(6, 30, 20, 0.85) 100%
-  );
-  box-shadow: 0 0 22px rgba(34, 197, 94, 0.25);
-}
-
-.glowAmountValue {
-  color: #4ade80;
-  font-size: 26px;
-  letter-spacing: -0.5px;
-  font-family: "SoraBold", sans-serif;
-}
-
-.darkCardSub {
-  margin: 0 0 14px;
-  color: #cfe3d8;
-  font-size: 10.5px;
-  font-family: "DMSanRegular", sans-serif;
-}
-
-.verifiedCheck {
-  color: #4ade80;
-  margin-left: 3px;
-}
-
-.withdrawBtn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 8px 20px;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
-  font-size: 12px;
-  font-family: "DMSanSemibold", sans-serif;
-}
-
-.iphoneSliderDots {
-  display: flex;
-  justify-content: center;
-  gap: 5px;
-  margin: 12px 0;
-}
-
-.iphoneDotActive,
-.iphoneDot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-}
-
-.iphoneDotActive {
-  background: var(--g700);
-}
-
-.iphoneDot {
-  background: #d3ded8;
-}
-
-.iphonePartnersCard {
-  padding: 14px;
-  border-radius: 18px 18px 0 0;
-  background: linear-gradient(180deg, #eef6ff, #dbeafe);
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.iphonePartnersCard span {
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  color: #1e3a8a;
-  font-family: "SoraBold", sans-serif;
-}
-
-.iphonePartnersCard strong {
-  font-size: 18px;
-  letter-spacing: 0.04em;
-  color: #60a5fa;
-  text-shadow: 0 2px 0 #1e3a8a;
-  font-family: "SoraBold", sans-serif;
-}
 
 .footer {
   margin-top: auto;
@@ -1263,6 +936,7 @@
   margin: 0;
 }
 
+
 @media (max-width: 1000px) {
   .serviceGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1277,30 +951,6 @@
   .whyContent {
     grid-template-columns: 1fr;
     gap: 32px;
-  }
-
-  .appPromoInner {
-    grid-template-columns: 1fr;
-    text-align: center;
-    gap: 32px;
-  }
-
-  .appPromoLeft {
-    max-width: 100%;
-    margin: 0 auto;
-    padding-bottom: 16px;
-  }
-
-  .storeButtonsRow {
-    justify-content: center;
-  }
-
-  .phoneInputBar {
-    margin: 0 auto;
-  }
-
-  .tiltedPhoneFrame {
-    transform: rotate(0deg) translateY(10px);
   }
 
   .footerContainer {
@@ -1367,18 +1017,10 @@
     padding: 64px 0;
   }
 
-  .whySwipeHint {
-    display: none;
-  }
-
   .ctaSection {
     margin-top: 70px;
     margin-bottom: 56px;
     padding: 40px 32px;
-  }
-
-  .appPromoSection {
-    padding-top: 52px;
   }
 
   .footer {
@@ -1548,22 +1190,19 @@
     width: 100%;
   }
 
-  .appPromoTitle {
-    font-size: 32px;
+  .countryCode {
+    margin-right: 8px;
+    font-size: 13px;
   }
 
-  .storeButtonsRow {
-    flex-direction: column;
-    align-items: stretch;
+  .phoneInputField {
+    font-size: 13px;
   }
 
-  .storeBadgeBtn {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .tiltedPhoneFrame {
-    width: 300px;
+  .getAppSubmitBtn {
+    height: 42px;
+    padding: 0 14px;
+    font-size: 12px;
   }
 
   .footer {

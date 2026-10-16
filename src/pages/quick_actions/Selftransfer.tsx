@@ -268,8 +268,8 @@ export default function SelfTransfer() {
                       account={acc}
                       name="destination-mobile"
                       selected={acc.id === destinationId}
-                      onSelect={() => selectDestination(acc.id)}
-                    />
+                      onSelect={() => selectDestination(acc.id)}/>
+
                   ))}
                 </div>
                 {errors.account && (
@@ -299,8 +299,8 @@ export default function SelfTransfer() {
                   onChange={(e) => {
                     setAmount(e.target.value.replace(/\D/g, ""));
                     setErrors((p) => ({ ...p, amount: undefined }));
-                  }}
-                />
+                  }}/>
+
               </div>
               {errors.amount && (
                 <p className={styles.errorText} id="amount-error" role="alert">
@@ -317,8 +317,8 @@ export default function SelfTransfer() {
                     onClick={() => {
                       setAmount(String(value));
                       setErrors((p) => ({ ...p, amount: undefined }));
-                    }}
-                  >
+                    }}>
+
                     {formatInr(value)}
                   </button>
                 ))}
@@ -400,8 +400,8 @@ export default function SelfTransfer() {
           ref={desktopAccountRef}
           tabIndex={-1}
           className={styles.desktopAccountCard}
-          aria-labelledby="desktop-account-heading"
-        >
+          aria-labelledby="desktop-account-heading">
+
           <h3 id="desktop-account-heading" className={styles.desktopAccountTitle}>
             Transfer to
           </h3>
@@ -413,8 +413,8 @@ export default function SelfTransfer() {
                 account={acc}
                 name="destination-desktop"
                 selected={acc.id === destinationId}
-                onSelect={() => selectDestination(acc.id)}
-              />
+                onSelect={() => selectDestination(acc.id)}/>
+                
             ))}
           </div>
           {errors.account && (

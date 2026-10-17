@@ -1,0 +1,500 @@
+.page {
+  --header-h: 72px;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: #f5f8f5;
+  padding: calc(var(--header-h) + 16px) 0 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.topBanner {
+  display: none;
+}
+
+.container {
+  width: calc(100% - 40px);
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.content {
+  padding-bottom: 110px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: 8px 0 16px;
+}
+
+.headerIconBtn {
+  padding: 4px;
+  margin-left: -4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #172017;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.headerIconBtn:hover {
+  background: #e3ece6;
+}
+
+.headerTextWrapper {
+  flex: 1;
+  min-width: 0;
+  margin-left: 12px;
+}
+
+.headerTitle {
+  margin: 0;
+  font-size: 19px;
+  font-weight: normal;
+  letter-spacing: -0.3px;
+  color: #153123;
+  font-family: "SoraSemibold";
+}
+
+.headerSubtitle {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: #678071;
+  font-family: "DMSanRegular";
+}
+
+.layout {
+  display: block;
+}
+
+.formCard {
+  padding: 20px;
+  border: 1px solid #e2ebe6;
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(23, 54, 39, 0.06);
+}
+
+.cardHeaderDesktop {
+  display: none;
+}
+
+.infoCard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 4px;
+  padding: 15px;
+  border-radius: 14px;
+  background: #e8fbed;
+}
+
+.infoIcon {
+  flex-shrink: 0;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #d4eedb;
+}
+
+.infoTitle {
+  margin: 0;
+  font-size: 15px;
+  color: #17221b;
+  font-family: "SoraSemibold";
+}
+
+.infoSubtitle {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: #6f7772;
+  font-family: "DMSanRegular";
+}
+
+.optionList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.optionList > li {
+  display: block;
+}
+
+.infoCard + nav {
+  margin-top: 16px;
+}
+
+.option {
+  min-height: 96px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  border: 1.5px solid #dfe5e1;
+  border-radius: 16px;
+  background: #ffffff;
+  color: inherit;
+  text-decoration: none;
+  transition:
+    border-color 0.15s ease,
+    background-color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.15s ease;
+}
+
+.option:hover {
+  border-color: #245d45;
+  background: #f5faf7;
+  box-shadow: 0 6px 16px rgba(23, 54, 39, 0.08);
+  transform: translateY(-2px);
+}
+
+.option:focus-visible {
+  outline: 2px solid #356a53;
+  outline-offset: 2px;
+}
+
+.option:active {
+  transform: scale(0.99);
+}
+
+.optionIcon {
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #eef5ef;
+  color: #3e6b4a;
+}
+
+.optionIconImg {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+.optionText {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.optionTitle {
+  font-size: 16px;
+  color: #17221b;
+  font-family: "SoraSemibold";
+}
+
+.optionSub {
+  font-size: 13px;
+  line-height: 1.45;
+  color: #6d756f;
+  font-family: "DMSanRegular";
+}
+
+.optionArrow {
+  flex-shrink: 0;
+  color: #68706a;
+  transition:
+    transform 0.15s ease,
+    color 0.15s ease;
+}
+
+.option:hover .optionArrow {
+  color: #245d45;
+  transform: translateX(3px);
+}
+
+.side {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .option,
+  .option:hover,
+  .optionArrow,
+  .option:hover .optionArrow {
+    transition: none;
+    transform: none;
+  }
+}
+
+.footer {
+  margin-top: auto;
+  padding: 36px 0;
+  border-top: 1px solid #e2ebe6;
+  background-color: #0f1629;
+}
+
+.footerContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.copyright {
+  margin: 0;
+  font-size: 13px;
+  color: #f8fbf9;
+  font-family: "DMSanRegular";
+}
+
+.footerLinks {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.footerLinks a {
+  font-size: 13px;
+  color: #fcfefd;
+  text-decoration: none;
+  font-family: "DMSanSemibold";
+  transition: color 0.15s ease;
+}
+
+.footerLinks a:hover {
+  color: #f6f9f7;
+}
+
+@media (max-width: 768px) {
+  .footer {
+    display: none;
+  }
+}
+
+@media (max-width: 360px) {
+  .formCard {
+    padding: 16px;
+  }
+  .headerTitle {
+    font-size: 17px;
+  }
+}
+
+@media (min-width: 700px) {
+  .container {
+    width: min(640px, calc(100% - 48px));
+  }
+  .headerTitle {
+    font-size: 24px;
+  }
+  .headerSubtitle {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 769px) {
+  .footerContent {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+  .footer {
+    display: block;
+  }
+}
+
+@media (min-width: 960px) {
+  .page {
+    padding: calc(var(--header-h) + 32px) 0 0;
+    background: #f0f4f8;
+  }
+
+  .topBanner {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: calc(var(--header-h) + 150px);
+    background: #0b347b;
+    z-index: 1;
+  }
+
+  .container {
+    width: min(1200px, calc(100% - 64px));
+  }
+
+  .content {
+    padding-bottom: 56px;
+  }
+
+  .footer .container {
+    margin-top: 0;
+  }
+
+  .header {
+    display: none;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(400px, 1fr) minmax(0, 1fr);
+    gap: 32px;
+    align-items: stretch;
+  }
+
+  .formCard {
+    padding: 32px 28px;
+    border-radius: 18px;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .cardHeaderDesktop {
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .cardMainTitle {
+    margin: 0 0 6px;
+    font-size: 19px;
+    font-weight: 700;
+    color: #17221b;
+    font-family: "SoraSemibold";
+  }
+
+  .cardMainSub {
+    margin: 0;
+    font-size: 13.5px;
+    color: #6f7772;
+    font-family: "DMSanRegular";
+  }
+
+  .infoCard {
+    display: none;
+  }
+
+  .side {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    z-index: 3;
+  }
+
+  .sideHeroCard {
+    flex: 1;
+    background: linear-gradient(160deg, #ffffff 40%, #eef8f2 100%);
+    border-radius: 18px;
+    padding: 36px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .sideHeroBadge {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 18px;
+    background: #dcefe3;
+    color: #245d45;
+  }
+
+  .sideHeroTitle {
+    margin: 0 0 10px;
+    font-size: 24px;
+    line-height: 1.25;
+    color: #102d20;
+    font-family: "SoraSemibold";
+  }
+
+  .sideHeroDesc {
+    margin: 0 0 24px;
+    max-width: 62ch;
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: #5d7065;
+    font-family: "DMSanRegular";
+  }
+
+  .trustList {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .trustList li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #ffffff;
+    padding: 14px;
+    border-radius: 12px;
+    border: 1px solid #e7efe9;
+  }
+
+  .trustIcon {
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #dcefe3;
+    color: #245d45;
+  }
+
+  .trustList li > span:last-child {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .trustList strong {
+    font-size: 13.5px;
+    font-weight: normal;
+    color: #17221b;
+    font-family: "DMSanSemibold";
+  }
+
+  .trustList small {
+    font-size: 11.5px;
+    color: #6f7772;
+    font-family: "DMSanRegular";
+  }
+
+  .option {
+    min-height: 104px;
+    padding: 20px 22px;
+  }
+
+  .optionIcon {
+    width: 56px;
+    height: 56px;
+  }
+}

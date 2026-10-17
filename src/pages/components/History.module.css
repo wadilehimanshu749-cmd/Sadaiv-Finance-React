@@ -1,0 +1,956 @@
+.page {
+    --header-h: 72px;
+    min-height: 100vh;
+    min-height: 100dvh;
+    background:
+    radial-gradient(ellipse at 12% 0%, rgba(208, 233, 218, 0.38), transparent 38%),
+    #f6f9f6;
+    padding: calc(var(--header-h) + 16px) 0 0;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    width: calc(100% - 40px);
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+.content {
+    padding-bottom: 110px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 4px 0 18px;
+    margin-bottom: 18px;
+    border-bottom: 1px solid #e2ebe4;
+    text-align: left;
+}
+
+.headerIconBtn {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid #dce8df;
+    border-radius: 12px;
+    background: #ffffff;
+    color: #245d45;
+    cursor: pointer;
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.headerIconBtn:hover {
+    background: #f0f7f2;
+    border-color: #b9d4c2;
+}
+
+.headerIconBtn:focus-visible {
+    outline: 2px solid #356a53;
+    outline-offset: 2px;
+}
+
+.headerTextWrapper {
+    flex: 1;
+    min-width: 0;
+    text-align: left;
+}
+
+.headerTitle {
+    margin: 0 0 2px;
+    color: #173f32;
+    font-family: "SoraSemibold";
+    font-size: 22px;
+    font-weight: normal;
+    letter-spacing: -0.3px;
+    line-height: 1.3;
+}
+
+.headerSubtitle {
+    margin: 0;
+    color: #65766b;
+    font-family: "DMSanRegular";
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+.layout {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.card {
+    padding: 20px;
+    border: 1px solid #e2ebe6;
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow: 0 4px 12px rgba(23, 54, 39, 0.06);
+}
+
+.sectionTitle {
+    margin: 0 0 14px;
+    font-size: 16px;
+    font-weight: normal;
+    color: #17221b;
+    font-family: "SoraSemibold";
+}
+
+.accountList {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.account {
+    overflow: hidden;
+    border: 1.5px solid #e0e5e1;
+    border-radius: 16px;
+    background: #ffffff;
+}
+
+.accountTop {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px;
+}
+
+.bankLogo {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 50%;
+    background: #f3f6f4;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+}
+
+.bankLogoImg {
+    width: 72%;
+    height: 72%;
+    object-fit: contain;
+}
+
+.bankInitials {
+    color: #245d45;
+    font-family: "SoraBold";
+}
+
+.accountInfo {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.bankName {
+    font-size: 15px;
+    color: #17221b;
+    font-family: "SoraSemibold";
+}
+
+.accountNumber {
+    font-size: 13px;
+    letter-spacing: 1px;
+    color: #3b4640;
+    font-family: "DMSanSemibold";
+}
+
+.accountType {
+    font-size: 12px;
+    color: #7a837d;
+    font-family: "DMSanRegular";
+}
+
+.accountBottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 14px;
+    border-top: 1px solid #e7efe9;
+    background: #f5faf7;
+}
+
+.balanceBlock {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.balanceLabel {
+    font-size: 11.5px;
+    color: #6f7772;
+    font-family: "DMSanRegular";
+}
+
+.balanceValue {
+    font-size: 16px;
+    color: #17221b;
+    font-family: "SoraBold";
+}
+
+.balanceButton {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border: 1px solid #b9cfc3;
+    border-radius: 20px;
+    background: #ffffff;
+    color: #245d45;
+    cursor: pointer;
+    font-size: 12.5px;
+    font-family: "DMSanSemibold";
+    transition:
+        background-color 0.15s ease,
+        border-color 0.15s ease;
+}
+
+.balanceButton:hover {
+    border-color: #245d45;
+    background: #f1faf4;
+}
+
+.balanceButton:focus-visible {
+    outline: 2px solid #356a53;
+    outline-offset: 2px;
+}
+
+.secureCard {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px;
+    border-radius: 14px;
+    background: #f1f7f2;
+}
+
+.secureIcon {
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #dcede0;
+    color: #245d45;
+}
+
+.secureTitle {
+    margin: 0;
+    font-size: 13.5px;
+    color: #344139;
+    font-family: "DMSanSemibold";
+}
+
+.secureSubtitle {
+    margin: 3px 0 0;
+    font-size: 12px;
+    color: #78817b;
+    font-family: "DMSanRegular";
+}
+
+.searchBox {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 14px;
+    border: 1px solid #d7deda;
+    border-radius: 12px;
+    background: #ffffff;
+    transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.searchBox:focus-within {
+    border-color: #356a53;
+    box-shadow: 0 0 0 3px rgba(53, 106, 83, 0.18);
+}
+
+.searchInput {
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    outline: none;
+    background: transparent;
+    font-size: 15px;
+    color: #17221b;
+    font-family: "DMSanRegular";
+}
+
+.searchInput::placeholder {
+    color: #89918c;
+}
+
+.searchInput::-webkit-search-cancel-button,
+.searchInput::-webkit-search-decoration {
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.clearBtn {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 50%;
+    background: #f0f7f3;
+    color: #3e6b4a;
+    cursor: pointer;
+}
+
+.clearBtn:hover {
+    background: #e1eee6;
+}
+
+.tabs {
+    display: flex;
+    gap: 4px;
+    margin: 14px 0 18px;
+    padding: 4px;
+    border-radius: 12px;
+    background: #eaefeb;
+}
+
+.tab {
+    flex: 1;
+    height: 38px;
+    border: 0;
+    border-radius: 9px;
+    background: transparent;
+    color: #667069;
+    cursor: pointer;
+    font-size: 13.5px;
+    font-family: "DMSanSemibold";
+    transition:
+        background-color 0.15s ease,
+        color 0.15s ease;
+}
+
+.tab:hover:not(.tabActive) {
+    color: #17221b;
+}
+
+.tab:focus-visible {
+    outline: 2px solid #356a53;
+    outline-offset: 2px;
+}
+
+.tabActive {
+    background: #245d45;
+    color: #ffffff;
+}
+
+.group+.group {
+    margin-top: 8px;
+}
+
+.dateTitle {
+    margin: 0 0 10px;
+    font-size: 13px;
+    font-weight: normal;
+    color: #39433d;
+    font-family: "SoraSemibold";
+}
+
+.txnList {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.txn {
+    width: 100%;
+    min-height: 82px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border: 1px solid #e0e5e1;
+    border-radius: 14px;
+    background: #ffffff;
+    cursor: pointer;
+    text-align: left;
+    transition:
+        border-color 0.15s ease,
+        background-color 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.txn:hover {
+    border-color: #245d45;
+    background: #f5faf7;
+    box-shadow: 0 6px 16px rgba(23, 54, 39, 0.08);
+}
+
+.txn:focus-visible {
+    outline: 2px solid #356a53;
+    outline-offset: 2px;
+}
+
+.txnIcon,
+.detailIcon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.txnIcon {
+    width: 42px;
+    height: 42px;
+}
+
+.txnIconSent {
+    background: #f8e9e9;
+    color: #b3463f;
+}
+
+.txnIconReceived {
+    background: #e7f3e9;
+    color: #2f7a46;
+}
+
+.txnDetails {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.personName,
+.upiId {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.personName {
+    font-size: 14px;
+    color: #17221b;
+    font-family: "DMSanSemibold";
+}
+
+.upiId {
+    font-size: 12px;
+    color: #737d76;
+    font-family: "DMSanRegular";
+}
+
+.txnTime {
+    font-size: 11.5px;
+    color: #9aa29d;
+    font-family: "DMSanRegular";
+}
+
+.txnAmountCol {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 5px;
+}
+
+.sentAmount,
+.receivedAmount {
+    font-size: 14.5px;
+    font-family: "SoraBold";
+}
+
+.sentAmount {
+    color: #343c37;
+}
+
+.receivedAmount {
+    color: #2f7a46;
+}
+
+.statusPill {
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: #e7f3e9;
+    color: #2f7a46;
+    font-size: 10.5px;
+    font-family: "DMSanSemibold";
+}
+
+.emptyState {
+    padding: 32px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.emptyIcon {
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #eef5ef;
+    color: #3e6b4a;
+}
+
+.emptyTitle {
+    margin: 14px 0 0;
+    font-size: 15px;
+    color: #17221b;
+    font-family: "SoraSemibold";
+}
+
+.emptyText {
+    margin: 6px 0 0;
+    font-size: 13.5px;
+    color: #6f7772;
+    font-family: "DMSanRegular";
+}
+
+.backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    background: rgba(16, 32, 28, 0.5);
+    animation: fadeIn 0.2s ease;
+}
+
+.sheet {
+    width: 100%;
+    max-width: 520px;
+    max-height: 88vh;
+    overflow-y: auto;
+    padding: 20px 20px 24px;
+    border-radius: 24px 24px 0 0;
+    background: #ffffff;
+    animation: slideUp 0.25s ease;
+}
+
+.sheetHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.sheetTitle {
+    margin: 0;
+    font-size: 17px;
+    font-weight: normal;
+    color: #153123;
+    font-family: "SoraSemibold";
+}
+
+.sheetClose {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 50%;
+    background: #f0f7f3;
+    color: #103d43;
+    cursor: pointer;
+}
+
+.detailTop {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px 0 14px;
+    text-align: center;
+}
+
+.detailIcon {
+    width: 56px;
+    height: 56px;
+}
+
+.detailAmountSent,
+.detailAmountReceived {
+    margin: 12px 0 0;
+    font-size: 28px;
+    font-family: "SoraBold";
+}
+
+.detailAmountSent {
+    color: #343c37;
+}
+
+.detailAmountReceived {
+    color: #2f7a46;
+}
+
+.detailStatus {
+    margin: 6px 0 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 13px;
+    color: #2f7a46;
+    font-family: "DMSanSemibold";
+}
+
+.detailList {
+    margin: 0;
+}
+
+.detailRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 13px 0;
+    border-top: 1px solid #edf2ee;
+    font-family: "DMSanRegular";
+}
+
+.detailRow dt {
+    font-size: 14px;
+    color: #6f7772;
+}
+
+.detailRow dd {
+    margin: 0;
+    text-align: right;
+    font-size: 15px;
+    color: #17221b;
+    font-family: "DMSanSemibold";
+    overflow-wrap: anywhere;
+}
+
+.button {
+    width: 100%;
+    height: 52px;
+    margin-top: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 28px;
+    background: #245d45;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: "SoraSemibold";
+    box-shadow: 0 4px 10px rgba(23, 54, 39, 0.14);
+    transition: background-color 0.15s ease;
+}
+
+.button:hover {
+    background: #1c4a37;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(24px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .backdrop,
+    .sheet {
+        animation: none;
+    }
+}
+
+.footer {
+    margin-top: auto;
+    padding: 36px 0;
+    border-top: 1px solid #e2ebe6;
+    background-color: #0f1629;
+}
+
+.footerContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+}
+
+.copyright {
+    margin: 0;
+    font-size: 13px;
+    color: #f8fbf9;
+    font-family: "DMSanRegular";
+}
+
+.footerLinks {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.footerLinks a {
+    font-size: 13px;
+    color: #fcfefd;
+    text-decoration: none;
+    font-family: "DMSanSemibold";
+    transition: color 0.15s ease;
+}
+
+.footerLinks a:hover {
+    color: #f6f9f7;
+}
+
+@media (max-width: 768px) {
+    .searchInput {
+        font-size: 16px;
+    }
+
+    .footer {
+        display: none;
+    }
+}
+
+@media (max-width: 360px) {
+    .card {
+        padding: 16px;
+    }
+
+    .hero {
+        padding: 18px 16px;
+    }
+
+    .heroTitle {
+        font-size: 25px;
+    }
+
+    .balanceButton {
+        padding: 8px 10px;
+    }
+}
+
+@media (min-width: 700px) {
+    .container {
+        width: min(640px, calc(100% - 48px));
+    }
+
+    .backdrop {
+        align-items: center;
+    }
+
+    .sheet {
+        border-radius: 24px;
+    }
+}
+
+@media (min-width: 769px) {
+    .footerContent {
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: left;
+    }
+
+    .footer {
+        display: block;
+    }
+}
+
+@media (min-width: 960px) {
+    .page {
+         padding-top: calc(var(--header-h) + 18px);
+    }
+
+    .container {
+        width: min(1180px, calc(100% - 64px));
+    }
+    .header {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 5px 0 24px;
+        margin-bottom: 25px;
+        border-bottom: 1px solid #e2ebe4;
+        text-align: left;
+    }
+
+    .headerIconBtn {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        border: 1px solid #dce8df;
+        border-radius: 12px;
+        background: #ffffff;
+        color: #245d45;
+        cursor: pointer;
+        transition:
+            background-color 0.2s ease,
+            border-color 0.2s ease;
+    }
+
+    .headerIconBtn:hover {
+        background: #f0f7f2;
+        border-color: #b9d4c2;
+    }
+
+    .headerTextWrapper {
+        min-width: 0;
+        text-align: left;
+    }
+
+    .headerTitle {
+        margin: 0 0 6px;
+        color: #173f32;
+        font-family: "SoraSemibold";
+        font-size: 26px;
+        letter-spacing: -0.3px;
+        line-height: 1.35;
+    }
+
+    .headerSubtitle {
+        margin: 0;
+        color: #65766b;
+        font-family: "DMSanRegular";
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .content {
+        padding-bottom: 56px;
+    }
+
+    .footer .container {
+        margin-top: 0;
+    }
+
+    .hero {
+       display: none;
+    }
+
+    .hero::before {
+        width: 260px;
+        height: 260px;
+        right: -60px;
+        top: -110px;
+    }
+
+    .hero::after {
+        width: 150px;
+        height: 150px;
+        right: 180px;
+        bottom: -90px;
+    }
+
+    .heroTitle {
+        font-size: 36px;
+        letter-spacing: -0.6px;
+    }
+
+    .heroSubtitle {
+        margin-top: 6px;
+        font-size: 15.5px;
+    }
+
+    .layout {
+        display: grid;
+        grid-template-columns: minmax(340px, 400px) minmax(0, 1fr);
+        gap: 28px;
+        align-items: start;
+    }
+
+    .sidebar {
+        position: sticky;
+        top: calc(var(--header-h) + 24px);
+        gap: 20px;
+    }
+
+    .card {
+        padding: 28px 30px;
+        border: 0;
+        border-radius: 18px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .sectionTitle {
+        margin-bottom: 18px;
+        font-size: 18px;
+        color: #1a2922;
+    }
+
+    .searchBox {
+        height: 52px;
+    }
+
+    .tab {
+        height: 40px;
+    }
+
+    .txn {
+        padding: 14px 16px;
+    }
+
+    .personName {
+        font-size: 15px;
+    }
+
+    .sentAmount,
+    .receivedAmount {
+        font-size: 15.5px;
+    }
+}

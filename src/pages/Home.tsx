@@ -287,8 +287,8 @@ export default function HomePage() {
         onMouseLeave={() => {
           setIsWhyPaused(false);
           handleDragEnd();
-        }}
-      >
+        }}>
+
         <div className={styles.whyWrapper}>
           <div className={styles.whyTopBar}>
             <div
@@ -386,8 +386,8 @@ export default function HomePage() {
                 type="button"
                 aria-label={`Go to slide ${index + 1}`}
                 className={`${styles.whyDot} ${index === activeWhySlide ? styles.whyDotActive : ""}`}
-                onClick={() => setActiveWhySlide(index)}
-              />
+                onClick={() => setActiveWhySlide(index)}/>
+                
             ))}
           </div>
         </div>
@@ -507,7 +507,7 @@ export default function HomePage() {
                 target="_blank"
                 rel="noreferrer"
                 aria-label="Facebook">
-                  
+
                 <FontAwesomeIcon icon={faFacebookF} />
               </a>
             </div>

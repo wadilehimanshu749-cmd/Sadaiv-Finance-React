@@ -317,7 +317,7 @@ export default function HomeScreen() {
         <QuickAction
           icon={<IoWalletOutline size={25} />}
           text="Send Money"
-          href="/send_money"
+          href="/Sendmoney"
         />
 
         <QuickAction
@@ -348,7 +348,7 @@ export default function HomeScreen() {
         <QuickAction
           icon={<IoNewspaperOutline size={25} />}
           text="Utility Bills"
-          href="/utility_bills"
+          href="/Utilitybills"
         />
 
         <QuickAction

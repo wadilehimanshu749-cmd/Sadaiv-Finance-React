@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { IoArrowBack, IoCardOutline, IoCheckmark, IoCheckmarkCircle, IoClose, IoHeadsetOutline, IoInformationCircleOutline, IoShieldCheckmark, IoTimeOutline,} from "react-icons/io5";
+import { IoArrowBack, IoCardOutline, IoCheckmark, IoCheckmarkCircle, IoClose, IoHeadsetOutline, IoInformationCircleOutline, IoShieldCheckmark, IoTimeOutline, } from "react-icons/io5";
 
 import styles from "./CreditCardBill.module.css";
 
@@ -56,7 +56,7 @@ function CardOption({
         className={styles.srOnly}
         checked={selected}
         onChange={onSelect} />
-        
+
 
       <span className={styles.cardTop}>
         <BankLogo card={card} size={46} />

@@ -29,3 +29,12 @@ export function AppLayout() {
     </>
   );
 }
+
+export function AppLayoutHeaderonly(){
+  return(
+    <>
+    <Header variant="app"/>
+    <Outlet />
+    </>
+  )
+}

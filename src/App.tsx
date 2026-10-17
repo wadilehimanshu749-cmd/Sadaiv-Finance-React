@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
-import { AppLayout, AuthLayout, PublicLayout } from "./layouts";
+import { AppLayout, AuthLayout, PublicLayout, AppLayoutHeaderonly } from "./layouts";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -10,7 +10,10 @@ import LoanKYC from "./pages/components/LoanKyc";
 import LoanSanction from "./pages/components/LoanSanction";
 import Sendmoneytomobile from "./pages/quick_actions/Sendmoneytomobile";
 import UpiTransfer from "./pages/quick_actions/Upitransfer";
+import UtilityBills from "./pages/quick_actions/Utilitybills";
 import Investment from "./pages/components/Investment";
+import Sendmoney from "./pages/quick_actions/Sendmoney";
+import History from "./pages/components/History";
 import MobileRecharge from "./pages/quick_actions/MobileRecharge";
 import CreditCardBill from "./pages/quick_actions/Creditcardbill";
 import FastTag from "./pages/quick_actions/Fasttag";
@@ -63,14 +66,24 @@ export default function App() {
           <Route path="/loankyc" element={<LoanKYC />} />
           <Route path="/loansanction" element={<LoanSanction />} />
           <Route path="/investment" element={<Investment />} />
+          <Route path="/history" element={<History/>}/>
+        </Route>
+
+        {/* app layout header only */}
+
+        <Route element={<AppLayoutHeaderonly />}>
           <Route path="/mobilerecharge" element={<MobileRecharge />} />
           <Route path="/selftransfer" element={<SelfTransfer />} />
           <Route path="/fasttag" element={<FastTag />} />
           <Route path="sendmoneytomobile" element={<Sendmoneytomobile />} />
-          <Route path="upitransfer" element={<UpiTransfer/>}/>
-          <Route path="creditcardbill" element={<CreditCardBill/>}/>
+          <Route path="upitransfer" element={<UpiTransfer />} />
+          <Route path="creditcardbill" element={<CreditCardBill />} />
+          <Route path="/sendmoney" element={<Sendmoney />} />
+          <Route path="/utilitybills" element={<UtilityBills/>}/>
         </Route>
+
       </Routes>
+
     </>
   );
 }

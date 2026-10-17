@@ -72,8 +72,8 @@ export default function Header({ variant = "public" }: { variant?: "public" | "a
             <Link
               to="/"
               className={`${styles.navItem} ${pathname === "/" ? styles.activeNavItem : ""
-                }`}
-            >
+                }`}>
+
               Home
             </Link>
 
@@ -83,15 +83,15 @@ export default function Header({ variant = "public" }: { variant?: "public" | "a
 
             <Link
               to="/investment"
-              className={styles.navItem}
-            >
+              className={styles.navItem}>
+
               About
             </Link>
 
             <Link
               to="/insurance"
-              className={styles.navItem}
-            >
+              className={styles.navItem}>
+
               Security
             </Link>
 
@@ -106,31 +106,31 @@ export default function Header({ variant = "public" }: { variant?: "public" | "a
               className={`${styles.navItem} ${pathname === "/dashboard"
                 ? styles.activeNavItem
                 : ""
-                }`}
-            >
+                }`}>
+
               Home
             </Link>
 
             <Link
               to="/loan"
               className={`${styles.navItem} ${pathname.startsWith("/loan") ? styles.activeNavItem : ""
-                }`}
-            >
+                }`}>
+
               Loan
             </Link>
 
             <Link
               to="/investment"
               className={`${styles.navItem} ${pathname.startsWith("/investment") ? styles.activeNavItem : ""
-                }`}
-            >
+                }`}>
+
               Investment
             </Link>
 
             <Link
               to="/history"
-              className={styles.navItem}
-            >
+              className={styles.navItem}>
+
               History
             </Link>
 
@@ -144,15 +144,15 @@ export default function Header({ variant = "public" }: { variant?: "public" | "a
 
             <Link
               to="/login"
-              className={styles.loginButton}
-            >
+              className={styles.loginButton}>
+
               Login
             </Link>
 
             <Link
               to="/signup"
-              className={styles.signupButton}
-            >
+              className={styles.signupButton}>
+                
               Sign up
             </Link>
 

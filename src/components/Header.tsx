@@ -1,15 +1,33 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import ProfileMenu from "../user_profile/Profilemenu";
 import styles from "./Header.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faBell } from "@fortawesome/free-regular-svg-icons";
+import { faBell } from "@fortawesome/free-regular-svg-icons";
 import { faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
+
+type StoredProfile = {
+  userId?: number;
+  name?: string;
+  email?: string;
+};
 
 export default function Header({ variant = "public" }: { variant?: "public" | "app" }) {
 
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { pathname } = useLocation();
+  const location = useLocation();
+  const { pathname } = location;
+
+  const [profile] = useState<StoredProfile>(() => {
+    try {
+      const savedProfile = sessionStorage.getItem("sadaivProfile");
+
+      return savedProfile ? JSON.parse(savedProfile) : {};
+    } catch {
+      return {};
+    }
+  });
 
   const isDashboard = variant === "app";
   const hasDarkHero = pathname === "/" || pathname.startsWith("/dashboard");
@@ -152,7 +170,7 @@ export default function Header({ variant = "public" }: { variant?: "public" | "a
             <Link
               to="/signup"
               className={styles.signupButton}>
-                
+
               Sign up
             </Link>
 
@@ -161,8 +179,8 @@ export default function Header({ variant = "public" }: { variant?: "public" | "a
               className={styles.mobileMenu}
               onClick={() => setMobileMenuOpen((prev) => !prev)}
               aria-label={mobileMenuOpen ? "Close navigation" : "Open navigation"}
-              aria-expanded={mobileMenuOpen}
-            >
+              aria-expanded={mobileMenuOpen}>
+
               <FontAwesomeIcon icon={mobileMenuOpen ? faXmark : faBars} />
             </button>
 
@@ -176,9 +194,14 @@ export default function Header({ variant = "public" }: { variant?: "public" | "a
               <FontAwesomeIcon icon={faBell} />
             </button>
 
-            <button className={styles.iconBtn}>
-              <FontAwesomeIcon icon={faUser} />
-            </button>
+            <ProfileMenu
+              user={{
+                name: profile.name || "Rahul Patil",
+                email: profile.email || "rahul@gmail.com",
+                customerId: "SDV-204819",
+                kycVerified: true,
+                linkedAccount: { bank: "HDFC Bank", last4: "4821" },
+              }}/>
 
           </div>
 

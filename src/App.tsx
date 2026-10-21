@@ -55,7 +55,6 @@ export default function App() {
         <Route element={<AuthLayout />}>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-
         </Route>
 
         {/* Logged-in app app header + tab bar. */}
@@ -66,7 +65,7 @@ export default function App() {
           <Route path="/loankyc" element={<LoanKYC />} />
           <Route path="/loansanction" element={<LoanSanction />} />
           <Route path="/investment" element={<Investment />} />
-          <Route path="/history" element={<History/>}/>
+          <Route path="/history" element={<History />} />
         </Route>
 
         {/* app layout header only */}
@@ -79,7 +78,8 @@ export default function App() {
           <Route path="upitransfer" element={<UpiTransfer />} />
           <Route path="creditcardbill" element={<CreditCardBill />} />
           <Route path="/sendmoney" element={<Sendmoney />} />
-          <Route path="/utilitybills" element={<UtilityBills/>}/>
+          <Route path="/utilitybills" element={<UtilityBills />} />
+
         </Route>
 
       </Routes>

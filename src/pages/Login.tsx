@@ -1,10 +1,19 @@
 import { useState } from "react";
-import type { FormEvent } from "react";
+import type { SyntheticEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash, faLock, faMobileScreenButton, } from "@fortawesome/free-solid-svg-icons";
 import { faApple, faGoogle, faMicrosoft, } from "@fortawesome/free-brands-svg-icons";
+
 import styles from "./Login.module.css";
+
+interface LoginResponse {
+  success: boolean;
+  message: string;
+  userid?: number;
+  fullName?: string;
+  email?: string;
+}
 
 export default function Login() {
   const navigate = useNavigate();
@@ -13,34 +22,95 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (mobile.length !== 10) {
-      setError("Enter a 10-digit mobile number.");
+    if (!/^\d{10}$/.test(mobile)) {
+      setError("Enter a valid 10-digit mobile number.");
       return;
     }
+
     if (!password) {
       setError("Enter your password.");
       return;
     }
 
     setError("");
+    setLoading(true);
 
-    navigate("/dashboard");
+    try {
+      const response = await fetch(
+        "https://localhost:7123/api/auth/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            mobileNumber: mobile,
+            password: password,
+          }),
+        }
+      );
+
+      const data: LoginResponse = await response.json();
+
+      if (!response.ok || !data.success) {
+        setError(
+          data.message || "Invalid mobile number or password."
+        );
+        return;
+      }
+
+      sessionStorage.setItem(
+        "sadaivProfile",
+        JSON.stringify({
+          userId: data.userid,
+          name: data.fullName,
+          email: data.email
+        })
+      );
+
+      navigate("/dashboard");
+
+      navigate("/dashboard", {
+        state: {
+          userId: data.userid,
+          fullname: data.fullName,
+        },
+      });
+    } catch (err) {
+      console.error("Login API error:", err);
+
+      setError(
+        "Unable to connect to the server. Please try again."
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className={styles.page}>
       <div className={styles.container}>
-        <Link to="/" className={styles.logoContainer} aria-label="SADAIV Finance home">
+        <Link
+          to="/"
+          className={styles.logoContainer}
+          aria-label="SADAIV Finance home">
+
           <div className={styles.logoCircle}>
-            <img src="/images/comp_logo.png" alt="" className={styles.logoIcon}/>
+            <img
+              src="/images/comp_logo.png"
+              alt=""
+              className={styles.logoIcon} />
+
           </div>
 
           <p className={styles.logoText}>
-            S A D A I V <span className={styles.logoGreen}>Finance</span>
+            S A D A I V{" "}
+            <span className={styles.logoGreen}>Finance</span>
           </p>
         </Link>
 
@@ -57,18 +127,30 @@ export default function Login() {
             </div>
 
             <div className={styles.logincard}>
-              <img src="/images/login.png" alt="" className={styles.loginicon}/>
-
+              <img
+                src="/images/login.png"
+                alt=""
+                className={styles.loginicon}
+              />
             </div>
           </div>
 
           <div className={styles.formColumn}>
-            <form className={styles.card} onSubmit={handleSubmit} noValidate>
+            <form
+              className={styles.card}
+              onSubmit={handleSubmit}
+              noValidate>
+
               <div className={styles.inputContainer}>
                 <span className={styles.inputIcon}>
-                  <FontAwesomeIcon icon={faMobileScreenButton} size="xl" />
+                  <FontAwesomeIcon
+                    icon={faMobileScreenButton}
+                    size="xl" />
+
                 </span>
+
                 <span className={styles.verticalLine} />
+
                 <input
                   className={styles.input}
                   type="tel"
@@ -78,13 +160,22 @@ export default function Login() {
                   autoComplete="tel-national"
                   maxLength={10}
                   value={mobile}
-                  onChange={(e) => setMobile(e.target.value.replace(/\D/g, ""))}/>
+                  onChange={(e) =>
+                    setMobile(
+                      e.target.value.replace(/\D/g, "")
+                    )
+                  } />
+
               </div>
 
               <div className={styles.inputContainer}>
                 <span className={styles.inputIcon}>
-                  <FontAwesomeIcon icon={faLock} size="lg" />
+                  <FontAwesomeIcon
+                    icon={faLock}
+                    size="lg" />
+
                 </span>
+
                 <span className={styles.verticalLine} />
 
                 <input
@@ -94,14 +185,22 @@ export default function Login() {
                   aria-label="Password"
                   autoComplete="current-password"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)} />
+                  onChange={(e) =>
+                    setPassword(e.target.value)
+                  } />
 
                 <button
                   type="button"
                   className={styles.eyeButton}
-                  onClick={() => setShowPassword(!showPassword)}
-                  aria-label={showPassword ? "Hide password" : "Show password"}>
+                  onClick={() =>
+                    setShowPassword((previous) => !previous)
+                  }
+                  aria-label={
+                    showPassword ? "Hide password" : "Show password"
+                  }>
+
                   <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+
                 </button>
               </div>
 
@@ -115,31 +214,60 @@ export default function Login() {
                 </p>
               )}
 
-              <button type="submit" className={styles.signinButton}>
-                Login
+              <button
+                type="submit"
+                className={styles.signinButton}
+                disabled={loading}>
+
+                {loading ? "Logging in..." : "Login"}
               </button>
             </form>
 
             <div className={styles.divider}>
               <span className={styles.horizontalline} />
-              <span className={styles.dividerText}>Or continue with</span>
+
+              <span className={styles.dividerText}>
+                Or continue with
+              </span>
+
               <span className={styles.horizontalline} />
             </div>
 
             <div className={styles.continuewith}>
-              <button type="button" className={styles.card2}>
+              <button
+                type="button"
+                className={styles.card2}>
+
                 <FontAwesomeIcon icon={faGoogle} size="lg" color="#EA4335" />
-                <span className={styles.card2Text}>Continue with Google</span>
+
+                <span className={styles.card2Text}>
+                  Continue with Google
+                </span>
               </button>
 
-              <button type="button" className={styles.card2}>
-                <FontAwesomeIcon icon={faApple} size="lg" color="#080808" />
-                <span className={styles.card2Text}>Continue with Apple</span>
+              <button
+                type="button"
+                className={styles.card2}>
+
+                <FontAwesomeIcon
+                  icon={faApple}
+                  size="lg"
+                  color="#080808" />
+
+                <span className={styles.card2Text}>
+                  Continue with Apple
+                </span>
               </button>
 
-              <button type="button" className={styles.card2}>
+              <button
+                type="button"
+                className={styles.card2}>
+
                 <FontAwesomeIcon icon={faMicrosoft} size="lg" color="#080808" />
-                <span className={styles.card2Text}>Continue with Microsoft</span>
+
+                <span className={styles.card2Text}>
+                  Continue with Microsoft
+                </span>
               </button>
             </div>
 
@@ -147,7 +275,11 @@ export default function Login() {
               <span className={styles.accountText}>
                 Don&apos;t have an account ?
               </span>
-              <Link to="/signup" className={styles.signupLink}>
+
+              <Link
+                to="/signup"
+                className={styles.signupLink}>
+
                 Sign up
               </Link>
             </div>

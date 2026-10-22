@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCopy, faCreditCard, faFileLines, faCircleQuestion, faUser,} from "@fortawesome/free-regular-svg-icons";
-import { faArrowRightFromBracket, faBuildingColumns, faCheck, faChevronDown, faCircleCheck, faShieldHalved,} from "@fortawesome/free-solid-svg-icons";
+import { faCopy, faCreditCard, faFileLines, faCircleQuestion, faUser, } from "@fortawesome/free-regular-svg-icons";
+import { faArrowRightFromBracket, faBuildingColumns, faCheck, faChevronDown, faCircleCheck, faShieldHalved, } from "@fortawesome/free-solid-svg-icons";
 import styles from "./Profilemenu.module.css";
 
 export type ProfileUser = {
@@ -19,7 +19,7 @@ type Props = {
 };
 
 const MENU_ITEMS = [
-  { to: "/profile", label: "My profile", icon: faUser },
+  { to: "/MyProfile", label: "My profile", icon: faUser },
   { to: "/profile/accounts", label: "Bank accounts & cards", icon: faCreditCard },
   { to: "/profile/security", label: "Security & login", icon: faShieldHalved },
   { to: "/documents", label: "Documents & statements", icon: faFileLines },
@@ -34,7 +34,7 @@ function getInitials(name: string) {
   return (first + last).toUpperCase();
 }
 
-export default function ProfileMenu({ user, onLogout }: Props) {
+export default function Profilemenu({ user, onLogout }: Props) {
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -152,7 +152,7 @@ export default function ProfileMenu({ user, onLogout }: Props) {
                   className={styles.copyBtn}
                   onClick={handleCopy}
                   aria-label={copied ? "Customer ID copied" : "Copy customer ID"}>
-                    
+
                   <FontAwesomeIcon icon={copied ? faCheck : faCopy} />
                 </button>
               </dd>

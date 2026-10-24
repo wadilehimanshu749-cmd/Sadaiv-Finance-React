@@ -3,8 +3,8 @@
     min-height: 100vh;
     min-height: 100dvh;
     background:
-    radial-gradient(ellipse at 12% 0%, rgba(208, 233, 218, 0.38), transparent 38%),
-    #f6f9f6;
+        radial-gradient(ellipse at 12% 0%, rgba(208, 233, 218, 0.38), transparent 38%),
+        #f6f9f6;
     padding: calc(var(--header-h) + 16px) 0 0;
     position: relative;
     display: flex;
@@ -239,6 +239,87 @@
     outline: 2px solid #356a53;
     outline-offset: 2px;
 }
+
+.accountsHeading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.accountsHeading .sectionTitle {
+    margin-bottom: 0;
+}
+
+.refreshButton {
+    flex-shrink: 0;
+    padding: 7px 10px;
+    border: 1px solid #d7e7dc;
+    border-radius: 9px;
+    background: #f2f8f3;
+    color: #176747;
+    font: inherit;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.refreshButton:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+.accountsMessage {
+    padding: 20px 8px;
+    color: #728178;
+    font-size: 13px;
+    line-height: 1.7;
+    text-align: center;
+}
+
+.accountsMessage p {
+    margin: 0 0 12px;
+}
+
+.retryButton,
+.linkBankButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 14px;
+    border: 1px solid #0b5940;
+    border-radius: 9px;
+    background: #0b5940;
+    color: #ffffff;
+    font: inherit;
+    font-size: 12px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.primaryBadge {
+    display: inline-flex;
+    align-self: flex-start;
+    margin-top: 4px;
+    padding: 4px 7px;
+    border: 1px solid #d8eadd;
+    border-radius: 6px;
+    background: #f0f8f2;
+    color: #287454;
+    font-size: 10px;
+}
+
+.dummyLabel {
+    margin-top: 4px;
+    color: #9a8a59;
+    font-size: 10px;
+}
+
+.retryButton:hover,
+.linkBankButton:hover {
+    background: #063b2b;
+}
+
 
 .secureCard {
     display: flex;
@@ -781,6 +862,14 @@
     .balanceButton {
         padding: 8px 10px;
     }
+
+    .accountsHeading {
+        align-items: flex-start;
+    }
+
+    .refreshButton {
+        padding: 6px 8px;
+    }
 }
 
 @media (min-width: 700px) {
@@ -811,12 +900,13 @@
 
 @media (min-width: 960px) {
     .page {
-         padding-top: calc(var(--header-h) + 18px);
+        padding-top: calc(var(--header-h) + 18px);
     }
 
     .container {
         width: min(1180px, calc(100% - 64px));
     }
+
     .header {
         display: flex;
         align-items: center;
@@ -880,7 +970,7 @@
     }
 
     .hero {
-       display: none;
+        display: none;
     }
 
     .hero::before {

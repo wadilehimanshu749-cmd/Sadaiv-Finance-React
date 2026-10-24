@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { SyntheticEvent } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faCheck, faEnvelope, faLock, faMobileScreenButton, faPen, faShieldHalved, faUser, faXmark, } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faCheck, faEnvelope, faLock,faBuildingColumns, faMobileScreenButton, faPen, faShieldHalved, faUser, faXmark, } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import styles from "./MyProfile.module.css";
 
@@ -144,9 +144,9 @@ export default function MyProfile() {
 
             setActiveField(null);
             setInputValue("");
-            setSuccessMessage( activeField === "name"
-                    ? "Your name has been updated successfully."
-                    : "Your email has been updated successfully."
+            setSuccessMessage(activeField === "name"
+                ? "Your name has been updated successfully."
+                : "Your email has been updated successfully."
             );
         } catch (err) {
             setError(
@@ -255,7 +255,7 @@ export default function MyProfile() {
                                 type="button"
                                 className={styles.editButton}
                                 onClick={() => openEditor("name")}>
-                                    
+
                                 <FontAwesomeIcon icon={faPen} />
                                 <span>Edit</span>
                             </button>
@@ -280,7 +280,7 @@ export default function MyProfile() {
                                 type="button"
                                 className={styles.editButton}
                                 onClick={() => openEditor("email")}>
-                                    
+
                                 <FontAwesomeIcon icon={faPen} />
                                 <span>Edit</span>
                             </button>
@@ -306,6 +306,21 @@ export default function MyProfile() {
                                 <span>Read only</span>
                             </span>
                         </div>
+                    </div>
+
+                    <div className={styles.linkBankAction}>
+                        <div>
+                            <h4>Manage your bank accounts</h4>
+                            <p>Check the bank accounts linked to your profile.</p>
+                        </div>
+
+                        <button
+                            type="button"
+                            onClick={() => navigate("/LinkedBankAccounts")}>
+
+                            <FontAwesomeIcon icon={faBuildingColumns} />
+                            Link Bank Account
+                        </button>
                     </div>
 
                     <div className={styles.securityNote}>
@@ -387,7 +402,7 @@ export default function MyProfile() {
                                         activeField === "name" ? "name" : "email"
                                     }
                                     autoFocus
-                                    disabled={saving}/>
+                                    disabled={saving} />
 
 
                                 {error && (

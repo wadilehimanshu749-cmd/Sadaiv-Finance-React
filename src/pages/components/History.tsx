@@ -1,18 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
-import {
-    IoArrowDown,
-    IoArrowBack,
-    IoArrowUp,
-    IoCheckmarkCircle,
-    IoClose,
-    IoEyeOffOutline,
-    IoEyeOutline,
-    IoReceiptOutline,
-    IoSearchOutline,
-    IoShieldCheckmark,
-} from "react-icons/io5";
+import { IoArrowDown, IoArrowBack, IoArrowUp, IoCheckmarkCircle, IoClose, IoEyeOffOutline, IoEyeOutline, IoReceiptOutline, IoSearchOutline, IoShieldCheckmark,} from "react-icons/io5";
 
 import styles from "./History.module.css";
 
@@ -200,8 +189,7 @@ function getLinkedBankIds(userId: number): number[] {
 }
 
 function mapAccount(apiAccount: ApiBankAccount): Account {
-    const resolvedBankCode =
-        apiAccount.bankCode || BANK_ID_TO_CODE[apiAccount.bankId] || "BANK";
+    const resolvedBankCode = apiAccount.bankCode || BANK_ID_TO_CODE[apiAccount.bankId] || "BANK";
 
     const presentation = BANK_PRESENTATION[resolvedBankCode] ?? {
         icon: "",
@@ -299,8 +287,8 @@ function Sheet({
                 role="dialog"
                 aria-modal="true"
                 aria-label={title}
-                onClick={(event) => event.stopPropagation()}
-            >
+                onClick={(event) => event.stopPropagation()}>
+
                 <div className={styles.sheetHeader}>
                     <h2 className={styles.sheetTitle}>{title}</h2>
 
@@ -308,8 +296,8 @@ function Sheet({
                         type="button"
                         className={styles.sheetClose}
                         onClick={onClose}
-                        aria-label="Close"
-                    >
+                        aria-label="Close">
+
                         <IoClose size={22} />
                     </button>
                 </div>
@@ -394,7 +382,7 @@ export default function History() {
         } catch {
             setAccounts([]);
             setAccountsError(
-                "Could not connect to the bank accounts API. Check that your backend is running.",
+                "Could not connect to the bank accounts API. Check that backend is running.",
             );
         } finally {
             setAccountsLoading(false);
@@ -450,8 +438,8 @@ export default function History() {
                         type="button"
                         className={styles.headerIconBtn}
                         onClick={() => window.history.back()}
-                        aria-label="Go back"
-                    >
+                        aria-label="Go back">
+
                         <IoArrowBack size={22} />
                     </button>
 
@@ -465,15 +453,11 @@ export default function History() {
 
                 <div className={styles.layout}>
                     <div className={styles.sidebar}>
-                        <section
-                            className={styles.card}
-                            aria-labelledby="accounts-heading"
-                        >
+                        <section className={styles.card} aria-labelledby="accounts-heading">
+
                             <div className={styles.accountsHeading}>
-                                <h2
-                                    id="accounts-heading"
-                                    className={styles.sectionTitle}
-                                >
+                                <h2 id="accounts-heading"className={styles.sectionTitle}>
+
                                     Your Accounts
                                 </h2>
 
@@ -481,8 +465,8 @@ export default function History() {
                                     type="button"
                                     className={styles.refreshButton}
                                     onClick={() => void loadAccounts()}
-                                    disabled={accountsLoading}
-                                >
+                                    disabled={accountsLoading}>
+
                                     {accountsLoading ? "Loading..." : "Refresh"}
                                 </button>
                             </div>

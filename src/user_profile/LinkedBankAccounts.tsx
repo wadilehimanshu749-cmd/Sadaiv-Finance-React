@@ -1,15 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-    faArrowLeft,
-    faBuildingColumns,
-    faCheck,
-    faCircleCheck,
-    faCircleExclamation,
-    faShieldHalved,
-    faXmark,
-} from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faBuildingColumns, faCheck, faCircleCheck, faCircleExclamation, faShieldHalved, faXmark,} from "@fortawesome/free-solid-svg-icons";
 import styles from "./LinkedBankAccounts.module.css";
 
 type StoredProfile = {
@@ -197,11 +189,9 @@ export default function LinkBankAccount() {
     return (
         <main className={styles.page}>
             <div className={styles.container}>
-                <button
-                    type="button"
-                    className={styles.backButton}
-                    onClick={() => navigate("/MyProfile")}
-                >
+                <button type="button"className={styles.backButton}
+                    onClick={() => navigate("/MyProfile")}>
+
                     <FontAwesomeIcon icon={faArrowLeft} />
                     <span>Back to My Profile</span>
                 </button>
@@ -305,26 +295,24 @@ export default function LinkBankAccount() {
             </div>
 
             {popup && (
-                <div
-                    className={styles.modalOverlay}
-                    onMouseDown={(event) => {
-                        if (event.target === event.currentTarget) {
-                            setPopup(null);
-                        }
-                    }}
-                >
+                <div className={styles.modalOverlay} onMouseDown={(event) => {
+                    if (event.target === event.currentTarget) {
+                        setPopup(null);
+                    }
+                }}>
+
                     <section
                         className={styles.modal}
                         role="dialog"
                         aria-modal="true"
-                        aria-labelledby="bank-popup-title"
-                    >
+                        aria-labelledby="bank-popup-title">
+
                         <button
                             type="button"
                             className={styles.closeButton}
                             onClick={() => setPopup(null)}
-                            aria-label="Close popup"
-                        >
+                            aria-label="Close popup">
+
                             <FontAwesomeIcon icon={faXmark} />
                         </button>
 
@@ -332,15 +320,9 @@ export default function LinkBankAccount() {
                             className={`${styles.popupIcon} ${popup.type === "success"
                                 ? styles.successIcon
                                 : styles.errorIcon
-                                }`}
-                        >
-                            <FontAwesomeIcon
-                                icon={
-                                    popup.type === "success"
-                                        ? faCircleCheck
-                                        : faCircleExclamation
-                                }
-                            />
+                                }`}>
+
+                            <FontAwesomeIcon icon={popup.type === "success" ? faCircleCheck : faCircleExclamation} />
                         </div>
 
                         <h2 id="bank-popup-title">{popup.title}</h2>
@@ -376,17 +358,15 @@ export default function LinkBankAccount() {
                             </div>
                         )}
 
-                        <button
-                            type="button"
-                            className={styles.popupButton}
+                        <button type="button" className={styles.popupButton}
                             onClick={() => {
                                 const wasSuccess = popup.type === "success";
                                 setPopup(null);
                                 if (wasSuccess) {
                                     navigate("/history");
                                 }
-                            }}
-                        >
+                            }}>
+
                             {popup.type === "success" ? "Done" : "Try again"}
                         </button>
                     </section>

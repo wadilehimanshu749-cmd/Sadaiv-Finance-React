@@ -1,32 +1,98 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Link, useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import { faTwitter, faLinkedinIn, faInstagram, faFacebookF } from "@fortawesome/free-brands-svg-icons";
-import { IoScan, IoPersonOutline, IoArrowForwardOutline, IoQrCodeOutline, IoWalletOutline, IoPhonePortraitOutline, IoNewspaperOutline, IoCardOutline } from "react-icons/io5";
+import { faTwitter,faLinkedinIn,faInstagram,faFacebookF,} from "@fortawesome/free-brands-svg-icons";
+import { IoScan, IoPersonOutline, IoArrowForwardOutline, IoQrCodeOutline, IoWalletOutline, IoPhonePortraitOutline,IoNewspaperOutline,IoCardOutline,} from "react-icons/io5";
 import styles from "./Dashboard.module.css";
 
+interface UserProfile {
+  fullName?: string;
+  FullName?: string;
+  email?: string;
+  Email?: string;
+}
+
+interface ProfileResponse {
+  success: boolean;
+  user?: UserProfile;
+  message?: string;
+}
+
 export default function HomeScreen() {
+  const navigate = useNavigate();
+
   const [scrollY, setScrollY] = useState(0);
+  const [userName, setUserName] = useState("");
+  const [profileLoading, setProfileLoading] = useState(true);
 
-  const [userName] = useState(() => {
-    try {
-      const profile = sessionStorage.getItem("sadaivProfile");
+  useEffect(() => {
+    let isMounted = true;
 
-      if (profile) {
-        const user = JSON.parse(profile);
+    const fetchUserProfile = async () => {
+      const token = sessionStorage.getItem("accessToken");
 
-        if (typeof user.name === "string" && user.name.trim()) {
-          return user.name;
+      if (!token) {
+        navigate("/login", { replace: true });
+        return;
+      }
+
+      try {
+        const response = await fetch(
+          "https://localhost:7123/api/auth/userprofile",
+          {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response.status === 401 || response.status === 403) {
+          sessionStorage.removeItem("accessToken");
+          sessionStorage.removeItem("sadaivProfile");
+
+          navigate("/login", { replace: true });
+          return;
+        }
+
+        if (!response.ok) {
+          throw new Error(
+            `Profile request failed with status ${response.status}`
+          );
+        }
+
+        const data: ProfileResponse = await response.json();
+
+        if (!data.success || !data.user) {
+          throw new Error(data.message || "User profile was not returned.");
+        }
+
+        const name = data.user.fullName ?? data.user.FullName;
+
+        if (typeof name !== "string" || !name.trim()) {
+          throw new Error("User name is missing from the profile response.");
+        }
+
+        if (isMounted) {
+          setUserName(name.trim());
+        }
+      } catch (error) {
+        console.error("Unable to fetch authenticated profile:", error);
+      } finally {
+        if (isMounted) {
+          setProfileLoading(false);
         }
       }
-    } catch (error) {
-      console.error("Unable to read saved profile:", error);
-    }
+    };
 
-    return "Rahul Patil";
-  });
+    fetchUserProfile();
 
+    return () => {
+      isMounted = false;
+    };
+  }, [navigate]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -45,11 +111,8 @@ export default function HomeScreen() {
 
   return (
     <main className={styles.container}>
-
       <section className={styles.topSectionWrapper}>
-
         <div className={styles.headerBackground}>
-
           <img
             src="/images/bg-main.jpg"
             alt="SADAIV Finance"
@@ -61,7 +124,6 @@ export default function HomeScreen() {
           />
 
           <div className={styles.headerOverlay} />
-
           <div className={styles.headerSpace} />
 
           <div className={styles.greetingSection}>
@@ -70,18 +132,19 @@ export default function HomeScreen() {
             </p>
 
             <h1 className={styles.userName}>
-              {userName}
+              {profileLoading
+                ? "Loading..."
+                : userName || "Welcome"}
             </h1>
           </div>
-
         </div>
 
-
         <div className={styles.searchContainer}>
-
           <span className={styles.searchIcon}>
-            <FontAwesomeIcon icon={faMagnifyingGlass} style={{ fontSize: '20px' }} />
-
+            <FontAwesomeIcon
+              icon={faMagnifyingGlass}
+              style={{ fontSize: "20px" }}
+            />
           </span>
 
           <input
@@ -90,38 +153,32 @@ export default function HomeScreen() {
             className={styles.searchInput}
           />
 
-          <button className={styles.scanIcon}>
+          <button
+            type="button"
+            className={styles.scanIcon}
+            aria-label="Scan QR code"
+          >
             <IoScan size={25} />
           </button>
-
         </div>
-
       </section>
 
       <section className={styles.sectionHeader}>
-
         <div>
-          <h2 className={styles.sectionTitle}>
-            Your Accounts
-          </h2>
-
+          <h2 className={styles.sectionTitle}>Your Accounts</h2>
           <p className={styles.sectionSubtitle}>
             Manage your linked bank accounts
           </p>
         </div>
 
-        <button className={styles.viewAll}>
+        <button type="button" className={styles.viewAll}>
           View all &gt;
         </button>
-
       </section>
 
       <div className={styles.accountsAndScan}>
-
         <div className={styles.accountsScroll}>
-
           <div className={styles.accountCard}>
-
             <img
               src="/images/card3.png"
               alt=""
@@ -129,61 +186,44 @@ export default function HomeScreen() {
             />
 
             <div className={styles.cardContent}>
-
               <div className={styles.accountHeader}>
-
                 <div className={styles.bankIdentity}>
-
                   <div className={styles.bankLogo}>
                     <img
                       src="/images/hdfc.png"
                       alt="HDFC Bank"
                       width={45}
-                      height={45} />
-
+                      height={45}
+                    />
                   </div>
 
                   <div className={styles.bankInfo}>
-
-                    <p className={styles.bankName}>
-                      HDFC Bank
-                    </p>
-
+                    <p className={styles.bankName}>HDFC Bank</p>
                     <p className={styles.accountNumber}>
                       Savings •••• 1234
                     </p>
-
                   </div>
-
                 </div>
 
-                <button className={styles.cardMenu}>
+                <button
+                  type="button"
+                  className={styles.cardMenu}
+                  aria-label="HDFC account options"
+                >
                   •••
                 </button>
-
               </div>
 
-
               <div className={styles.balanceSection}>
-
                 <p className={styles.balanceLabel}>
                   Available Balance
                 </p>
-
-                <p className={styles.balance}>
-                  ₹2,24,560.50
-                </p>
-
+                <p className={styles.balance}>₹2,24,560.50</p>
               </div>
 
-
               <div className={styles.cardFooter}>
-
                 <div>
-                  <p className={styles.footerLabel}>
-                    Account Type
-                  </p>
-
+                  <p className={styles.footerLabel}>Account Type</p>
                   <p className={styles.footerValue}>
                     Primary Account
                   </p>
@@ -191,20 +231,13 @@ export default function HomeScreen() {
 
                 <div className={styles.activeBadge}>
                   <span className={styles.activeDot} />
-
-                  <span className={styles.activeText}>
-                    Active
-                  </span>
+                  <span className={styles.activeText}>Active</span>
                 </div>
-
               </div>
-
             </div>
-
           </div>
 
           <div className={styles.accountCard}>
-
             <img
               src="/images/card3.png"
               alt=""
@@ -212,11 +245,8 @@ export default function HomeScreen() {
             />
 
             <div className={styles.cardContent}>
-
               <div className={styles.accountHeader}>
-
                 <div className={styles.bankIdentity}>
-
                   <div className={styles.bankLogo}>
                     <img
                       src="/images/sboi.png"
@@ -227,46 +257,34 @@ export default function HomeScreen() {
                   </div>
 
                   <div className={styles.bankInfo}>
-
                     <p className={styles.bankName}>
                       State Bank of India
                     </p>
-
                     <p className={styles.accountNumber}>
                       Savings •••• 5678
                     </p>
-
                   </div>
-
                 </div>
 
-                <button className={styles.cardMenu}>
+                <button
+                  type="button"
+                  className={styles.cardMenu}
+                  aria-label="SBI account options"
+                >
                   •••
                 </button>
-
               </div>
 
-
               <div className={styles.balanceSection}>
-
                 <p className={styles.balanceLabel}>
                   Available Balance
                 </p>
-
-                <p className={styles.balance}>
-                  ₹56,780.20
-                </p>
-
+                <p className={styles.balance}>₹56,780.20</p>
               </div>
 
-
               <div className={styles.cardFooter}>
-
                 <div>
-                  <p className={styles.footerLabel}>
-                    Account Type
-                  </p>
-
+                  <p className={styles.footerLabel}>Account Type</p>
                   <p className={styles.footerValue}>
                     Savings Account
                   </p>
@@ -274,65 +292,41 @@ export default function HomeScreen() {
 
                 <div className={styles.activeBadge}>
                   <span className={styles.activeDot} />
-
-                  <span className={styles.activeText}>
-                    Active
-                  </span>
+                  <span className={styles.activeText}>Active</span>
                 </div>
-
               </div>
-
             </div>
-
           </div>
-
         </div>
 
-        <button className={styles.scanPay}>
-
+        <button type="button" className={styles.scanPay}>
           <div className={styles.qrContainer}>
             <IoQrCodeOutline size={30} />
           </div>
 
           <div className={styles.scanContent}>
-
-            <p className={styles.scanTitle}>
-              Scan & Pay
-            </p>
-
+            <p className={styles.scanTitle}>Scan &amp; Pay</p>
             <p className={styles.scanSubtitle}>
               Scan any QR code and make instant payments
             </p>
-
           </div>
 
           <div className={styles.arrowButton}>
             <IoArrowForwardOutline size={20} />
           </div>
-
         </button>
-
       </div>
 
       <section className={styles.sectionHeader}>
-
         <div>
-
-          <h2 className={styles.sectionTitle}>
-            Quick Actions
-          </h2>
-
+          <h2 className={styles.sectionTitle}>Quick Actions</h2>
           <p className={styles.sectionSubtitle}>
-            Payments & everyday services
+            Payments &amp; everyday services
           </p>
-
         </div>
-
       </section>
 
-
       <div className={styles.quickActions}>
-
         <QuickAction
           icon={<IoWalletOutline size={25} />}
           text="Send Money"
@@ -382,27 +376,18 @@ export default function HomeScreen() {
           href="/Fasttag"
           plain
         />
-
       </div>
 
       <section className={styles.sectionHeader}>
-
         <div>
-
-          <h2 className={styles.sectionTitle}>
-            Explore More
-          </h2>
-
+          <h2 className={styles.sectionTitle}>Explore More</h2>
           <p className={styles.sectionSubtitle}>
             More ways to manage your money
           </p>
-
         </div>
-
       </section>
 
       <div className={styles.services}>
-
         <Service
           image="/images/ingots.png"
           text="Digital Gold"
@@ -426,66 +411,122 @@ export default function HomeScreen() {
           text="Reminders"
           sub="3 Dues"
         />
-
       </div>
 
       <footer className={styles.footer}>
         <div className={styles.footerContainer}>
-
           <div className={styles.footerCol}>
-            <h3 className={styles.footerBrandTitle}>SADAIV Finance</h3>
+            <h3 className={styles.footerBrandTitle}>
+              SADAIV Finance
+            </h3>
+
             <p className={styles.footerText}>
-              Your trusted partner for loans, investments, insurance, and everyday payments.
+              Your trusted partner for loans, investments, insurance,
+              and everyday payments.
             </p>
+
             <div className={styles.socialIcons}>
-              <a href="https://twitter.com" target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faTwitter} /></a>
-              <a href="https://linkedin.com" target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faLinkedinIn} /></a>
-              <a href="https://instagram.com" target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faInstagram} /></a>
-              <a href="https://facebook.com" target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faFacebookF} /></a>
+              <a
+                href="https://twitter.com"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Twitter"
+              >
+                <FontAwesomeIcon icon={faTwitter} />
+              </a>
+
+              <a
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="LinkedIn"
+              >
+                <FontAwesomeIcon icon={faLinkedinIn} />
+              </a>
+
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Instagram"
+              >
+                <FontAwesomeIcon icon={faInstagram} />
+              </a>
+
+              <a
+                href="https://facebook.com"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Facebook"
+              >
+                <FontAwesomeIcon icon={faFacebookF} />
+              </a>
             </div>
           </div>
 
           <div className={styles.footerCol}>
             <h4>Products</h4>
             <ul>
-              <li><Link to="/loan">Digital Gold & Loans</Link></li>
-              <li><Link to="/investment">SIP Investment</Link></li>
-              <li><Link to="/insurance">Insurance</Link></li>
-              <li><Link to="/login">Secure Payments</Link></li>
+              <li>
+                <Link to="/loan">Digital Gold &amp; Loans</Link>
+              </li>
+              <li>
+                <Link to="/investment">SIP Investment</Link>
+              </li>
+              <li>
+                <Link to="/insurance">Insurance</Link>
+              </li>
+              <li>
+                <Link to="/login">Secure Payments</Link>
+              </li>
             </ul>
           </div>
 
           <div className={styles.footerCol}>
             <h4>Support</h4>
             <ul>
-              <li><Link to="/help">Help Center</Link></li>
-              <li><Link to="/contact">Contact Us</Link></li>
-              <li><Link to="/privacy">Privacy Policy</Link></li>
-              <li><Link to="/terms">Terms of Service</Link></li>
+              <li>
+                <Link to="/help">Help Center</Link>
+              </li>
+              <li>
+                <Link to="/contact">Contact Us</Link>
+              </li>
+              <li>
+                <Link to="/privacy">Privacy Policy</Link>
+              </li>
+              <li>
+                <Link to="/terms">Terms of Service</Link>
+              </li>
             </ul>
           </div>
 
           <div className={styles.footerCol}>
             <h4>Regulatory Notice</h4>
             <p className={styles.footerDisclaimer}>
-              Mutual fund investments are subject to market risks. Please read all scheme-related documents carefully before investing. SADAIV Finance acts as a technology platform connecting users with regulated financial partners.
+              Mutual fund investments are subject to market risks.
+              Please read all scheme-related documents carefully
+              before investing. SADAIV Finance acts as a technology
+              platform connecting users with regulated financial
+              partners.
             </p>
           </div>
-
         </div>
 
         <div className={styles.footerBottom}>
           <p>© 2026 SADAIV Finance. All rights reserved.</p>
         </div>
       </footer>
-
-
-      {/* <div className={styles.bottomSpace} /> */}
-
     </main>
   );
 }
 
+interface QuickActionProps {
+  icon?: React.ReactNode;
+  image?: string;
+  text: string;
+  href: string;
+  plain?: boolean;
+}
 
 function QuickAction({
   icon,
@@ -493,25 +534,17 @@ function QuickAction({
   text,
   href,
   plain = false,
-}: {
-  icon?: React.ReactNode;
-  image?: string;
-  text: string;
-  href: string;
-  plain?: boolean;
-}) {
+}: QuickActionProps) {
   return (
     <Link to={href} className={styles.quickAction}>
-
       {image ? (
-
         <div
           className={
             plain
               ? styles.plainImageContainer
               : styles.iconContainer
-          }>
-
+          }
+        >
           <img
             src={image}
             alt={text}
@@ -519,59 +552,43 @@ function QuickAction({
             height={34}
             className={styles.actionImage}
           />
-
         </div>
-
       ) : (
-
         <div className={styles.iconContainer}>
-          <span className={styles.simpleIcon}>
-            {icon}
-          </span>
+          <span className={styles.simpleIcon}>{icon}</span>
         </div>
-
       )}
 
-      <span className={styles.quickActionText}>
-        {text}
-      </span>
-
+      <span className={styles.quickActionText}>{text}</span>
     </Link>
   );
 }
 
-
-function Service({
-  image,
-  text,
-  sub,
-}: {
+interface ServiceProps {
   image: string;
   text: string;
   sub: string;
-}) {
+}
+
+function Service({ image, text, sub }: ServiceProps) {
   return (
-    <a href="#" className={styles.service}>
-
+    <a
+      href="#"
+      className={styles.service}
+      onClick={(event) => event.preventDefault()}
+    >
       <div className={styles.serviceIconContainer}>
-
         <img
           src={image}
           alt={text}
           width={28}
           height={28}
-          className={styles.serviceIcon} />
-
+          className={styles.serviceIcon}
+        />
       </div>
 
-      <span className={styles.serviceText}>
-        {text}
-      </span>
-
-      <span className={styles.serviceSub}>
-        {sub}
-      </span>
-
+      <span className={styles.serviceText}>{text}</span>
+      <span className={styles.serviceSub}>{sub}</span>
     </a>
   );
 }

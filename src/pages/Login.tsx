@@ -10,9 +10,7 @@ import styles from "./Login.module.css";
 interface LoginResponse {
   success: boolean;
   message: string;
-  userid?: number;
-  fullName?: string;
-  email?: string;
+  token?: string;
 }
 
 export default function Login() {
@@ -47,46 +45,28 @@ export default function Login() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Accept: "application/json",
           },
           body: JSON.stringify({
             mobileNumber: mobile,
-            password: password,
+            password,
           }),
         }
       );
 
       const data: LoginResponse = await response.json();
 
-      if (!response.ok || !data.success) {
-        setError(
-          data.message || "Invalid mobile number or password."
-        );
+      if (!response.ok || !data.success || !data.token) {
+        setError(data.message || "Invalid mobile number or password.");
         return;
       }
 
-      sessionStorage.setItem(
-        "sadaivProfile",
-        JSON.stringify({
-          userId: data.userid,
-          name: data.fullName,
-          email: data.email
-        })
-      );
+      sessionStorage.setItem("accessToken", data.token);
 
-      navigate("/dashboard");
-
-      navigate("/dashboard", {
-        state: {
-          userId: data.userid,
-          fullname: data.fullName,
-        },
-      });
+      navigate("/dashboard", { replace: true });
     } catch (err) {
       console.error("Login API error:", err);
-
-      setError(
-        "Unable to connect to the server. Please try again."
-      );
+      setError("Unable to connect to the server. Please try again.");
     } finally {
       setLoading(false);
     }

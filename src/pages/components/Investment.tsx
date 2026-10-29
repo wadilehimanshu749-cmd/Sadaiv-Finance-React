@@ -1,5 +1,21 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { ArrowLeft, ArrowRight, LayoutGrid, ShieldCheck, Heart, Car, Plane, CheckCircle2,AlertCircle, FileText, Search, RefreshCw, BadgeCheck, ExternalLink, LoaderCircle,} from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  LayoutGrid,
+  ShieldCheck,
+  Heart,
+  Car,
+  Plane,
+  CheckCircle2,
+  AlertCircle,
+  FileText,
+  Search,
+  RefreshCw,
+  BadgeCheck,
+  ExternalLink,
+  LoaderCircle,
+} from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import styles from "./Investment.module.css";
 
@@ -9,9 +25,12 @@ type SortKey = "relevance" | "premium-asc" | "cover-desc";
 type JsonObject = Record<string, unknown>;
 
 interface PolicyFact {
+  key?: string;
+  section?: string;
+  display?: string;
+  lablel?: string;
   label: string;
   value: string;
-  quote?: string;
   clause?: string;
   page?: string;
   status?: string;
@@ -48,6 +67,7 @@ interface PlanDetails {
 }
 
 interface FactSpec {
+  key?: string;
   label: string;
   keywords: string[];
   exclude?: string[];
@@ -55,9 +75,9 @@ interface FactSpec {
 }
 
 interface ShownFact {
+  section?: string;
   label: string;
   value: string;
-  quote?: string;
   clause?: string;
   page?: string;
 }
@@ -92,6 +112,7 @@ const LOGOS: Record<string, string> = {
   "care-health": "care-health.png",
   "hdfc-life": "hdfc-ergo.png",
 };
+
 const BLANK_LOGO = "/assets/insurer/blank.png";
 const logoFor = (slug?: string): string =>
   slug && LOGOS[slug] ? `/assets/insurer/${LOGOS[slug]}` : BLANK_LOGO;
@@ -103,6 +124,7 @@ const compactAmount = (n: number): string => {
   if (n >= 1e5) return `₹${+(n / 1e5).toFixed(2)} L`;
   return formatAmount(n);
 };
+
 const isNum = (v: unknown): v is number => typeof v === "number" && Number.isFinite(v);
 const isObject = (v: unknown): v is JsonObject =>
   typeof v === "object" && v !== null && !Array.isArray(v);
@@ -174,10 +196,12 @@ function mapProduct(value: unknown, category: CategoryKey, index: number): Plan 
   if (!productName && !uin) return null;
 
   const insurerObject = isObject(insurerValue) ? insurerValue : undefined;
-  const insurerName = stringValue(insurerValue) ??
+  const insurerName =
+    stringValue(insurerValue) ??
     (insurerObject ? stringValue(firstValue(insurerObject, ["name", "insurer_name", "title"])) : undefined) ??
     "Insurer not specified";
-  const insurerSlug = stringValue(firstValue(value, ["insurerSlug", "insurer_slug"])) ??
+  const insurerSlug =
+    stringValue(firstValue(value, ["insurerSlug", "insurer_slug"])) ??
     (insurerObject ? stringValue(firstValue(insurerObject, ["slug", "insurer_slug"])) : undefined);
 
   const premiumObject = firstValue(value, ["premiumRange", "premium_range", "premium"]);
@@ -204,9 +228,10 @@ function mapProduct(value: unknown, category: CategoryKey, index: number): Plan 
     insurerSlug,
     category: mappedCategory,
     subCategory: stringValue(firstValue(value, ["subCategory", "sub_category", "line", "type", "product_type"])),
-    premiumRange: premiumMin !== undefined || premiumMax !== undefined
-      ? { illustrativeMin: premiumMin, illustrativeMax: premiumMax }
-      : undefined,
+    premiumRange:
+      premiumMin !== undefined || premiumMax !== undefined
+        ? { illustrativeMin: premiumMin, illustrativeMax: premiumMax }
+        : undefined,
     sumInsured: coverMin !== undefined || coverMax !== undefined ? { min: coverMin, max: coverMax } : undefined,
     eligibility: minAge !== undefined || maxAge !== undefined ? { minAge, maxAge } : undefined,
     specialFeatures: normaliseFeatures(firstValue(value, ["specialFeatures", "special_features", "features", "benefits", "highlights"])),
@@ -254,16 +279,34 @@ function isStated(fact: PolicyFact): boolean {
   return status !== "not-stated" && status !== "not stated";
 }
 
-const LABEL_KEYS = ["field", "name", "label", "question", "key", "topic", "title"];
+const LABEL_KEYS = ["lablel", "label", "field", "name", "question", "topic", "title", "key"];
 const STATUS_KEYS = ["status", "check_status", "verification_status"];
-const VALUE_KEYS = ["value", "answer", "result", "summary", "finding", "description", "details", "detail", "explanation", "plain_english"];
+const VALUE_KEYS = ["display", "value", "answer", "result", "summary", "finding", "description", "details", "detail", "explanation", "plain_english"];
 const QUOTE_KEYS = ["quote", "source_quote", "verbatim", "verbatim_quote", "excerpt", "text", "evidence"];
 const CLAUSE_KEYS = ["clause", "clause_title", "section", "clause_id"];
 const PAGE_KEYS = ["page", "page_number", "pages"];
 const META_KEYS = new Set([
-  ...LABEL_KEYS, ...STATUS_KEYS, ...CLAUSE_KEYS, ...PAGE_KEYS,
-  "id", "uin", "url", "slug", "type", "category", "law", "document", "document_id", "source",
-  "confidence", "created_at", "updated_at",
+  ...LABEL_KEYS,
+  ...STATUS_KEYS,
+  ...CLAUSE_KEYS,
+  ...PAGE_KEYS,
+  "section",
+  "display",
+  "lablel",
+  "key",
+  "id",
+  "uin",
+  "url",
+  "slug",
+  "type",
+  "category",
+  "law",
+  "document",
+  "document_id",
+  "source",
+  "confidence",
+  "created_at",
+  "updated_at",
 ]);
 const STATUS_ONLY = /^(cross[\s-]?checked|verified|confirmed|extracted|stated|checked|reviewed|pending|ok)$/i;
 
@@ -276,7 +319,7 @@ function richText(value: unknown): string | undefined {
     const parts = Object.entries(value)
       .map(([k, v]) => {
         const t = richText(v);
-        return t ? `${k.replace(/[_-]/g, " ")}: ${t}` : "";
+        return t ? `${k.replace(/[-_]/g, " ")}: ${t}` : "";
       })
       .filter(Boolean);
     return parts.length ? parts.join("; ") : undefined;
@@ -295,8 +338,8 @@ function collectFacts(value: unknown): PolicyFact[] {
           ? child
           : isObject(child)
             ? Object.entries(child).map(([factKey, factValue]) =>
-              isObject(factValue) ? { field: factKey, ...factValue } : { field: factKey, value: factValue }
-            )
+                isObject(factValue) ? { field: factKey, ...factValue } : { field: factKey, value: factValue }
+              )
             : [];
         for (const entry of entries) {
           if (!isObject(entry)) continue;
@@ -307,9 +350,11 @@ function collectFacts(value: unknown): PolicyFact[] {
           let valueText: string | undefined;
           for (const k of VALUE_KEYS) {
             const t = richText(entry[k]);
-            if (t && !STATUS_ONLY.test(t.trim())) { valueText = t; break; }
+            if (t && !STATUS_ONLY.test(t.trim())) {
+              valueText = t;
+              break;
+            }
           }
-          let quote = QUOTE_KEYS.map((k) => richText(entry[k])).find((t): t is string => !!t);
 
           if (!valueText) {
             valueText = Object.entries(entry)
@@ -318,16 +363,18 @@ function collectFacts(value: unknown): PolicyFact[] {
               .filter((t): t is string => !!t && !STATUS_ONLY.test(t.trim()))
               .sort((a, b) => b.length - a.length)[0];
           }
-          if (!valueText && quote) { valueText = quote; quote = undefined; }
 
           const text = valueText ?? richText(entry.value) ?? displayStatus(status) ?? "Not stated in policy documents";
           const signature = `${label.toLowerCase()}|${text.toLowerCase()}`;
           if (seen.has(signature)) continue;
           seen.add(signature);
           found.push({
-            label,
-            value: text,
-            quote,
+            key: stringValue(entry.key),
+            section: stringValue(entry.section),
+            display: stringValue(entry.display),
+            lablel: stringValue(entry.lablel),
+            label: stringValue(firstValue(entry, ["lablel", "label", "field", "name", "question", "topic", "title"])) ?? label,
+            value: stringValue(entry.display) ?? text,
             clause: richText(firstValue(entry, CLAUSE_KEYS)),
             page: richText(firstValue(entry, PAGE_KEYS)),
             status,
@@ -344,11 +391,12 @@ function collectFacts(value: unknown): PolicyFact[] {
 const FACT_SPECS: Record<CategoryKey, { card: FactSpec[]; detail: FactSpec[] }> = {
   health: {
     card: [
-      { label: "Sum insured", keywords: ["sum insured", "cover amount", "coverage amount", "coverage limit"], base: "cover" },
-      { label: "Entry age", keywords: ["entry age", "age at entry", "eligibility", "minimum age", "maximum age"], base: "age" },
-      { label: "Initial waiting", keywords: ["initial waiting", "waiting period"], exclude: ["pre-existing", "specific", "named"] },
-      { label: "Room rent", keywords: ["room rent", "room category", "room type"] },
-      { label: "Co-payment", keywords: ["co-pay", "copay", "co pay", "co-payment"] },
+      { key: "premium_modes", label: "Premium payment modes", keywords: ["premium mode", "premium payment mode"] },
+      { key: "eligibility_entry_age", label: "Entry age", keywords: ["entry age", "age at entry", "eligibility"], base: "age" },
+      { key: "grace_period", label: "Grace period", keywords: ["grace period", "grace"] },
+      { key: "lifelong_renewal", label: "Lifelong renewal", keywords: ["lifelong renewal", "life-long renewal", "renewal for life"] },
+      { key: "sum_insured_options", label: "Sum insured options", keywords: ["sum insured options", "sum insured", "cover amount", "coverage amount"], base: "cover" },
+      { key: "illness_list", label: "Illness list", keywords: ["illness list", "list of illnesses", "covered illnesses"] },
     ],
     detail: [
       { label: "Pre-hospitalisation", keywords: ["pre-hospital", "pre hospital"] },
@@ -366,17 +414,20 @@ const FACT_SPECS: Record<CategoryKey, { card: FactSpec[]; detail: FactSpec[] }> 
   },
   "term-life": {
     card: [
-      { label: "Sum assured", keywords: ["sum assured", "life cover", "death benefit", "cover amount"], base: "cover" },
-      { label: "Policy term", keywords: ["policy term", "policy period", "coverage period"] },
-      { label: "Entry age", keywords: ["entry age", "age at entry", "eligibility", "minimum age", "maximum age"], base: "age" },
-      { label: "Premium pay term", keywords: ["premium payment term", "payment term", "premium paying"] },
-      { label: "Payout option", keywords: ["payout", "death benefit option", "benefit payment"] },
+      { key: "policy_term", label: "Policy term", keywords: ["policy term", "policy period", "coverage period"] },
+      { key: "sum_assured", label: "Sum assured", keywords: ["sum assured", "life cover", "cover amount"], base: "cover" },
+      { key: "death_benefit", label: "Death benefit", keywords: ["death benefit", "payout option"] },
+      { key: "premium_paying_term", label: "Premium paying term", keywords: ["premium paying term", "premium payment term", "payment term"] },
+      { key: "revival", label: "Policy revival", keywords: ["revival", "revive policy"] },
+      { key: "policy_loan", label: "Policy loan", keywords: ["policy loan", "loan facility"] },
+      { key: "grace_period", label: "Grace period", keywords: ["grace period", "grace"] },
+      { key: "eligibility_entry_age", label: "Entry age", keywords: ["entry age", "age at entry", "eligibility"], base: "age" },
+      { key: "premium_modes", label: "Premium payment modes", keywords: ["premium mode", "premium payment mode"] },
     ],
     detail: [
       { label: "Maturity benefit", keywords: ["maturity benefit", "survival benefit"] },
       { label: "Suicide clause", keywords: ["suicide"] },
       { label: "Riders", keywords: ["rider", "accidental death", "critical illness"] },
-      { label: "Grace period", keywords: ["grace"] },
       { label: "Free-look period", keywords: ["free look", "free-look"] },
       { label: "Surrender / paid-up", keywords: ["surrender", "paid-up", "paid up"] },
       { label: "Waiting period", keywords: ["waiting period"] },
@@ -385,34 +436,35 @@ const FACT_SPECS: Record<CategoryKey, { card: FactSpec[]; detail: FactSpec[] }> 
   },
   motor: {
     card: [
-      { label: "Coverage type", keywords: ["own damage", "third party", "comprehensive", "coverage type"] },
-      { label: "Policy term", keywords: ["policy term", "policy period", "period of insurance"] },
-      { label: "Deductible / excess", keywords: ["deductible", "excess"] },
-      { label: "No-claim bonus", keywords: ["no claim bonus", "ncb", "claim bonus"] },
-      { label: "Add-on covers", keywords: ["add-on", "add on", "zero depreciation"] },
+      { key: "pa_owner_driver", label: "Owner-driver personal accident", keywords: ["owner driver", "owner-driver", "personal accident"] },
+      { key: "cover_types", label: "Cover types", keywords: ["cover types", "own damage", "third party", "comprehensive", "coverage type"] },
+      { key: "perils", label: "Covered perils", keywords: ["perils", "covered risks", "risks covered"] },
+      { key: "policy_term", label: "Policy term", keywords: ["policy term", "policy period", "period of insurance"] },
     ],
     detail: [
       { label: "Vehicle eligibility", keywords: ["vehicle type", "vehicle eligibility", "eligible vehicle"] },
       { label: "Insured value (IDV)", keywords: ["idv", "insured declared"] },
       { label: "Roadside assistance", keywords: ["roadside"] },
-      { label: "Personal accident", keywords: ["personal accident"] },
+      { label: "Deductible / excess", keywords: ["deductible", "excess"] },
+      { label: "No-claim bonus", keywords: ["no claim bonus", "ncb", "claim bonus"] },
+      { label: "Add-on covers", keywords: ["add-on", "add on", "zero depreciation"] },
       { label: "Claim conditions", keywords: ["claim", "conditions"] },
       { label: "Key exclusions", keywords: ["exclusion"] },
     ],
   },
   travel: {
     card: [
-      { label: "Medical cover", keywords: ["medical expenses", "emergency medical", "medical cover"] },
-      { label: "Trip duration", keywords: ["trip duration", "travel duration", "maximum trip", "days per trip"] },
-      { label: "Traveller age", keywords: ["entry age", "traveller age", "eligibility", "age limit"], base: "age" },
-      { label: "Trip cancellation", keywords: ["trip cancellation", "cancellation"] },
-      { label: "Baggage", keywords: ["baggage", "checked-in baggage", "lost luggage"] },
+      { key: "eligibility_entry_age", label: "Entry age", keywords: ["entry age", "traveller age", "eligibility", "age limit"], base: "age" },
+      { key: "max_trip_days", label: "Maximum trip duration", keywords: ["maximum trip", "trip duration", "travel duration", "days per trip"] },
+      { key: "passport_loss", label: "Passport loss", keywords: ["passport"] },
+      { key: "trip_cancellation", label: "Trip cancellation", keywords: ["trip cancellation", "cancellation"] },
+      { key: "medical_cover", label: "Medical cover", keywords: ["medical expenses", "emergency medical", "medical cover"] },
     ],
     detail: [
       { label: "Destination", keywords: ["destination", "geographical scope", "region", "territory"] },
       { label: "Emergency assistance", keywords: ["emergency assistance", "repatriation", "evacuation"] },
       { label: "Trip delay", keywords: ["delay"] },
-      { label: "Passport loss", keywords: ["passport"] },
+      { label: "Baggage", keywords: ["baggage", "checked-in baggage", "lost luggage"] },
       { label: "Deductible", keywords: ["deductible", "excess"] },
       { label: "Pre-existing conditions", keywords: ["pre-existing"] },
       { label: "Key exclusions", keywords: ["exclusion"] },
@@ -437,6 +489,8 @@ function matchFact(facts: PolicyFact[], spec: FactSpec, used: Set<number>): numb
   return facts.findIndex((fact, i) => {
     if (used.has(i) || !isStated(fact)) return false;
     const label = fact.label.toLowerCase();
+    if (spec.key && fact.key?.toLowerCase() === spec.key.toLowerCase()) return true;
+    if (spec.key && fact.key) return false;
     if (spec.exclude?.some((word) => label.includes(word))) return false;
     return spec.keywords.some((keyword) => label.includes(keyword));
   });
@@ -459,9 +513,9 @@ function resolveFacts(
       used.add(index);
       const fact = facts[index];
       shown.push({
+        section: fact.section,
         label: fact.label,
         value: shortValue(fact.value, valueMax),
-        quote: fact.quote,
         clause: fact.clause,
         page: fact.page,
       });
@@ -621,28 +675,31 @@ export default function Investment() {
 
   const allFailed = !loading && plans.length === 0 && failed.length > 0;
 
-  const toggleDetails = useCallback(async (plan: Plan) => {
-    const key = plan.id;
-    if (expanded[key]) {
-      setExpanded((current) => ({ ...current, [key]: false }));
-      return;
-    }
-    setExpanded((current) => ({ ...current, [key]: true }));
-    if (details[key] || detailsLoading[key]) return;
-    setDetailsLoading((current) => ({ ...current, [key]: true }));
-    setDetailsError((current) => ({ ...current, [key]: "" }));
-    try {
-      const result = await fetchProductDetails(plan);
-      setDetails((current) => ({ ...current, [key]: result }));
-    } catch (error) {
-      setDetailsError((current) => ({
-        ...current,
-        [key]: error instanceof Error ? error.message : "Could not load policy details.",
-      }));
-    } finally {
-      setDetailsLoading((current) => ({ ...current, [key]: false }));
-    }
-  }, [details, detailsLoading, expanded]);
+  const toggleDetails = useCallback(
+    async (plan: Plan) => {
+      const key = plan.id;
+      if (expanded[key]) {
+        setExpanded((current) => ({ ...current, [key]: false }));
+        return;
+      }
+      setExpanded((current) => ({ ...current, [key]: true }));
+      if (details[key] || detailsLoading[key]) return;
+      setDetailsLoading((current) => ({ ...current, [key]: true }));
+      setDetailsError((current) => ({ ...current, [key]: "" }));
+      try {
+        const result = await fetchProductDetails(plan);
+        setDetails((current) => ({ ...current, [key]: result }));
+      } catch (error) {
+        setDetailsError((current) => ({
+          ...current,
+          [key]: error instanceof Error ? error.message : "Could not load policy details.",
+        }));
+      } finally {
+        setDetailsLoading((current) => ({ ...current, [key]: false }));
+      }
+    },
+    [details, detailsLoading, expanded]
+  );
 
   return (
     <div className={styles.root}>
@@ -675,8 +732,8 @@ export default function Investment() {
               role="tab"
               aria-selected={category === key}
               className={`${styles.tab} ${category === key ? styles.active : ""}`}
-              onClick={() => setCategory(key)}>
-
+              onClick={() => setCategory(key)}
+            >
               <Icon size={16} />
               {label}
               {!loading && <span className={styles.tabCount}>{counts[key] ?? 0}</span>}
@@ -693,7 +750,12 @@ export default function Investment() {
               onChange={(e) => setQuery(e.target.value)}
             />
           </label>
-          <select className={styles.select} value={sort} onChange={(e) => setSort(e.target.value as SortKey)} aria-label="Sort plans">
+          <select
+            className={styles.select}
+            value={sort}
+            onChange={(e) => setSort(e.target.value as SortKey)}
+            aria-label="Sort plans"
+          >
             <option value="relevance">Sort: Relevance</option>
             <option value="premium-asc">Premium: low to high</option>
             <option value="cover-desc">Highest cover</option>
@@ -732,17 +794,18 @@ export default function Investment() {
             </div>
           )}
 
-          {!loading && filtered.slice(0, visible).map((plan) => (
-            <PlanCard
-              key={plan.id}
-              plan={plan}
-              open={!!expanded[plan.id]}
-              details={details[plan.id]}
-              detailsLoading={!!detailsLoading[plan.id]}
-              detailsError={detailsError[plan.id]}
-              onToggle={() => void toggleDetails(plan)}
-            />
-          ))}
+          {!loading &&
+            filtered.slice(0, visible).map((plan) => (
+              <PlanCard
+                key={plan.id}
+                plan={plan}
+                open={!!expanded[plan.id]}
+                details={details[plan.id]}
+                detailsLoading={!!detailsLoading[plan.id]}
+                detailsError={detailsError[plan.id]}
+                onToggle={() => void toggleDetails(plan)}
+              />
+            ))}
 
           {!loading && filtered.length > visible && (
             <button className={styles.more} onClick={() => setVisible((v) => v + PAGE_SIZE)}>
@@ -755,12 +818,18 @@ export default function Investment() {
           <div className={styles.panel}>
             <BadgeCheck size={22} />
             <h3>Compare before you buy</h3>
-            <p>Premiums are shown only when supplied by the source. Actual premiums may vary by age, city and cover. Confirm exact terms with the insurer.</p>
+            <p>
+              Premiums are shown only when supplied by the source. Actual premiums may vary by age, city and cover.
+              Confirm exact terms with the insurer.
+            </p>
           </div>
           <div className={styles.panel}>
             <ShieldCheck size={22} />
             <h3>Source-backed policy details</h3>
-            <p>Detailed policy facts may include limits, waiting periods, co-payments and exclusions with references to source clauses and pages.</p>
+            <p>
+              Detailed policy facts may include limits, waiting periods, co-payments and exclusions with references to
+              source clauses and pages.
+            </p>
           </div>
         </aside>
       </div>
@@ -784,29 +853,34 @@ function PlanCard({ plan, open, details, detailsLoading, detailsError, onToggle 
   const features = plan.specialFeatures ?? [];
   const shownFeatures = open ? features : features.slice(0, 3);
 
-  let keyFacts: ShownFact[] = [];
+  const apiFacts = dedupeFacts([...(details?.facts ?? []), ...(plan.policyFacts ?? [])]);
+  const specs = FACT_SPECS[plan.category];
+  const used = new Set<number>();
+  const premiumText = formatRange(plan.premiumRange?.illustrativeMin, plan.premiumRange?.illustrativeMax, formatAmount);
+  const key = resolveFacts(plan, apiFacts, specs.card, used, Infinity, specs.card.length);
+  const keyFacts: ShownFact[] = premiumText
+    ? [{ label: "Premium (illustrative)", value: premiumText }, ...key.shown]
+    : key.shown;
   let detailFacts: ShownFact[] = [];
   let notStated: string[] = [];
-  if (open) {
-    const apiFacts = dedupeFacts([...(details?.facts ?? []), ...(plan.policyFacts ?? [])]);
-    const specs = FACT_SPECS[plan.category];
-    const used = new Set<number>();
-    const premiumText = formatRange(plan.premiumRange?.illustrativeMin, plan.premiumRange?.illustrativeMax, formatAmount);
-    const key = resolveFacts(plan, apiFacts, specs.card, used, Infinity, 5);
-    keyFacts = premiumText ? [{ label: "Premium (illustrative)", value: premiumText }, ...key.shown] : key.shown;
 
-    if (details) {
-      const more = resolveFacts(plan, apiFacts, specs.detail, used, Infinity, 8);
-      detailFacts = more.shown;
-      if (detailFacts.length < 5) {
-        apiFacts.forEach((fact, i) => {
-          if (used.has(i) || !isStated(fact) || detailFacts.length >= 6) return;
-          used.add(i);
-          detailFacts.push({ label: fact.label, value: fact.value, quote: fact.quote, clause: fact.clause, page: fact.page });
+  if (open && details) {
+    const more = resolveFacts(plan, apiFacts, specs.detail, used, Infinity, 8);
+    detailFacts = more.shown;
+    if (detailFacts.length < 5) {
+      apiFacts.forEach((fact, i) => {
+        if (used.has(i) || !isStated(fact) || detailFacts.length >= 6) return;
+        used.add(i);
+        detailFacts.push({
+          section: fact.section,
+          label: fact.label,
+          value: fact.value,
+          clause: fact.clause,
+          page: fact.page,
         });
-      }
-      notStated = [...key.missing, ...more.missing].slice(0, 5);
+      });
     }
+    notStated = [...key.missing, ...more.missing].slice(0, 5);
   }
 
   return (
@@ -831,7 +905,10 @@ function PlanCard({ plan, open, details, detailsLoading, detailsError, onToggle 
       </div>
 
       <dl className={styles.stats}>
-        <div><dt>Plan type</dt><dd>{planType}</dd></div>
+        <div>
+          <dt>Plan type</dt>
+          <dd>{planType}</dd>
+        </div>
         <div>
           <dt>Policy status</dt>
           <dd className={isActive ? styles.statusActive : undefined}>
@@ -839,7 +916,10 @@ function PlanCard({ plan, open, details, detailsLoading, detailsError, onToggle 
             {statusLabel}
           </dd>
         </div>
-        <div><dt>Policy ID (UIN)</dt><dd>{plan.id.startsWith("policy-") ? "Not provided" : plan.id}</dd></div>
+        <div>
+          <dt>Policy ID (UIN)</dt>
+          <dd>{plan.id.startsWith("policy-") ? "Not provided" : plan.id}</dd>
+        </div>
       </dl>
 
       {features.length > 0 && (
@@ -860,33 +940,41 @@ function PlanCard({ plan, open, details, detailsLoading, detailsError, onToggle 
         </div>
       )}
 
+      {keyFacts.length > 0 && (
+        <div className={styles.policyFacts}>
+          <dl className={styles.factGrid}>
+            {keyFacts.map((fact) => (
+              <div className={styles.fact} key={fact.label}>
+                {fact.section && <span className={styles.factSection}>{fact.section}</span>}
+                <dt className={styles.factLabel}>{fact.label}</dt>
+                <dd className={styles.factValue}>
+                  {fact.value}
+                  {(fact.clause || fact.page) && (
+                    <span className={styles.detailMeta}>
+                      {" "}
+                      ({[fact.clause && `Clause ${fact.clause}`, fact.page && `p. ${fact.page}`].filter(Boolean).join(", ")})
+                    </span>
+                  )}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      )}
+
       {open && (
         <div className={styles.features}>
-          <h4>Key policy facts</h4>
-          {keyFacts.length > 0 ? (
-            <dl className={`${styles.factGrid} ${styles.factGridFull}`}>
-              {keyFacts.map((fact) => (
-                <div className={styles.fact} key={fact.label}>
-                  <dt className={styles.factLabel}>{fact.label}</dt>
-                  <dd className={styles.factValue}>
-                    {fact.value}
-                    {(fact.clause || fact.page) && (
-                      <span className={styles.detailMeta}>
-                        {" "}
-                        ({[fact.clause && `Clause ${fact.clause}`, fact.page && `p. ${fact.page}`].filter(Boolean).join(", ")})
-                      </span>
-                    )}
-                    {fact.quote && fact.quote !== fact.value && <span className={styles.factQuote}>{fact.quote}</span>}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-          ) : (
-            !detailsLoading && <p className={styles.detailsNote}>No key facts were returned for this plan. Check the official policy wording.</p>
-          )}
           {detailFacts.length > 0 && <h4 className={styles.subHead}>More policy details</h4>}
-          {detailsLoading && !details && <p className={styles.detailsNote}><LoaderCircle size={15} /> Loading policy details…</p>}
-          {detailsError && <p role="alert" className={styles.detailsNote}>{detailsError}</p>}
+          {detailsLoading && !details && (
+            <p className={styles.detailsNote}>
+              <LoaderCircle size={15} /> Loading policy details…
+            </p>
+          )}
+          {detailsError && (
+            <p role="alert" className={styles.detailsNote}>
+              {detailsError}
+            </p>
+          )}
           {details && (
             <>
               {detailFacts.length > 0 ? (
@@ -902,7 +990,6 @@ function PlanCard({ plan, open, details, detailsLoading, detailsError, onToggle 
                             ({[fact.clause && `Clause ${fact.clause}`, fact.page && `p. ${fact.page}`].filter(Boolean).join(", ")})
                           </span>
                         )}
-                        {fact.quote && fact.quote !== fact.value && <span className={styles.factQuote}>{fact.quote}</span>}
                       </span>
                     </li>
                   ))}
@@ -918,16 +1005,26 @@ function PlanCard({ plan, open, details, detailsLoading, detailsError, onToggle 
                     {details.documents.slice(0, 3).map((doc, index) => (
                       <li key={`${doc.title}-${index}`}>
                         <FileText size={15} />
-                        {doc.url ? <a href={doc.url} target="_blank" rel="noreferrer">{doc.title} <ExternalLink size={12} /></a> : doc.title}
+                        {doc.url ? (
+                          <a href={doc.url} target="_blank" rel="noopener noreferrer">
+                            {doc.title} <ExternalLink size={12} />
+                          </a>
+                        ) : (
+                          doc.title
+                        )}
                       </li>
                     ))}
                   </ul>
-                  {details.documents.length > 3 && <p className={styles.detailsNote}>Showing 3 documents. See the source for all documents.</p>}
+                  {details.documents.length > 3 && (
+                    <p className={styles.detailsNote}>Showing 3 documents. See the source for all documents.</p>
+                  )}
                 </>
               )}
               {(details.productUrl || plan.productUrl) && (
                 <p className={styles.detailsNote}>
-                  <a href={details.productUrl ?? plan.productUrl} target="_blank" rel="noreferrer">Open IndiaInsurances source <ExternalLink size={12} /></a>
+                  <a href={details.productUrl ?? plan.productUrl} target="_blank" rel="noopener noreferrer">
+                    Open IndiaInsurances source <ExternalLink size={12} />
+                  </a>
                 </p>
               )}
             </>
@@ -936,9 +1033,23 @@ function PlanCard({ plan, open, details, detailsLoading, detailsError, onToggle 
       )}
 
       <footer className={styles.cardFoot}>
-        <small>{plan.lastVerified ? `Source updated ${plan.lastVerified}` : plan.status ? `Status: ${plan.status}` : `UIN: ${plan.id}`}</small>
+        <small>
+          {plan.lastVerified
+            ? `Source updated ${plan.lastVerified}`
+            : plan.status
+              ? `Status: ${plan.status}`
+              : `UIN: ${plan.id}`}
+        </small>
         <button className={styles.btn} onClick={onToggle} aria-expanded={open}>
-          {open && detailsLoading && !details ? <><LoaderCircle size={14} /> Loading</> : open ? "Hide details" : "View details"}
+          {open && detailsLoading && !details ? (
+            <>
+              <LoaderCircle size={14} /> Loading
+            </>
+          ) : open ? (
+            "Hide details"
+          ) : (
+            "View details"
+          )}
         </button>
       </footer>
     </article>

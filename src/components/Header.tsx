@@ -19,15 +19,39 @@ export default function Header({ variant = "public" }: { variant?: "public" | "a
   const location = useLocation();
   const { pathname } = location;
 
-  const [profile] = useState<StoredProfile>(() => {
+  const [profile, setProfile] = useState<StoredProfile>(() => {
     try {
       const savedProfile = sessionStorage.getItem("sadaivProfile");
-
       return savedProfile ? JSON.parse(savedProfile) : {};
     } catch {
       return {};
     }
   });
+
+  
+
+  useEffect(() => {
+    const refreshProfile = () => {
+      try {
+        const savedProfile = sessionStorage.getItem("sadaivProfile");
+
+        setProfile(savedProfile ? JSON.parse(savedProfile) : {});
+      } catch {
+        setProfile({});
+      }
+    };
+
+    window.addEventListener("sadaivProfileUpdated", refreshProfile);
+
+    refreshProfile();
+
+    return () => {
+      window.removeEventListener(
+        "sadaivProfileUpdated",
+        refreshProfile
+      );
+    };
+  }, [pathname]);
 
   const isDashboard = variant === "app";
   const hasDarkHero = pathname === "/" || pathname.startsWith("/dashboard");
@@ -201,7 +225,7 @@ export default function Header({ variant = "public" }: { variant?: "public" | "a
                 customerId: "SDV-204819",
                 kycVerified: true,
                 linkedAccount: { bank: "HDFC Bank", last4: "4821" },
-              }}/>
+              }} />
 
           </div>
 

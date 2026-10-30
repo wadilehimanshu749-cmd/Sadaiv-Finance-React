@@ -1,21 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import {
-  ArrowLeft,
-  ArrowRight,
-  LayoutGrid,
-  ShieldCheck,
-  Heart,
-  Car,
-  Plane,
-  CheckCircle2,
-  AlertCircle,
-  FileText,
-  Search,
-  RefreshCw,
-  BadgeCheck,
-  ExternalLink,
-  LoaderCircle,
-} from "lucide-react";
+import { ArrowLeft, ArrowRight, LayoutGrid, ShieldCheck, Heart, Car, Plane, CheckCircle2, AlertCircle, FileText, Search, RefreshCw, BadgeCheck, ExternalLink, LoaderCircle,} from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import styles from "./Investment.module.css";
 

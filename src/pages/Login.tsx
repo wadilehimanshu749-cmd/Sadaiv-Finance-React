@@ -63,10 +63,73 @@ export default function Login() {
 
       sessionStorage.setItem("accessToken", data.token);
 
+      const profileResponse = await fetch(
+        "https://localhost:7123/api/auth/userprofile",
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${data.token}`,
+          },
+        }
+      );
+
+      const profileData = await profileResponse.json();
+
+      if (
+        !profileResponse.ok ||
+        !profileData.success ||
+        !profileData.user
+      ) {
+        throw new Error(
+          profileData.message || "Unable to load user profile."
+        );
+      }
+
+      const currentProfile = {
+        userId:
+          profileData.user.userId ??
+          profileData.user.UserId,
+
+        name:
+          profileData.user.fullName ??
+          profileData.user.FullName ??
+          "",
+
+        email:
+          profileData.user.email ??
+          profileData.user.Email ??
+          "",
+
+        mobileNumber:
+          profileData.user.mobileNumber ??
+          profileData.user.MobileNumber ??
+          "",
+      };
+
+      sessionStorage.setItem(
+        "sadaivProfile",
+        JSON.stringify(currentProfile)
+      );
+
+      window.dispatchEvent(
+        new Event("sadaivProfileUpdated")
+      );
+
       navigate("/dashboard", { replace: true });
+
     } catch (err) {
       console.error("Login API error:", err);
-      setError("Unable to connect to the server. Please try again.");
+
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Unable to connect to the server. Please try again."
+      );
+
+      sessionStorage.removeItem("accessToken");
+      sessionStorage.removeItem("sadaivProfile");
+
     } finally {
       setLoading(false);
     }

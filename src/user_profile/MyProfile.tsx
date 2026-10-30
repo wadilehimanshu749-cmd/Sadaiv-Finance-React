@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { SyntheticEvent } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faCheck, faEnvelope, faLock,faBuildingColumns, faMobileScreenButton, faPen, faShieldHalved, faUser, faXmark, } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faCheck, faEnvelope, faLock, faBuildingColumns, faMobileScreenButton, faPen, faShieldHalved,faUser, faXmark,} from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import styles from "./MyProfile.module.css";
 
@@ -12,6 +12,21 @@ type StoredProfile = {
     name?: string;
     email?: string;
     mobileNumber?: string;
+};
+
+type ProfileResponse = {
+    success: boolean;
+    message?: string;
+    user?: {
+        userId?: number;
+        UserId?: number;
+        fullName?: string;
+        FullName?: string;
+        email?: string;
+        Email?: string;
+        mobileNumber?: string;
+        MobileNumber?: string;
+    };
 };
 
 type UpdateResponse = {
@@ -41,10 +56,91 @@ export default function MyProfile() {
     const [error, setError] = useState("");
     const [successMessage, setSuccessMessage] = useState("");
     const [saving, setSaving] = useState(false);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchProfile = async () => {
+            const token = sessionStorage.getItem("accessToken");
+
+            if (!token) {
+                setProfile({
+                    name: "Rahul Patil",
+                    email: "",
+                    mobileNumber: "",
+                });
+
+                setLoading(false);
+                return;
+            }
+
+            try {
+                const response = await fetch(
+                    `${API_BASE_URL}/api/auth/userprofile`,
+                    {
+                        method: "GET",
+                        headers: {
+                            Accept: "application/json",
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+
+                if (response.status === 401 || response.status === 403) {
+                    sessionStorage.removeItem("accessToken");
+                    throw new Error(
+                        "Your session has expired. Please log in again."
+                    );
+                }
+
+                const data: ProfileResponse = await response.json();
+
+                if (!response.ok || !data.success || !data.user) {
+                    throw new Error(
+                        data.message || "Unable to fetch your profile."
+                    );
+                }
+
+                const updatedProfile: StoredProfile = {
+                    userId: data.user.userId ?? data.user.UserId,
+                    name: data.user.fullName ?? data.user.FullName ?? "",
+                    email: data.user.email ?? data.user.Email ?? "",
+                    mobileNumber:
+                        data.user.mobileNumber ??
+                        data.user.MobileNumber ??
+                        "",
+                };
+
+                sessionStorage.setItem(
+                    "sadaivProfile",
+                    JSON.stringify(updatedProfile)
+                );
+
+                setProfile(updatedProfile);
+            } catch (err) {
+                console.error("Profile API error:", err);
+
+                setError(
+                    err instanceof Error
+                        ? err.message
+                        : "Unable to load your profile."
+                );
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchProfile();
+    }, []);
 
     const openEditor = (field: EditableField) => {
         setActiveField(field);
-        setInputValue(field === "name" ? profile.name ?? "" : profile.email ?? "");
+
+        setInputValue(
+            field === "name"
+                ? profile.name ?? ""
+                : profile.email ?? ""
+        );
+
         setError("");
         setSuccessMessage("");
     };
@@ -57,13 +153,19 @@ export default function MyProfile() {
         setError("");
     };
 
-    const handleSave = async (event: SyntheticEvent<HTMLFormElement>) => {
+    const handleSave = async (
+        event: SyntheticEvent<HTMLFormElement>
+    ) => {
         event.preventDefault();
 
-        if (!profile.userId) {
-            setError("Your user ID is missing. Please log in again.");
+        const token = sessionStorage.getItem("accessToken");
+
+        if (!token) {
+            setError("Please log in to update your profile.");
             return;
         }
+
+        if (!activeField) return;
 
         const value = inputValue.trim();
 
@@ -96,41 +198,55 @@ export default function MyProfile() {
             }
         }
 
-        if (!activeField) return;
-
-        const updatedName =
-            activeField === "name" ? value : profile.name ?? "";
-
-        const updatedEmail =
-            activeField === "email" ? value : profile.email ?? "";
-
         setSaving(true);
         setError("");
         setSuccessMessage("");
 
         try {
-            const response = await fetch(`${API_BASE_URL}/api/auth/update`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    userId: profile.userId,
-                    fullName: activeField === "name" ? value : null,
-                    email: activeField === "email" ? value : null,
-                }),
-            });
+            const response = await fetch(
+                `${API_BASE_URL}/api/auth/update`,
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Accept: "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({
+                        fullName:
+                            activeField === "name" ? value : null,
+                        email:
+                            activeField === "email" ? value : null,
+                    }),
+                }
+            );
 
-            const data = (await response.json()) as UpdateResponse;
+            const data: UpdateResponse = await response.json();
+
+            if (response.status === 401 || response.status === 403) {
+                sessionStorage.removeItem("accessToken");
+
+                throw new Error(
+                    "Your session has expired. Please log in again."
+                );
+            }
 
             if (!response.ok || !data.success) {
-                throw new Error(data.message || "Unable to update your profile.");
+                throw new Error(
+                    data.message || "Unable to update your profile."
+                );
             }
 
             const updatedProfile: StoredProfile = {
                 ...profile,
-                name: updatedName,
-                email: updatedEmail,
+                name:
+                    activeField === "name"
+                        ? value
+                        : profile.name,
+                email:
+                    activeField === "email"
+                        ? value
+                        : profile.email,
             };
 
             sessionStorage.setItem(
@@ -140,15 +256,21 @@ export default function MyProfile() {
 
             setProfile(updatedProfile);
 
-            window.dispatchEvent(new Event("sadaivProfileUpdated"));
+            window.dispatchEvent(
+                new Event("sadaivProfileUpdated")
+            );
 
             setActiveField(null);
             setInputValue("");
-            setSuccessMessage(activeField === "name"
-                ? "Your name has been updated successfully."
-                : "Your email has been updated successfully."
+
+            setSuccessMessage(
+                activeField === "name"
+                    ? "Your name has been updated successfully."
+                    : "Your email has been updated successfully."
             );
         } catch (err) {
+            console.error("Update profile error:", err);
+
             setError(
                 err instanceof Error
                     ? err.message
@@ -170,22 +292,27 @@ export default function MyProfile() {
     return (
         <main className={styles.page}>
             <div className={styles.container}>
+
                 <button
                     type="button"
                     className={styles.backButton}
-                    onClick={() => navigate("/dashboard")}>
-
+                    onClick={() => navigate("/dashboard")}
+                >
                     <FontAwesomeIcon icon={faArrowLeft} />
                     <span>Back to dashboard</span>
                 </button>
 
                 <section className={styles.pageHeading}>
                     <div>
-                        <p className={styles.eyebrow}>ACCOUNT SETTINGS</p>
+                        <p className={styles.eyebrow}>
+                            ACCOUNT SETTINGS
+                        </p>
+
                         <h1>My Profile</h1>
+
                         <p className={styles.subtitle}>
-                            Manage your personal information and keep your account details
-                            up to date.
+                            Manage your personal information and keep
+                            your account details up to date.
                         </p>
                     </div>
 
@@ -195,27 +322,54 @@ export default function MyProfile() {
                 </section>
 
                 {successMessage && (
-                    <div className={styles.successBanner} role="status">
+                    <div
+                        className={styles.successBanner}
+                        role="status"
+                    >
                         <FontAwesomeIcon icon={faCheck} />
+
                         <span>{successMessage}</span>
+
                         <button
                             type="button"
                             aria-label="Dismiss message"
-                            onClick={() => setSuccessMessage("")}>
-
+                            onClick={() => setSuccessMessage("")}
+                        >
                             <FontAwesomeIcon icon={faXmark} />
                         </button>
                     </div>
                 )}
 
+                {error && !activeField && (
+                    <div
+                        className={styles.errorMessage}
+                        role="alert"
+                    >
+                        {error}
+                    </div>
+                )}
+
                 <section className={styles.profileCard}>
+
                     <div className={styles.profileHero}>
-                        <div className={styles.avatar}>{initials || "U"}</div>
+                        <div className={styles.avatar}>
+                            {initials || "U"}
+                        </div>
 
                         <div className={styles.heroInfo}>
-                            <p className={styles.heroLabel}>YOUR SADAIV ACCOUNT</p>
-                            <h2>{profile.name?.trim() || "Your name"}</h2>
-                            <p>{profile.email || "Email address not added"}</p>
+                            <p className={styles.heroLabel}>
+                                YOUR SADAIV ACCOUNT
+                            </p>
+
+                            <h2>
+                                {loading
+                                    ? "Loading..."
+                                    : profile.name?.trim() || "Your name"}
+                            </h2>
+
+                            <p>
+                                {profile.email || "Email address not added"}
+                            </p>
                         </div>
 
                         <div className={styles.accountBadge}>
@@ -227,8 +381,11 @@ export default function MyProfile() {
                     <div className={styles.sectionHeader}>
                         <div>
                             <h3>Personal information</h3>
-                            <p>Review and update your registered details.</p>
+                            <p>
+                                Review and update your registered details.
+                            </p>
                         </div>
+
                         <span className={styles.secureLabel}>
                             <FontAwesomeIcon icon={faLock} />
                             Secure details
@@ -236,16 +393,24 @@ export default function MyProfile() {
                     </div>
 
                     <div className={styles.detailsList}>
+
+                        {/* Full name */}
                         <div className={styles.detailRow}>
                             <div className={styles.detailIcon}>
                                 <FontAwesomeIcon icon={faUser} />
                             </div>
 
                             <div className={styles.detailContent}>
-                                <span className={styles.fieldLabel}>Full name</span>
-                                <span className={styles.fieldValue}>
-                                    {profile.name?.trim() || "Not available"}
+                                <span className={styles.fieldLabel}>
+                                    Full name
                                 </span>
+
+                                <span className={styles.fieldValue}>
+                                    {loading
+                                        ? "Loading..."
+                                        : profile.name?.trim() || "Not available"}
+                                </span>
+
                                 <span className={styles.fieldHint}>
                                     Your registered account name
                                 </span>
@@ -254,23 +419,31 @@ export default function MyProfile() {
                             <button
                                 type="button"
                                 className={styles.editButton}
-                                onClick={() => openEditor("name")}>
-
+                                onClick={() => openEditor("name")}
+                                disabled={loading}
+                            >
                                 <FontAwesomeIcon icon={faPen} />
                                 <span>Edit</span>
                             </button>
                         </div>
 
+                        {/* Email */}
                         <div className={styles.detailRow}>
                             <div className={styles.detailIcon}>
                                 <FontAwesomeIcon icon={faEnvelope} />
                             </div>
 
                             <div className={styles.detailContent}>
-                                <span className={styles.fieldLabel}>Email address</span>
-                                <span className={styles.fieldValue}>
-                                    {profile.email || "Not available"}
+                                <span className={styles.fieldLabel}>
+                                    Email address
                                 </span>
+
+                                <span className={styles.fieldValue}>
+                                    {loading
+                                        ? "Loading..."
+                                        : profile.email || "Not available"}
+                                </span>
+
                                 <span className={styles.fieldHint}>
                                     Used for account communication
                                 </span>
@@ -279,25 +452,38 @@ export default function MyProfile() {
                             <button
                                 type="button"
                                 className={styles.editButton}
-                                onClick={() => openEditor("email")}>
-
+                                onClick={() => openEditor("email")}
+                                disabled={loading}
+                            >
                                 <FontAwesomeIcon icon={faPen} />
                                 <span>Edit</span>
                             </button>
                         </div>
 
-                        <div className={`${styles.detailRow} ${styles.mobileRow}`}>
+                        {/* Mobile number */}
+                        <div
+                            className={`${styles.detailRow} ${styles.mobileRow}`}
+                        >
                             <div className={styles.detailIcon}>
-                                <FontAwesomeIcon icon={faMobileScreenButton} />
+                                <FontAwesomeIcon
+                                    icon={faMobileScreenButton}
+                                />
                             </div>
 
                             <div className={styles.detailContent}>
-                                <span className={styles.fieldLabel}>Registered mobile</span>
-                                <span className={styles.fieldValue}>
-                                    {profile.mobileNumber || "Not available"}
+                                <span className={styles.fieldLabel}>
+                                    Registered mobile
                                 </span>
+
+                                <span className={styles.fieldValue}>
+                                    {loading
+                                        ? "Loading..."
+                                        : profile.mobileNumber || "Not available"}
+                                </span>
+
                                 <span className={styles.fieldHint}>
-                                    Your registered mobile number cannot be changed here.
+                                    Your registered mobile number cannot
+                                    be changed here.
                                 </span>
                             </div>
 
@@ -308,52 +494,70 @@ export default function MyProfile() {
                         </div>
                     </div>
 
+                    {/* Bank account section */}
                     <div className={styles.linkBankAction}>
                         <div>
                             <h4>Manage your bank accounts</h4>
-                            <p>Check the bank accounts linked to your profile.</p>
+                            <p>
+                                Check the bank accounts linked to your profile.
+                            </p>
                         </div>
 
                         <button
                             type="button"
-                            onClick={() => navigate("/LinkedBankAccounts")}>
-
+                            onClick={() =>
+                                navigate("/LinkedBankAccounts")
+                            }
+                        >
                             <FontAwesomeIcon icon={faBuildingColumns} />
                             Link Bank Account
                         </button>
                     </div>
 
+                    {/* Security note */}
                     <div className={styles.securityNote}>
                         <div className={styles.securityIcon}>
                             <FontAwesomeIcon icon={faShieldHalved} />
                         </div>
+
                         <div>
                             <h4>Your information is important</h4>
+
                             <p>
-                                Only the selected field is submitted when you edit your name
-                                or email. Your other profile details remain unchanged.
+                                Only the selected field is submitted when
+                                you edit your name or email. Your other
+                                profile details remain unchanged.
                             </p>
                         </div>
                     </div>
                 </section>
 
+                {/* Edit profile modal */}
                 {activeField && (
                     <div
                         className={styles.modalOverlay}
                         onMouseDown={(event) => {
-                            if (event.target === event.currentTarget) closeEditor();
-                        }}>
-
+                            if (
+                                event.target === event.currentTarget
+                            ) {
+                                closeEditor();
+                            }
+                        }}
+                    >
                         <section
                             className={styles.modal}
                             role="dialog"
                             aria-modal="true"
-                            aria-labelledby="edit-profile-title">
-
+                            aria-labelledby="edit-profile-title"
+                        >
                             <div className={styles.modalHeader}>
                                 <div className={styles.modalIcon}>
                                     <FontAwesomeIcon
-                                        icon={activeField === "name" ? faUser : faEnvelope}
+                                        icon={
+                                            activeField === "name"
+                                                ? faUser
+                                                : faEnvelope
+                                        }
                                     />
                                 </div>
 
@@ -362,14 +566,17 @@ export default function MyProfile() {
                                     className={styles.closeButton}
                                     onClick={closeEditor}
                                     disabled={saving}
-                                    aria-label="Close editor">
-
+                                    aria-label="Close editor"
+                                >
                                     <FontAwesomeIcon icon={faXmark} />
                                 </button>
                             </div>
 
                             <h2 id="edit-profile-title">
-                                Edit {activeField === "name" ? "full name" : "email address"}
+                                Edit{" "}
+                                {activeField === "name"
+                                    ? "full name"
+                                    : "email address"}
                             </h2>
 
                             <p className={styles.modalDescription}>
@@ -379,14 +586,23 @@ export default function MyProfile() {
                             </p>
 
                             <form onSubmit={handleSave}>
-                                <label className={styles.inputLabel} htmlFor="profile-edit-input">
-                                    {activeField === "name" ? "Full name" : "Email address"}
+                                <label
+                                    className={styles.inputLabel}
+                                    htmlFor="profile-edit-input"
+                                >
+                                    {activeField === "name"
+                                        ? "Full name"
+                                        : "Email address"}
                                 </label>
 
                                 <input
                                     id="profile-edit-input"
                                     className={styles.input}
-                                    type={activeField === "email" ? "email" : "text"}
+                                    type={
+                                        activeField === "email"
+                                            ? "email"
+                                            : "text"
+                                    }
                                     value={inputValue}
                                     onChange={(event) => {
                                         setInputValue(event.target.value);
@@ -399,14 +615,19 @@ export default function MyProfile() {
                                     }
                                     maxLength={100}
                                     autoComplete={
-                                        activeField === "name" ? "name" : "email"
+                                        activeField === "name"
+                                            ? "name"
+                                            : "email"
                                     }
                                     autoFocus
-                                    disabled={saving} />
-
+                                    disabled={saving}
+                                />
 
                                 {error && (
-                                    <p className={styles.errorMessage} role="alert">
+                                    <p
+                                        className={styles.errorMessage}
+                                        role="alert"
+                                    >
                                         {error}
                                     </p>
                                 )}
@@ -416,21 +637,23 @@ export default function MyProfile() {
                                         type="button"
                                         className={styles.cancelButton}
                                         onClick={closeEditor}
-                                        disabled={saving}>
-
+                                        disabled={saving}
+                                    >
                                         Cancel
                                     </button>
 
                                     <button
                                         type="submit"
                                         className={styles.saveButton}
-                                        disabled={saving}>
-
+                                        disabled={saving}
+                                    >
                                         {saving ? (
                                             "Saving..."
                                         ) : (
                                             <>
-                                                <FontAwesomeIcon icon={faCheck} />
+                                                <FontAwesomeIcon
+                                                    icon={faCheck}
+                                                />
                                                 Save changes
                                             </>
                                         )}

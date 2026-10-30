@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import { faTwitter,faLinkedinIn,faInstagram,faFacebookF,} from "@fortawesome/free-brands-svg-icons";
-import { IoScan, IoPersonOutline, IoArrowForwardOutline, IoQrCodeOutline, IoWalletOutline, IoPhonePortraitOutline,IoNewspaperOutline,IoCardOutline,} from "react-icons/io5";
+import { faTwitter, faLinkedinIn, faInstagram, faFacebookF, } from "@fortawesome/free-brands-svg-icons";
+import { IoScan, IoPersonOutline, IoArrowForwardOutline, IoQrCodeOutline, IoWalletOutline, IoPhonePortraitOutline, IoNewspaperOutline, IoCardOutline, } from "react-icons/io5";
 import styles from "./Dashboard.module.css";
 
 interface UserProfile {
@@ -20,11 +20,11 @@ interface ProfileResponse {
 }
 
 export default function HomeScreen() {
-  const navigate = useNavigate();
 
   const [scrollY, setScrollY] = useState(0);
   const [userName, setUserName] = useState("");
   const [profileLoading, setProfileLoading] = useState(true);
+
 
   useEffect(() => {
     let isMounted = true;
@@ -32,8 +32,10 @@ export default function HomeScreen() {
     const fetchUserProfile = async () => {
       const token = sessionStorage.getItem("accessToken");
 
+     
       if (!token) {
-        navigate("/login", { replace: true });
+        setUserName("Rahul Patil");
+        setProfileLoading(false);
         return;
       }
 
@@ -53,26 +55,30 @@ export default function HomeScreen() {
           sessionStorage.removeItem("accessToken");
           sessionStorage.removeItem("sadaivProfile");
 
-          navigate("/login", { replace: true });
+          if (isMounted) {
+            setUserName("Rahul Patil");
+          }
           return;
         }
 
         if (!response.ok) {
           throw new Error(
-            `Profile request failed with status ${response.status}`
+            `Profile request failed: ${response.status}`
           );
         }
 
         const data: ProfileResponse = await response.json();
 
         if (!data.success || !data.user) {
-          throw new Error(data.message || "User profile was not returned.");
+          throw new Error(
+            data.message || "User profile was not returned."
+          );
         }
 
         const name = data.user.fullName ?? data.user.FullName;
 
         if (typeof name !== "string" || !name.trim()) {
-          throw new Error("User name is missing from the profile response.");
+          throw new Error("User name is missing.");
         }
 
         if (isMounted) {
@@ -80,6 +86,10 @@ export default function HomeScreen() {
         }
       } catch (error) {
         console.error("Unable to fetch authenticated profile:", error);
+
+        if (isMounted) {
+          setUserName("Rahul Patil");
+        }
       } finally {
         if (isMounted) {
           setProfileLoading(false);
@@ -92,7 +102,8 @@ export default function HomeScreen() {
     return () => {
       isMounted = false;
     };
-  }, [navigate]);
+  }, []);
+
 
   useEffect(() => {
     const handleScroll = () => {

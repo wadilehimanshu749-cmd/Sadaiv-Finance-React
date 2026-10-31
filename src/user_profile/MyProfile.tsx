@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
-import type { SyntheticEvent } from "react";
+import type { FormEvent } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faCheck, faEnvelope, faLock, faBuildingColumns, faMobileScreenButton, faPen, faShieldHalved,faUser, faXmark,} from "@fortawesome/free-solid-svg-icons";
+import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+import { faArrowRightArrowLeft, faBell, faBuildingColumns, faCheck, faCircleQuestion, faFileLines, faHouse, faRightFromBracket, faShieldHalved, faUser, faXmark, } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import styles from "./MyProfile.module.css";
-
-type EditableField = "name" | "email";
 
 type StoredProfile = {
     userId?: number;
@@ -34,27 +33,65 @@ type UpdateResponse = {
     message: string;
 };
 
+type FieldErrors = { name?: string; email?: string };
+
+type NavItem = {
+    label: string;
+    icon: IconDefinition;
+    path?: string;
+};
+
+const NAV_ITEMS: NavItem[] = [
+    { label: "Dashboard", icon: faHouse, path: "/dashboard" },
+    { label: "Personal information", icon: faUser },
+    { label: "Linked bank accounts", icon: faBuildingColumns, path: "/LinkedBankAccounts" },
+    { label: "Transactions", icon: faArrowRightArrowLeft, path: "/transactions" },
+    { label: "Statements", icon: faFileLines, path: "/statements" },
+    { label: "Security", icon: faShieldHalved, path: "/security" },
+    { label: "Notifications", icon: faBell, path: "/notifications" },
+    { label: "Help & support", icon: faCircleQuestion, path: "/support" },
+];
+
 const API_BASE_URL = (
     import.meta.env.VITE_API_BASE_URL || "https://localhost:7123"
 ).replace(/\/+$/, "");
 
+const SESSION_EXPIRED = "Your session has expired. Please log in again.";
+
 function readProfile(): StoredProfile {
     try {
-        const savedProfile = sessionStorage.getItem("sadaivProfile");
-        return savedProfile ? JSON.parse(savedProfile) : {};
+        const saved = sessionStorage.getItem("sadaivProfile");
+        return saved ? JSON.parse(saved) : {};
     } catch {
         return {};
     }
+}
+
+function validateName(value: string): string {
+    if (!value) return "Enter your full name.";
+    if (value.length > 100) return "Name can be up to 100 characters.";
+    return "";
+}
+
+function validateEmail(value: string): string {
+    if (!value) return "Enter your email address.";
+    if (value.length > 100) return "Email can be up to 100 characters.";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+        return "Enter a valid email address.";
+    }
+    return "";
 }
 
 export default function MyProfile() {
     const navigate = useNavigate();
 
     const [profile, setProfile] = useState<StoredProfile>(readProfile);
-    const [activeField, setActiveField] = useState<EditableField | null>(null);
-    const [inputValue, setInputValue] = useState("");
-    const [error, setError] = useState("");
-    const [successMessage, setSuccessMessage] = useState("");
+    const [nameDraft, setNameDraft] = useState(() => readProfile().name ?? "");
+    const [emailDraft, setEmailDraft] = useState(() => readProfile().email ?? "");
+    const [errors, setErrors] = useState<FieldErrors>({});
+    const [formError, setFormError] = useState("");
+    const [pageError, setPageError] = useState("");
+    const [notice, setNotice] = useState("");
     const [saving, setSaving] = useState(false);
     const [loading, setLoading] = useState(true);
 
@@ -63,12 +100,7 @@ export default function MyProfile() {
             const token = sessionStorage.getItem("accessToken");
 
             if (!token) {
-                setProfile({
-                    name: "Rahul Patil",
-                    email: "",
-                    mobileNumber: "",
-                });
-
+                setPageError("Please log in to view your profile.");
                 setLoading(false);
                 return;
             }
@@ -87,42 +119,35 @@ export default function MyProfile() {
 
                 if (response.status === 401 || response.status === 403) {
                     sessionStorage.removeItem("accessToken");
-                    throw new Error(
-                        "Your session has expired. Please log in again."
-                    );
+                    throw new Error(SESSION_EXPIRED);
                 }
 
                 const data: ProfileResponse = await response.json();
 
                 if (!response.ok || !data.success || !data.user) {
                     throw new Error(
-                        data.message || "Unable to fetch your profile."
+                        data.message || "We couldn't load your profile."
                     );
                 }
 
-                const updatedProfile: StoredProfile = {
+                const fresh: StoredProfile = {
                     userId: data.user.userId ?? data.user.UserId,
                     name: data.user.fullName ?? data.user.FullName ?? "",
                     email: data.user.email ?? data.user.Email ?? "",
                     mobileNumber:
-                        data.user.mobileNumber ??
-                        data.user.MobileNumber ??
-                        "",
+                        data.user.mobileNumber ?? data.user.MobileNumber ?? "",
                 };
 
-                sessionStorage.setItem(
-                    "sadaivProfile",
-                    JSON.stringify(updatedProfile)
-                );
-
-                setProfile(updatedProfile);
+                sessionStorage.setItem("sadaivProfile", JSON.stringify(fresh));
+                setProfile(fresh);
+                setNameDraft(fresh.name ?? "");
+                setEmailDraft(fresh.email ?? "");
             } catch (err) {
                 console.error("Profile API error:", err);
-
-                setError(
+                setPageError(
                     err instanceof Error
                         ? err.message
-                        : "Unable to load your profile."
+                        : "We couldn't load your profile."
                 );
             } finally {
                 setLoading(false);
@@ -132,537 +157,269 @@ export default function MyProfile() {
         fetchProfile();
     }, []);
 
-    const openEditor = (field: EditableField) => {
-        setActiveField(field);
+    const nameChanged = nameDraft.trim() !== (profile.name ?? "");
+    const emailChanged = emailDraft.trim() !== (profile.email ?? "");
+    const hasChanges = nameChanged || emailChanged;
+    const formDisabled = loading || saving || Boolean(pageError);
 
-        setInputValue(
-            field === "name"
-                ? profile.name ?? ""
-                : profile.email ?? ""
-        );
-
-        setError("");
-        setSuccessMessage("");
+    const handleCancel = () => {
+        setNameDraft(profile.name ?? "");
+        setEmailDraft(profile.email ?? "");
+        setErrors({});
+        setFormError("");
     };
 
-    const closeEditor = () => {
-        if (saving) return;
-
-        setActiveField(null);
-        setInputValue("");
-        setError("");
-    };
-
-    const handleSave = async (
-        event: SyntheticEvent<HTMLFormElement>
-    ) => {
+    const handleSave = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         const token = sessionStorage.getItem("accessToken");
 
         if (!token) {
-            setError("Please log in to update your profile.");
+            setFormError("Please log in to update your profile.");
             return;
         }
 
-        if (!activeField) return;
+        const name = nameDraft.trim();
+        const email = emailDraft.trim();
 
-        const value = inputValue.trim();
+        const nextErrors: FieldErrors = {
+            name: nameChanged ? validateName(name) : "",
+            email: emailChanged ? validateEmail(email) : "",
+        };
 
-        if (activeField === "name") {
-            if (!value) {
-                setError("Please enter your full name.");
-                return;
-            }
+        setErrors(nextErrors);
+        setFormError("");
+        setNotice("");
 
-            if (value.length > 100) {
-                setError("Your name cannot exceed 100 characters.");
-                return;
-            }
-        }
-
-        if (activeField === "email") {
-            if (!value) {
-                setError("Please enter your email address.");
-                return;
-            }
-
-            if (value.length > 100) {
-                setError("Your email cannot exceed 100 characters.");
-                return;
-            }
-
-            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
-                setError("Please enter a valid email address.");
-                return;
-            }
-        }
+        if (nextErrors.name || nextErrors.email) return;
 
         setSaving(true);
-        setError("");
-        setSuccessMessage("");
 
         try {
-            const response = await fetch(
-                `${API_BASE_URL}/api/auth/update`,
-                {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Accept: "application/json",
-                        Authorization: `Bearer ${token}`,
-                    },
-                    body: JSON.stringify({
-                        fullName:
-                            activeField === "name" ? value : null,
-                        email:
-                            activeField === "email" ? value : null,
-                    }),
-                }
-            );
-
-            const data: UpdateResponse = await response.json();
+            const response = await fetch(`${API_BASE_URL}/api/auth/update`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                    fullName: nameChanged ? name : null,
+                    email: emailChanged ? email : null,
+                }),
+            });
 
             if (response.status === 401 || response.status === 403) {
                 sessionStorage.removeItem("accessToken");
-
-                throw new Error(
-                    "Your session has expired. Please log in again."
-                );
+                throw new Error(SESSION_EXPIRED);
             }
+
+            const data: UpdateResponse = await response.json();
 
             if (!response.ok || !data.success) {
                 throw new Error(
-                    data.message || "Unable to update your profile."
+                    data.message || "We couldn't save your changes."
                 );
             }
 
-            const updatedProfile: StoredProfile = {
+            const updated: StoredProfile = {
                 ...profile,
-                name:
-                    activeField === "name"
-                        ? value
-                        : profile.name,
-                email:
-                    activeField === "email"
-                        ? value
-                        : profile.email,
+                name: nameChanged ? name : profile.name,
+                email: emailChanged ? email : profile.email,
             };
 
-            sessionStorage.setItem(
-                "sadaivProfile",
-                JSON.stringify(updatedProfile)
-            );
+            sessionStorage.setItem("sadaivProfile", JSON.stringify(updated));
+            setProfile(updated);
+            setNameDraft(updated.name ?? "");
+            setEmailDraft(updated.email ?? "");
+            window.dispatchEvent(new Event("sadaivProfileUpdated"));
 
-            setProfile(updatedProfile);
-
-            window.dispatchEvent(
-                new Event("sadaivProfileUpdated")
-            );
-
-            setActiveField(null);
-            setInputValue("");
-
-            setSuccessMessage(
-                activeField === "name"
-                    ? "Your name has been updated successfully."
-                    : "Your email has been updated successfully."
-            );
+            setNotice("Your details have been updated.");
         } catch (err) {
             console.error("Update profile error:", err);
-
-            setError(
+            setFormError(
                 err instanceof Error
                     ? err.message
-                    : "Something went wrong. Please try again."
+                    : "We couldn't save your changes. Try again."
             );
         } finally {
             setSaving(false);
         }
     };
 
-    const initials = (profile.name || "User")
-        .trim()
-        .split(/\s+/)
-        .filter(Boolean)
-        .slice(0, 2)
-        .map((part) => part[0].toUpperCase())
-        .join("");
+    const handleLogout = () => {
+        sessionStorage.removeItem("accessToken");
+        sessionStorage.removeItem("sadaivProfile");
+        window.dispatchEvent(new Event("sadaivProfileUpdated"));
+        navigate("/");
+    };
+
+    const initials =
+        (profile.name || "")
+            .trim()
+            .split(/\s+/)
+            .filter(Boolean)
+            .slice(0, 2)
+            .map((part) => part[0].toUpperCase())
+            .join("") || "U";
 
     return (
         <main className={styles.page}>
-            <div className={styles.container}>
-
-                <button
-                    type="button"
-                    className={styles.backButton}
-                    onClick={() => navigate("/dashboard")}
-                >
-                    <FontAwesomeIcon icon={faArrowLeft} />
-                    <span>Back to dashboard</span>
-                </button>
-
-                <section className={styles.pageHeading}>
-                    <div>
-                        <p className={styles.eyebrow}>
-                            ACCOUNT SETTINGS
-                        </p>
-
-                        <h1>My Profile</h1>
-
-                        <p className={styles.subtitle}>
-                            Manage your personal information and keep
-                            your account details up to date.
-                        </p>
-                    </div>
-
-                    <div className={styles.headingIcon}>
-                        <FontAwesomeIcon icon={faUser} />
-                    </div>
-                </section>
-
-                {successMessage && (
-                    <div
-                        className={styles.successBanner}
-                        role="status"
-                    >
-                        <FontAwesomeIcon icon={faCheck} />
-
-                        <span>{successMessage}</span>
-
-                        <button
-                            type="button"
-                            aria-label="Dismiss message"
-                            onClick={() => setSuccessMessage("")}
-                        >
-                            <FontAwesomeIcon icon={faXmark} />
-                        </button>
-                    </div>
-                )}
-
-                {error && !activeField && (
-                    <div
-                        className={styles.errorMessage}
-                        role="alert"
-                    >
-                        {error}
-                    </div>
-                )}
-
-                <section className={styles.profileCard}>
-
-                    <div className={styles.profileHero}>
-                        <div className={styles.avatar}>
-                            {initials || "U"}
+            <div className={styles.layout}>
+                <aside className={styles.sidebar}>
+                    <div className={styles.account}>
+                        <div className={styles.avatar} aria-hidden="true">
+                            {initials}
                         </div>
 
-                        <div className={styles.heroInfo}>
-                            <p className={styles.heroLabel}>
-                                YOUR SADAIV ACCOUNT
+                        <div className={styles.accountText}>
+                            <p className={styles.accountName}>
+                                {loading ? "Loading..." : profile.name?.trim() || "Your name"}
                             </p>
-
-                            <h2>
-                                {loading
-                                    ? "Loading..."
-                                    : profile.name?.trim() || "Your name"}
-                            </h2>
-
-                            <p>
-                                {profile.email || "Email address not added"}
-                            </p>
-                        </div>
-
-                        <div className={styles.accountBadge}>
-                            <FontAwesomeIcon icon={faShieldHalved} />
-                            <span>Account profile</span>
-                        </div>
-                    </div>
-
-                    <div className={styles.sectionHeader}>
-                        <div>
-                            <h3>Personal information</h3>
-                            <p>
-                                Review and update your registered details.
-                            </p>
-                        </div>
-
-                        <span className={styles.secureLabel}>
-                            <FontAwesomeIcon icon={faLock} />
-                            Secure details
-                        </span>
-                    </div>
-
-                    <div className={styles.detailsList}>
-
-                        {/* Full name */}
-                        <div className={styles.detailRow}>
-                            <div className={styles.detailIcon}>
-                                <FontAwesomeIcon icon={faUser} />
-                            </div>
-
-                            <div className={styles.detailContent}>
-                                <span className={styles.fieldLabel}>
-                                    Full name
-                                </span>
-
-                                <span className={styles.fieldValue}>
-                                    {loading
-                                        ? "Loading..."
-                                        : profile.name?.trim() || "Not available"}
-                                </span>
-
-                                <span className={styles.fieldHint}>
-                                    Your registered account name
-                                </span>
-                            </div>
-
-                            <button
-                                type="button"
-                                className={styles.editButton}
-                                onClick={() => openEditor("name")}
-                                disabled={loading}
-                            >
-                                <FontAwesomeIcon icon={faPen} />
-                                <span>Edit</span>
-                            </button>
-                        </div>
-
-                        {/* Email */}
-                        <div className={styles.detailRow}>
-                            <div className={styles.detailIcon}>
-                                <FontAwesomeIcon icon={faEnvelope} />
-                            </div>
-
-                            <div className={styles.detailContent}>
-                                <span className={styles.fieldLabel}>
-                                    Email address
-                                </span>
-
-                                <span className={styles.fieldValue}>
-                                    {loading
-                                        ? "Loading..."
-                                        : profile.email || "Not available"}
-                                </span>
-
-                                <span className={styles.fieldHint}>
-                                    Used for account communication
-                                </span>
-                            </div>
-
-                            <button
-                                type="button"
-                                className={styles.editButton}
-                                onClick={() => openEditor("email")}
-                                disabled={loading}
-                            >
-                                <FontAwesomeIcon icon={faPen} />
-                                <span>Edit</span>
-                            </button>
-                        </div>
-
-                        {/* Mobile number */}
-                        <div
-                            className={`${styles.detailRow} ${styles.mobileRow}`}
-                        >
-                            <div className={styles.detailIcon}>
-                                <FontAwesomeIcon
-                                    icon={faMobileScreenButton}
-                                />
-                            </div>
-
-                            <div className={styles.detailContent}>
-                                <span className={styles.fieldLabel}>
-                                    Registered mobile
-                                </span>
-
-                                <span className={styles.fieldValue}>
-                                    {loading
-                                        ? "Loading..."
-                                        : profile.mobileNumber || "Not available"}
-                                </span>
-
-                                <span className={styles.fieldHint}>
-                                    Your registered mobile number cannot
-                                    be changed here.
-                                </span>
-                            </div>
-
-                            <span className={styles.readOnlyBadge}>
-                                <FontAwesomeIcon icon={faLock} />
-                                <span>Read only</span>
-                            </span>
-                        </div>
-                    </div>
-
-                    {/* Bank account section */}
-                    <div className={styles.linkBankAction}>
-                        <div>
-                            <h4>Manage your bank accounts</h4>
-                            <p>
-                                Check the bank accounts linked to your profile.
-                            </p>
-                        </div>
-
-                        <button
-                            type="button"
-                            onClick={() =>
-                                navigate("/LinkedBankAccounts")
-                            }
-                        >
-                            <FontAwesomeIcon icon={faBuildingColumns} />
-                            Link Bank Account
-                        </button>
-                    </div>
-
-                    {/* Security note */}
-                    <div className={styles.securityNote}>
-                        <div className={styles.securityIcon}>
-                            <FontAwesomeIcon icon={faShieldHalved} />
-                        </div>
-
-                        <div>
-                            <h4>Your information is important</h4>
-
-                            <p>
-                                Only the selected field is submitted when
-                                you edit your name or email. Your other
-                                profile details remain unchanged.
+                            <p className={styles.accountMeta}>
+                                {profile.mobileNumber || profile.email || ""}
                             </p>
                         </div>
                     </div>
-                </section>
 
-                {/* Edit profile modal */}
-                {activeField && (
-                    <div
-                        className={styles.modalOverlay}
-                        onMouseDown={(event) => {
-                            if (
-                                event.target === event.currentTarget
-                            ) {
-                                closeEditor();
-                            }
-                        }}
-                    >
-                        <section
-                            className={styles.modal}
-                            role="dialog"
-                            aria-modal="true"
-                            aria-labelledby="edit-profile-title"
-                        >
-                            <div className={styles.modalHeader}>
-                                <div className={styles.modalIcon}>
-                                    <FontAwesomeIcon
-                                        icon={
-                                            activeField === "name"
-                                                ? faUser
-                                                : faEnvelope
-                                        }
-                                    />
-                                </div>
+                    <nav className={styles.nav} aria-label="Account">
+                        {NAV_ITEMS.map((item) => {
+                            const current = !item.path;
 
+                            return (
                                 <button
+                                    key={item.label}
                                     type="button"
-                                    className={styles.closeButton}
-                                    onClick={closeEditor}
-                                    disabled={saving}
-                                    aria-label="Close editor"
-                                >
-                                    <FontAwesomeIcon icon={faXmark} />
+                                    className={`${styles.navItem} ${current ? styles.navItemActive : ""}`}
+                                    aria-current={current ? "page" : undefined}
+                                    onClick={() => item.path && navigate(item.path)}>
+                                    <FontAwesomeIcon icon={item.icon} fixedWidth />
+                                    <span>{item.label}</span>
                                 </button>
-                            </div>
+                            );
+                        })}
 
-                            <h2 id="edit-profile-title">
-                                Edit{" "}
-                                {activeField === "name"
-                                    ? "full name"
-                                    : "email address"}
-                            </h2>
+                        <button
+                            type="button"
+                            className={`${styles.navItem} ${styles.logout}`}
+                            onClick={handleLogout} >
+                            <FontAwesomeIcon icon={faRightFromBracket} fixedWidth />
+                            <span>Log out</span>
+                        </button>
+                    </nav>
+                </aside>
 
-                            <p className={styles.modalDescription}>
-                                {activeField === "name"
-                                    ? "Update your name. Your email address and registered mobile number will remain unchanged."
-                                    : "Update your email address. Your name and registered mobile number will remain unchanged."}
+                <section className={styles.content}>
+                    <h1 className={styles.title}>Personal information</h1>
+                    <p className={styles.subtitle}>
+                        These details are used for your account and for
+                        messages we send you.
+                    </p>
+
+                    {notice && (
+                        <div className={styles.notice} role="status">
+                            <FontAwesomeIcon icon={faCheck} />
+                            <span>{notice}</span>
+                            <button
+                                type="button"
+                                aria-label="Dismiss"
+                                onClick={() => setNotice("")}>
+                                <FontAwesomeIcon icon={faXmark} />
+                            </button>
+                        </div>
+                    )}
+
+                    {pageError && (
+                        <div className={styles.pageError} role="alert">
+                            {pageError}
+                        </div>
+                    )}
+
+                    <form className={styles.form} onSubmit={handleSave} noValidate>
+                        <div className={styles.field}>
+                            <label htmlFor="profile-name">Full name</label>
+                            <input
+                                id="profile-name"
+                                className={styles.input}
+                                type="text"
+                                value={nameDraft}
+                                onChange={(event) => {
+                                    setNameDraft(event.target.value);
+                                    setErrors((prev) => ({ ...prev, name: "" }));
+                                }}
+                                maxLength={100}
+                                autoComplete="name"
+                                disabled={formDisabled}
+                                aria-invalid={Boolean(errors.name)}
+                                aria-describedby={errors.name ? "profile-name-error" : undefined} />
+                            {errors.name && (
+                                <p id="profile-name-error" className={styles.fieldError} role="alert">
+                                    {errors.name}
+                                </p>
+                            )}
+                        </div>
+
+                        <div className={styles.field}>
+                            <label htmlFor="profile-email">Email address</label>
+                            <input
+                                id="profile-email"
+                                className={styles.input}
+                                type="email"
+                                value={emailDraft}
+                                onChange={(event) => {
+                                    setEmailDraft(event.target.value);
+                                    setErrors((prev) => ({ ...prev, email: "" }));
+                                }}
+                                maxLength={100}
+                                autoComplete="email"
+                                disabled={formDisabled}
+                                aria-invalid={Boolean(errors.email)}
+                                aria-describedby={errors.email ? "profile-email-error" : undefined} />
+                            {errors.email && (
+                                <p id="profile-email-error" className={styles.fieldError} role="alert">
+                                    {errors.email}
+                                </p>
+                            )}
+                        </div>
+
+                        <div className={styles.field}>
+                            <label htmlFor="profile-mobile">Mobile number</label>
+                            <input
+                                id="profile-mobile"
+                                className={styles.input}
+                                type="text"
+                                value={loading ? "" : profile.mobileNumber ?? ""}
+                                placeholder={loading ? "Loading..." : "Not available"}
+                                readOnly
+                                disabled />
+                            <p className={styles.hint}>
+                                Your registered mobile number can't be changed here.
                             </p>
+                        </div>
 
-                            <form onSubmit={handleSave}>
-                                <label
-                                    className={styles.inputLabel}
-                                    htmlFor="profile-edit-input"
-                                >
-                                    {activeField === "name"
-                                        ? "Full name"
-                                        : "Email address"}
-                                </label>
+                        {formError && (
+                            <p className={styles.formError} role="alert">
+                                {formError}
+                            </p>
+                        )}
 
-                                <input
-                                    id="profile-edit-input"
-                                    className={styles.input}
-                                    type={
-                                        activeField === "email"
-                                            ? "email"
-                                            : "text"
-                                    }
-                                    value={inputValue}
-                                    onChange={(event) => {
-                                        setInputValue(event.target.value);
-                                        setError("");
-                                    }}
-                                    placeholder={
-                                        activeField === "name"
-                                            ? "Enter your full name"
-                                            : "Enter your email address"
-                                    }
-                                    maxLength={100}
-                                    autoComplete={
-                                        activeField === "name"
-                                            ? "name"
-                                            : "email"
-                                    }
-                                    autoFocus
-                                    disabled={saving}
-                                />
-
-                                {error && (
-                                    <p
-                                        className={styles.errorMessage}
-                                        role="alert"
-                                    >
-                                        {error}
-                                    </p>
-                                )}
-
-                                <div className={styles.modalActions}>
-                                    <button
-                                        type="button"
-                                        className={styles.cancelButton}
-                                        onClick={closeEditor}
-                                        disabled={saving}
-                                    >
-                                        Cancel
-                                    </button>
-
-                                    <button
-                                        type="submit"
-                                        className={styles.saveButton}
-                                        disabled={saving}
-                                    >
-                                        {saving ? (
-                                            "Saving..."
-                                        ) : (
-                                            <>
-                                                <FontAwesomeIcon
-                                                    icon={faCheck}
-                                                />
-                                                Save changes
-                                            </>
-                                        )}
-                                    </button>
-                                </div>
-                            </form>
-                        </section>
-                    </div>
-                )}
+                        <div className={styles.actions}>
+                            <button
+                                type="submit"
+                                className={styles.primaryButton}
+                                disabled={formDisabled || !hasChanges}>
+                                {saving ? "Saving..." : "Save changes"}
+                            </button>
+                            <button
+                                type="button"
+                                className={styles.secondaryButton}
+                                onClick={handleCancel}
+                                disabled={saving || !hasChanges}>
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </section>
             </div>
         </main>
     );

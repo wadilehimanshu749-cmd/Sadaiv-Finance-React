@@ -15,7 +15,6 @@ import Investment from "./pages/components/Investment";
 import Sendmoney from "./pages/quick_actions/Sendmoney";
 import History from "./pages/components/History";
 import MyProfile from "./user_profile/MyProfile";
-import LinkBankAccount from "./user_profile/LinkedBankAccounts";
 import MobileRecharge from "./pages/quick_actions/MobileRecharge";
 import CreditCardBill from "./pages/quick_actions/Creditcardbill";
 import FastTag from "./pages/quick_actions/Fasttag";
@@ -82,7 +81,6 @@ export default function App() {
           <Route path="/sendmoney" element={<Sendmoney />} />
           <Route path="/utilitybills" element={<UtilityBills />} />
           <Route path="/myprofile" element={<MyProfile />} />
-          <Route path="/linkedbankaccounts" element={<LinkBankAccount />} />
         </Route>
 
       </Routes>
